@@ -1,11 +1,69 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {}
+    "net5.0": {
+      "ConcurrentHashSet/1.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/ConcurrentCollections.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/ConcurrentCollections.dll": {}
+        }
+      },
+      "DefaultEcs/0.16.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/DefaultEcs.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/DefaultEcs.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "ConcurrentHashSet/1.3.0": {
+      "sha512": "a30gfk4WDn2f7sOisXpko+CrQ7s5nL1ZWk4afnRwwRQHWPRrRSZpzn5Dz2YWpJtS90NJqkytQ/MkzHq4QYTIbg==",
+      "type": "package",
+      "path": "concurrenthashset/1.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "concurrenthashset.1.3.0.nupkg.sha512",
+        "concurrenthashset.nuspec",
+        "lib/net461/ConcurrentCollections.dll",
+        "lib/net461/ConcurrentCollections.xml",
+        "lib/netstandard1.0/ConcurrentCollections.dll",
+        "lib/netstandard1.0/ConcurrentCollections.xml",
+        "lib/netstandard2.0/ConcurrentCollections.dll",
+        "lib/netstandard2.0/ConcurrentCollections.xml"
+      ]
+    },
+    "DefaultEcs/0.16.2": {
+      "sha512": "tOpxys2utbizta3AbKDOyGObeifotCuhXU8M2d7NrybyUgv/981PxuqYH1aXPlXKOnkymEfTpTkz0He0geSjUQ==",
+      "type": "package",
+      "path": "defaultecs/0.16.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "defaultecs.0.16.2.nupkg.sha512",
+        "defaultecs.nuspec",
+        "lib/netstandard1.1/DefaultEcs.dll",
+        "lib/netstandard1.1/DefaultEcs.xml",
+        "lib/netstandard2.0/DefaultEcs.dll",
+        "lib/netstandard2.0/DefaultEcs.xml",
+        "lib/netstandard2.1/DefaultEcs.dll",
+        "lib/netstandard2.1/DefaultEcs.xml",
+        "logo.png"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "ConcurrentHashSet >= 1.3.0",
+      "DefaultEcs >= 0.16.2"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Lars\\.nuget\\packages\\": {}
@@ -45,6 +103,16 @@
     "frameworks": {
       "net5.0": {
         "targetAlias": "net5.0",
+        "dependencies": {
+          "ConcurrentHashSet": {
+            "target": "Package",
+            "version": "[1.3.0, )"
+          },
+          "DefaultEcs": {
+            "target": "Package",
+            "version": "[0.16.2, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

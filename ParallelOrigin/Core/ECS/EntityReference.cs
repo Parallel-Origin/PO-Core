@@ -1,5 +1,5 @@
 
-#if SERVEr
+#if SERVER
 using DefaultEcs;
 #elif CLIENT
 using Unity.Collections;

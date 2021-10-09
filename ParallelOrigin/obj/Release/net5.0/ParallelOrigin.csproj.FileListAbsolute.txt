@@ -1,0 +1,12 @@
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\bin\Release\net5.0\ParallelOrigin.deps.json
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\bin\Release\net5.0\ParallelOrigin.dll
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\bin\Release\net5.0\ref\ParallelOrigin.dll
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\bin\Release\net5.0\ParallelOrigin.pdb
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\obj\Release\net5.0\ParallelOrigin.csproj.AssemblyReference.cache
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\obj\Release\net5.0\ParallelOrigin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\obj\Release\net5.0\ParallelOrigin.AssemblyInfoInputs.cache
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\obj\Release\net5.0\ParallelOrigin.AssemblyInfo.cs
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\obj\Release\net5.0\ParallelOrigin.csproj.CoreCompileInputs.cache
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\obj\Release\net5.0\ParallelOrigin.dll
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\obj\Release\net5.0\ref\ParallelOrigin.dll
+C:\Users\Lars\Desktop\Development\ParallelOrigin\ParallelOrigin\ParallelOrigin\obj\Release\net5.0\ParallelOrigin.pdb

@@ -1,3 +1,6 @@
+using System.Numerics;
+using ParallelOriginGameServer.Server.Utils;
+
 #if CLIENT
 using Mapbox.Utils;
 using Unity.Burst;

@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "gd31WGOVTfcbeNTm/nNK1lKYFhIBhfNfB6gz5MfVhC4ZGaGUrlDrxQPlqF5wMhQO55GTSs45hl/mIihkNxUiLw==",
+  "dgSpecHash": "4N5c9Q+3tQDcg0DcKcfuNRWd1e06s/N5RNnjnCjcT1TCPlCuhETfCvr/xx//LjC4BBCRte9FKjE4GS87o/7BOg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Lars\\Desktop\\Development\\ParallelOrigin\\ParallelOrigin\\ParallelOrigin\\ParallelOrigin.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Lars\\.nuget\\packages\\concurrenthashset\\1.3.0\\concurrenthashset.1.3.0.nupkg.sha512",
+    "C:\\Users\\Lars\\.nuget\\packages\\defaultecs\\0.16.2\\defaultecs.0.16.2.nupkg.sha512"
+  ],
   "logs": []
 }
