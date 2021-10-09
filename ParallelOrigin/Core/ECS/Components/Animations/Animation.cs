@@ -3,6 +3,8 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
+#elif SERVER
+using System.Collections.Generic;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components.Animations { 

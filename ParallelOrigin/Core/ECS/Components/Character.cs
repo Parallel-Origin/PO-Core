@@ -1,14 +1,24 @@
+using System.Drawing;
+
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
-#elif CLIENT 
+#elif SERVER 
 using DefaultEcs;
-using ParallelOriginGameServer.Server.Persistence;
+using DefaultEcs;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components {
 
+    /// <summary>
+    /// Possible <see cref="Account"/> and <see cref="Character"/> genders
+    /// </summary>
+    public enum Gender {
+        MALE,FEMALE,DIVERS
+    }
+
+    
 #if SERVER
     
     /// <summary>

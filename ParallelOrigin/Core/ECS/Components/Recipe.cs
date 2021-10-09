@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 #if CLIENT
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;

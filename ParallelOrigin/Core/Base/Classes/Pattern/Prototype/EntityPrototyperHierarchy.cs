@@ -1,3 +1,6 @@
+using System;
+using ParallelOrigin.Core.Base.Interfaces.Prototype;
+
 #if CLIENT
 using Unity.Entities;
 #elif SERVER

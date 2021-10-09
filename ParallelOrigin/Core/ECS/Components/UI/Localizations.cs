@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+
 #if CLIENT
 using Unity.Burst;
 using Unity.Collections;
