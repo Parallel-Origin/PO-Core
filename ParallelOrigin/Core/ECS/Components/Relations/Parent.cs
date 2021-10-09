@@ -1,0 +1,32 @@
+
+#if CLIENT
+using Unity.Burst;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.Entities;
+#endif
+
+namespace ParallelOrigin.Core.ECS.Components.Relations {
+
+#if SERVER
+    
+    /// <summary>
+    ///   A component which stores a "Parent-Child" relation to its <see cref="Child" />
+    ///   Represented by a buffer ( aka. Burst-List ), a parent entity basically has a list of those <see cref="Parent" /> components instead of a single one with a list of childs
+    /// </summary>
+    public struct Parent  {
+        public ReferencesBag children;
+    }    
+    
+#elif CLIENT
+
+        /// <summary>
+    ///     A component which stores a "Parent-Child" relation to its <see cref="Child" />
+    ///     Represented by a buffer ( aka. Burst-List ), a parent entity basically has a list of those <see cref="Parent" /> components instead of a single one with a list of childs
+    /// </summary>
+    [BurstCompile]
+    public struct Parent : IComponentData {
+        public ReferencesBag children;
+    }
+    
+#endif
+}
