@@ -47,6 +47,10 @@
             "DefaultEcs": {
               "target": "Package",
               "version": "[0.16.2, )"
+            },
+            "LiteNetLib": {
+              "target": "Package",
+              "version": "[0.9.5, )"
             }
           },
           "imports": [

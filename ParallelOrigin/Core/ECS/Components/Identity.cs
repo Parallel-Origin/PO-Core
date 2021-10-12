@@ -1,3 +1,4 @@
+using LiteNetLib.Utils;
 #if CLIENT
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -11,10 +12,23 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// <summary>
     ///  A componentn which stores a unique ID for each entity.
     /// </summary>
-    public struct Identity  {
+    public struct Identity : INetSerializable {
+        
         public long id;
         public string tag;
         public string type;
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(id);
+            writer.Put(tag);
+            writer.Put(type);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            id = reader.GetLong();
+            tag = reader.GetString();
+            type = reader.GetString();
+        }
     }    
     
 #elif CLIENT

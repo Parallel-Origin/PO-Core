@@ -8,7 +8,7 @@ namespace ParallelOriginGameServer.Server.Utils {
     /// <summary>
     /// Represents a grid, other than the tile this is an absolute and short value which defines a single map grid in the world. 
     /// </summary>
-    public struct Grid {
+    public readonly struct Grid {
         
         public readonly ushort x;
         public readonly ushort y;
@@ -40,8 +40,8 @@ namespace ParallelOriginGameServer.Server.Utils {
 
                 // Javas way of calculating hashes
                 var hash = 17;
-                hash = hash * 31 + x.GetHashCode();
-                hash = hash * 31 + y.GetHashCode();
+                hash = hash * 31 + x;
+                hash = hash * 31 + y;
                 return hash;
             }
         }
@@ -52,16 +52,25 @@ namespace ParallelOriginGameServer.Server.Utils {
     /// <summary>
     /// Represents a map-tile ingame at a certain zoom level. 
     /// </summary>
-    public struct Tile {
+    public readonly struct Tile {
 
-        public double north;
-        public double south;
-        public double east;
-        public double west;
+        public readonly double north;
+        public readonly double south;
+        public readonly double east;
+        public readonly double west;
 
-        public Vector2d range;
-        public Vector2d middle;
-        
+        public readonly Vector2d range;
+        public readonly Vector2d middle;
+
+        public Tile(double north, double south, double east, double west, Vector2d range, Vector2d middle) {
+            this.north = north;
+            this.south = south;
+            this.east = east;
+            this.west = west;
+            this.range = range;
+            this.middle = middle;
+        }
+
         public bool Inside(double x, double y){ return x <= north && x >= south && y <= east && y >= west; }
 
         public override string ToString() { return $"{nameof(north)}: {north}, {nameof(south)}: {south}, {nameof(east)}: {east}, {nameof(west)}: {west}, {nameof(range)}: {range}, {nameof(middle)}: {middle}"; }
