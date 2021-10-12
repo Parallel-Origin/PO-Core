@@ -28,15 +28,25 @@ namespace ParallelOrigin.Core.Network {
         }
 
         /// <summary>
+        /// Sets up the network
+        /// </summary>
+        protected virtual void Setup() {
+#if SERVER
+            Listener.ConnectionRequestEvent += ApproveConnection;         
+#endif
+        }
+        
+        /// <summary>
         /// Starts the network connection and server/client. 
         /// </summary>
-        public void Start() {
+        public virtual void Start() {
 
+            Setup();
+            
 #if SERVER
-            Listener.ConnectionRequestEvent += ApproveConnection;
-#endif
             Manager.Start(PORT);
-#if CLIENT
+#elif CLIENT
+            Manager.Start();
             Manager.Connect(IP, PORT, "SomeConnectionKey");  
 #endif
         }
@@ -54,7 +64,12 @@ namespace ParallelOrigin.Core.Network {
         /// <param name="command"></param>
         /// <typeparam name="T"></typeparam>
         public void Send<T>(ref T command) where T : struct, INetSerializable {
-            Processor.SendNetSerializable<T>(Manager, command, DeliveryMethod.ReliableOrdered);
+#if SERVER
+            Processor.SendNetSerializable<T>(Manager, command, DeliveryMethod.ReliableOrdered);    
+#elif CLIENT
+            var server = Manager.FirstPeer;
+            Processor.SendNetSerializable(server, command, DeliveryMethod.ReliableOrdered);
+#endif
         }
         
         /// <summary>

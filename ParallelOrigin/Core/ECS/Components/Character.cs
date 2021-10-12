@@ -52,7 +52,7 @@ namespace ParallelOrigin.Core.ECS.Components {
         public FixedString32 password;
 
         //public bool male;
-        public Color color;
+        //public Color color;
     }
 
 #endif

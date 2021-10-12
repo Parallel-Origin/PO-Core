@@ -19,8 +19,8 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            Username = reader.GetString();
-            Password = reader.GetString();
+            Username = reader.GetString(10);
+            Password = reader.GetString(10);
         }
     }
     
