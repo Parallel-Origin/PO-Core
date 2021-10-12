@@ -4,6 +4,7 @@ using DefaultEcs;
 #elif CLIENT
 using Unity.Collections;
 using Unity.Entities;
+using Script.Extensions;
 #endif
 
 namespace ParallelOrigin.Core.ECS {

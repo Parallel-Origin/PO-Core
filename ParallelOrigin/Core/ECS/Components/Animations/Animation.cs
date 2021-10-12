@@ -3,6 +3,7 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 #elif SERVER
 using System.Collections.Generic;
 #endif

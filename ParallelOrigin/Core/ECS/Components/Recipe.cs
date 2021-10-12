@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-
 #if CLIENT
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
+using Unity.Burst;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components {
@@ -52,7 +52,7 @@ namespace ParallelOrigin.Core.ECS.Components {
         public short iconID;
         
         public FixedString32 typeID;
-        public UnsafeList<RecipeIngredient> ingredients;
+        //public UnsafeList<RecipeIngredient> ingredients;
     }
 
 #endif

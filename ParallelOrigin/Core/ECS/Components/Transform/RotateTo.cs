@@ -1,5 +1,6 @@
 
 #if CLIENT
+using ParallelOriginGameServer.Server.Utils;
 using Unity.Burst;
 using Unity.Entities;
 #elif SERVER

@@ -1,5 +1,6 @@
 
 #if CLIENT
+using ParallelOriginGameServer.Server.Utils;
 using Unity.Burst;
 using Unity.Entities;
 #elif SERVER
@@ -25,7 +26,13 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     /// Normally requires a <see cref="Location"/> and a <see cref="Movement"/>
     /// </summary>
     [BurstCompile]
-    public struct Moving : IComponentData {}
+    public struct Movement : IComponentData {
+        public float speed;
+        public Vector2d target;
+    }
+    
+    [BurstCompile]
+    public struct Moving : IComponentData{}
 
 #endif
 }

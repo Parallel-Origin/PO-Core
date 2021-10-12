@@ -1,5 +1,6 @@
 using System.Numerics;
 using ParallelOriginGameServer.Server.Utils;
+using Vector2d = ParallelOriginGameServer.Server.Utils.Vector2d;
 
 #if CLIENT
 using Mapbox.Utils;
