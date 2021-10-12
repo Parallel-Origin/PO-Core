@@ -7,8 +7,37 @@
   "targets": {
     ".NETCoreApp,Version=v5.0": {
       "ParallelOrigin/1.0.0": {
+        "dependencies": {
+          "ConcurrentHashSet": "1.3.0",
+          "DefaultEcs": "0.16.2",
+          "LiteNetLib": "0.9.5"
+        },
         "runtime": {
           "ParallelOrigin.dll": {}
+        }
+      },
+      "ConcurrentHashSet/1.3.0": {
+        "runtime": {
+          "lib/netstandard2.0/ConcurrentCollections.dll": {
+            "assemblyVersion": "1.3.0.0",
+            "fileVersion": "1.3.0.0"
+          }
+        }
+      },
+      "DefaultEcs/0.16.2": {
+        "runtime": {
+          "lib/netstandard2.1/DefaultEcs.dll": {
+            "assemblyVersion": "0.16.2.0",
+            "fileVersion": "0.16.2.0"
+          }
+        }
+      },
+      "LiteNetLib/0.9.5": {
+        "runtime": {
+          "lib/netcoreapp3.1/LiteNetLib.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
@@ -18,6 +47,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "ConcurrentHashSet/1.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-a30gfk4WDn2f7sOisXpko+CrQ7s5nL1ZWk4afnRwwRQHWPRrRSZpzn5Dz2YWpJtS90NJqkytQ/MkzHq4QYTIbg==",
+      "path": "concurrenthashset/1.3.0",
+      "hashPath": "concurrenthashset.1.3.0.nupkg.sha512"
+    },
+    "DefaultEcs/0.16.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tOpxys2utbizta3AbKDOyGObeifotCuhXU8M2d7NrybyUgv/981PxuqYH1aXPlXKOnkymEfTpTkz0He0geSjUQ==",
+      "path": "defaultecs/0.16.2",
+      "hashPath": "defaultecs.0.16.2.nupkg.sha512"
+    },
+    "LiteNetLib/0.9.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-k2IqYY67aV3h82D/k9lYx7pj9ESoKPaAfcJwkn0yZZhMlkZ1i48b4g9PgNSzYsvUbyuP010JxxYCZYXaupgMAg==",
+      "path": "litenetlib/0.9.5",
+      "hashPath": "litenetlib.0.9.5.nupkg.sha512"
     }
   }
 }

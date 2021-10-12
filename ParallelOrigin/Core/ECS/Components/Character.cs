@@ -7,6 +7,7 @@ using Unity.Collections;
 #elif SERVER 
 using DefaultEcs;
 using DefaultEcs;
+using LiteNetLib;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components {
@@ -14,7 +15,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// <summary>
     /// Possible <see cref="Account"/> and <see cref="Character"/> genders
     /// </summary>
-    public enum Gender {
+    public enum Gender : sbyte {
         MALE,FEMALE,DIVERS
     }
 
@@ -24,7 +25,9 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// <summary>
     ///  A component for a <see cref="Entity" /> which acts as a player.
     /// </summary>
-    public struct Character  {
+    public struct Character {
+
+        public NetPeer peer;
         
         public string name;
         public string email;

@@ -225,11 +225,11 @@ namespace ParallelOriginGameServer.Server.Utils {
         /// <summary>
         /// Makes one <see cref="Vector2d"/> move towards another <see cref="Vector2d"/>
         /// </summary>
-        /// <param name="current"></param>
-        /// <param name="target"></param>
+        /// <param name="current">The vec we wanna move to the target</param>
+        /// <param name="target">The target we wanna move to, is readonly... ref only used because in will copy if its not a readonly struct</param>
         /// <param name="maxDistanceDelta"></param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MoveTowards(this ref Vector2d current, in Vector2d target, in float maxDistanceDelta) {
+        public static void MoveTowards(this ref Vector2d current, ref Vector2d target, in float maxDistanceDelta) {
             
             var vector2 = target - current;
             var magnitude = vector2.magnitude;
