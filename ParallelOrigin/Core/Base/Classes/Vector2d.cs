@@ -1,6 +1,8 @@
 using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using Mapbox.Utils;
+using UnityEngine;
 
 namespace ParallelOriginGameServer.Server.Utils {
 
@@ -176,7 +178,11 @@ namespace ParallelOriginGameServer.Server.Utils {
         }
 
         public static double Angle(Vector2d from, Vector2d to) {
+#if SERVER
             return Math.Acos(Math.Clamp(Vector2d.Dot(from.normalized, to.normalized), -1d, 1d)) * 57.29578d;
+#else
+            return Mathd.Acos(Mathd.Clamp(Vector2d.Dot(from.normalized, to.normalized), -1d, 1d)) * 57.29578d;
+#endif
         }
 
         public static double Distance(Vector2d a, Vector2d b) {
