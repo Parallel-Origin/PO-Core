@@ -6,14 +6,14 @@ using ParallelOrigin.Core.Base.Classes.Pattern.Registers;
 namespace ParallelOrigin.Core.Network {
     
     /// <summary>
-    /// A class which manages the network flow. 
+    /// A class which manages the network flow.
+    /// For client and server
     /// </summary>
     public partial class Network {
 
         public const string IP = "localhost";
         public const ushort PORT = 9050;
-        private const ushort MAX_CONNECTIONS = 10;
-        
+
         public Network() {
             
             Listener = new EventBasedNetListener();
@@ -31,9 +31,8 @@ namespace ParallelOrigin.Core.Network {
         /// Sets up the network
         /// </summary>
         protected virtual void Setup() {
-#if SERVER
-            Listener.ConnectionRequestEvent += ApproveConnection;         
-#endif
+
+            Listener.NetworkReceiveEvent += OnReceive;
         }
         
         /// <summary>
@@ -122,19 +121,14 @@ namespace ParallelOrigin.Core.Network {
     /// An extension for the build in server management
     /// </summary>
     public partial class Network {
-        
+
         /// <summary>
-        /// Approves an incoming connection if the <see cref="MAX_CONNECTIONS"/> wasnt reached.
-        /// Otherwhise it will reject them. 
+        /// Gets invoked once an packet came in to trigger the <see cref="Processor"/>
         /// </summary>
         /// <param name="server"></param>
         /// <param name="request"></param>
-        private void ApproveConnection(ConnectionRequest request) {
-
-            if (Manager.ConnectedPeersCount < MAX_CONNECTIONS)
-                request.Accept();
-            else
-                request.Reject();
+        private void OnReceive(NetPeer peer, NetDataReader reader, DeliveryMethod method) {
+            Processor.ReadAllPackets(reader, peer);
         }
     }
 }

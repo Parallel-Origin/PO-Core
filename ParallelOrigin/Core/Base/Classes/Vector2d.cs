@@ -1,8 +1,11 @@
 using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+
+#if CLIENT
 using Mapbox.Utils;
 using UnityEngine;
+#endif
 
 namespace ParallelOriginGameServer.Server.Utils {
 
