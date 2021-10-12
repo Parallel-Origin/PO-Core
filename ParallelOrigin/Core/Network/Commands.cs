@@ -23,6 +23,30 @@ namespace ParallelOrigin.Core.Network {
             Password = reader.GetString(20);
         }
     }
+
+    /// <summary>
+    /// Represents an response which is being send to the client once the login was sucesfull. 
+    /// </summary>
+    public struct LoginResponse : INetSerializable {
+
+        public Character Character { get; set; }
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(Character.name);
+            writer.Put(Character.password);
+            writer.Put(Character.email);
+            //writer.Put((sbyte)Character.gender);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+
+            var character = Character;
+            character.name = reader.GetString(20);
+            character.password = reader.GetString(20);
+            character.email = reader.GetString(20);
+            //character.gender = (Gender)reader.GetSByte();
+        }
+    }
     
     /// <summary>
     /// A login command which is used to register an player. 

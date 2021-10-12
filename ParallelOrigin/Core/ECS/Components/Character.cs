@@ -33,7 +33,7 @@ namespace ParallelOrigin.Core.ECS.Components {
         public string email;
         public string password;
 
-        public Gender male;
+        public Gender gender;
         public Color color;
     }    
     
