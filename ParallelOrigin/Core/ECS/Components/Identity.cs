@@ -1,4 +1,5 @@
 using LiteNetLib.Utils;
+using Script.Extensions;
 
 #if CLIENT
 using Unity.Collections;
@@ -39,10 +40,23 @@ namespace ParallelOrigin.Core.ECS.Components {
     ///  A componentn which stores a unique ID for each entity.
     /// </summary>
     [BurstCompile]
-    public struct Identity : IComponentData {
+    public struct Identity : IComponentData, INetSerializable {
+        
         public long id;
         public FixedString32 tag;
         public FixedString32 type;
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(id);
+            writer.Put(tag.ToStringCached());
+            writer.Put(type.ToStringCached());
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            id = reader.GetLong();
+            tag = reader.GetString(32);
+            type = reader.GetString(32);
+        }
     }
     
 #endif
