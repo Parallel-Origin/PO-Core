@@ -121,6 +121,8 @@ namespace ParallelOriginGameServer.Server.Utils {
         public static bool operator !=(Vector2d lhs, Vector2d rhs) {
             return (double)Vector2d.SqrMagnitude(lhs - rhs) >= 0.0 / 1.0;
         }
+
+#if UNITY_2020
         
         public static explicit operator Vector2d(Mapbox.Utils.Vector2d content) {
             return new Vector2d {
@@ -135,6 +137,8 @@ namespace ParallelOriginGameServer.Server.Utils {
                 y = content.y
             };
         }
+        
+#endif
 
         public void Set(double new_x, double new_y) {
             this.x = new_x;
