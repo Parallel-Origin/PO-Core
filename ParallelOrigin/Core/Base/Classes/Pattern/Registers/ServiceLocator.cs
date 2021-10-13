@@ -52,6 +52,23 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Registers {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
+        public static T GetBySubType<T>() {
+            
+            foreach (var kvp in services) {
+
+                var obj = kvp.Value;
+                if (obj is T t) return t;
+            }
+            
+            return default;
+        }
+        
+        /// <summary>
+        ///     Searches for a registered Register-class in a static way.
+        ///     Only searches for Registers, not registerables.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static T Get<T>() {
 
             var type = typeof(T);

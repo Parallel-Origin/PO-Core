@@ -38,6 +38,7 @@ namespace ParallelOrigin.Core.Base.Classes {
         /// </summary>
         /// <returns></returns>
         public virtual Tuple<TK, T> Pop() {
+            
             if (CurrentElement == null && CurrentKey == null) return null;
 
             // Case if only one last element is left and we pop it
@@ -73,6 +74,7 @@ namespace ParallelOrigin.Core.Base.Classes {
         ///     Clears the whole stack
         /// </summary>
         public virtual void Clear() {
+            
             if (ElementStack.Count != 0)
                 for (var index = 0; index <= ElementStack.Count; index++)
                     Pop();
