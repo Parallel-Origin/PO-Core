@@ -1,11 +1,11 @@
 using System.Drawing;
 using LiteNetLib.Utils;
-using Script.Extensions;
 
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
+using Script.Extensions;
 #elif SERVER 
 using DefaultEcs;
 using DefaultEcs;
@@ -27,7 +27,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// <summary>
     ///  A component for a <see cref="Entity" /> which acts as a player.
     /// </summary>
-    public struct Character {
+    public struct Character : INetSerializable {
 
         public NetPeer peer;
         
@@ -37,6 +37,18 @@ namespace ParallelOrigin.Core.ECS.Components {
 
         public Gender gender;
         public Color color;
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(name);
+            writer.Put(password);
+            writer.Put(email);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            name = reader.GetString(32);
+            email = reader.GetString(32);
+            password = reader.GetString(32);
+        }
     }    
     
 #elif CLIENT 
@@ -50,19 +62,19 @@ namespace ParallelOrigin.Core.ECS.Components {
         public Entity entity;
 
         public FixedString32 name;
-        public FixedString32 email;
         public FixedString32 password;
+        public FixedString32 email;
         
         public void Serialize(NetDataWriter writer) {
             writer.Put(name.ToStringCached());
+       writer.Put(password.ToStringCached());
             writer.Put(email.ToStringCached());
-            writer.Put(password.ToStringCached());
         }
 
         public void Deserialize(NetDataReader reader) {
             name = reader.GetString(32);
-            email = reader.GetString(32);
             password = reader.GetString(32);
+            email = reader.GetString(32);
         }
     }
 
