@@ -67,7 +67,7 @@ namespace ParallelOrigin.Core.ECS.Components {
         
         public void Serialize(NetDataWriter writer) {
             writer.Put(name.ToStringCached());
-       writer.Put(password.ToStringCached());
+            writer.Put(password.ToStringCached());
             writer.Put(email.ToStringCached());
         }
 
