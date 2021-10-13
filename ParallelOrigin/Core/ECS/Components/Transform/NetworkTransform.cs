@@ -1,4 +1,6 @@
 using System.Numerics;
+using LiteNetLib.Utils;
+using ParallelOrigin.Core.Extensions;
 using ParallelOriginGameServer.Server.Utils;
 using Vector2d = ParallelOriginGameServer.Server.Utils.Vector2d;
 
@@ -20,10 +22,20 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     /// <summary>
     ///  A component Class which stores informations about the Geo-Location of a entity
     /// </summary>
-    public struct NetworkTransform {
+    public struct NetworkTransform : INetSerializable{
         
         public Vector2d pos;
         public Grid chunk;
+
+        public void Serialize(NetDataWriter writer) {
+            NetworkSerializerExtensions.SerializeVector2d(writer, pos);
+            NetworkSerializerExtensions.SerializeGrid(writer, chunk);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            pos = NetworkSerializerExtensions.DeserializeVector2d(reader);
+            chunk = NetworkSerializerExtensions.DeserializeGrid(reader);
+        }
     }
     
     /// <summary>

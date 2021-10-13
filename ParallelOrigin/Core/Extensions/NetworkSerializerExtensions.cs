@@ -31,5 +31,28 @@ namespace ParallelOrigin.Core.Extensions {
 
             return new Vector2d { x = x, y = y };
         }
+
+        /// <summary>
+        /// Serializes an <see cref="Grid"/>
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="grid"></param>
+        public static void SerializeGrid(NetDataWriter writer, Grid grid) {
+            writer.Put(grid.x);
+            writer.Put(grid.y);
+        }
+        
+        /// <summary>
+        /// Deserializes an <see cref="Grid"/>
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="grid"></param>
+        public static Grid DeserializeGrid(NetDataReader reader) {
+
+            var x = reader.GetUShort();
+            var y = reader.GetUShort();
+
+            return new Grid(x, y);
+        }
     }
 }
