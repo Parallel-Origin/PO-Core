@@ -9,7 +9,7 @@ namespace ParallelOrigin.Core.Network {
         public ComponentCommand<Identity> command;
 
         public void Serialize(NetDataWriter writer) { writer.Put(command); }
-        public void Deserialize(NetDataReader reader) { reader.Get<ComponentCommand<Identity>>(); }
+        public void Deserialize(NetDataReader reader) { command = reader.Get<ComponentCommand<Identity>>(); }
 
     }
     
@@ -18,7 +18,7 @@ namespace ParallelOrigin.Core.Network {
         public ComponentCommand<Character> command;
 
         public void Serialize(NetDataWriter writer) { writer.Put(command); }
-        public void Deserialize(NetDataReader reader) { reader.Get<ComponentCommand<Character>>(); }
+        public void Deserialize(NetDataReader reader) { command = reader.Get<ComponentCommand<Character>>(); }
 
     }
 
@@ -27,7 +27,7 @@ namespace ParallelOrigin.Core.Network {
         public ComponentCommand<NetworkTransform> command;
 
         public void Serialize(NetDataWriter writer) { writer.Put(command); }
-        public void Deserialize(NetDataReader reader) { reader.Get<ComponentCommand<NetworkTransform>>(); }
+        public void Deserialize(NetDataReader reader) { command = reader.Get<ComponentCommand<NetworkTransform>>(); }
 
     }
 }
