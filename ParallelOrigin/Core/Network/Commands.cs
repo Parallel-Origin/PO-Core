@@ -72,7 +72,7 @@ namespace ParallelOrigin.Core.Network {
     /// <summary>
     /// An enum of possible errors. 
     /// </summary>
-    public enum Error : sbyte{
+    public enum Error : byte{
         USERNAME_TAKEN, BAD_USERNAME, USERNAME_SHORT, 
         BAD_PASSWORD,
         EMAIL_TAKEN, BAD_EMAIL, 

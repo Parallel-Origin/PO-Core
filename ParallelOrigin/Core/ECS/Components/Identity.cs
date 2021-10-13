@@ -1,11 +1,11 @@
 using LiteNetLib.Utils;
-using Script.Extensions;
 
 #if CLIENT
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 using Unity.Burst;
+using Script.Extensions;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components {
