@@ -32,19 +32,11 @@ namespace ParallelOrigin.Core.Network {
         public Character Character { get; set; }
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(Character.name);
-            writer.Put(Character.password);
-            writer.Put(Character.email);
-            //writer.Put((sbyte)Character.gender);
+            writer.Put(Character);
         }
 
         public void Deserialize(NetDataReader reader) {
-
-            var character = Character;
-            character.name = reader.GetString(20);
-            character.password = reader.GetString(20);
-            character.email = reader.GetString(20);
-            //character.gender = (Gender)reader.GetSByte();
+            Character = reader.Get<Character>();
         }
     }
     

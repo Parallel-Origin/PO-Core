@@ -1,4 +1,6 @@
 using System.Drawing;
+using LiteNetLib.Utils;
+using Script.Extensions;
 
 #if CLIENT
 using Unity.Burst;
@@ -43,16 +45,25 @@ namespace ParallelOrigin.Core.ECS.Components {
     ///  A component for a <see cref="Entity" /> which acts as a player.
     /// </summary>
     [BurstCompile]
-    public struct Character : IComponentData {
+    public struct Character : IComponentData, INetSerializable {
 
         public Entity entity;
 
         public FixedString32 name;
         public FixedString32 email;
         public FixedString32 password;
+        
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(name.ToStringCached());
+            writer.Put(email.ToStringCached());
+            writer.Put(password.ToStringCached());
+        }
 
-        //public bool male;
-        //public Color color;
+        public void Deserialize(NetDataReader reader) {
+            name = reader.GetString(32);
+            email = reader.GetString(32);
+            password = reader.GetString(32);
+        }
     }
 
 #endif
