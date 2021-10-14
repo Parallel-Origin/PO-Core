@@ -72,10 +72,10 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     ///  A component Class which stores informations about the Geo-Location of a entity
     /// </summary>
     [BurstCompile]
-    public struct Transform : IComponentData {
+    public struct LocalTransform : IComponentData {
         
         public Vector2d pos;
-        public Vector2d chunk;
+        public Grid chunk;
     }
     
         /// <summary>
