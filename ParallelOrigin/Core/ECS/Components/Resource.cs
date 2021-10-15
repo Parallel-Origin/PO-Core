@@ -1,4 +1,5 @@
 ﻿
+using LiteNetLib.Utils;
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
@@ -9,11 +10,15 @@ namespace ParallelOrigin.Core.ECS.Components {
 
 
 #if SERVER
-    
+
     /// <summary>
     ///  Just a Tag Component which clarifies that the Entity attached is a Resource
     /// </summary>
-    public struct Resource { }
+    public struct Resource : INetSerializable {
+        
+        public void Serialize(NetDataWriter writer) {  }
+        public void Deserialize(NetDataReader reader) {  }
+    }
     
 #elif CLIENT
 
@@ -21,7 +26,11 @@ namespace ParallelOrigin.Core.ECS.Components {
     ///  Just a Tag Component which clarifies that the Entity attached is a Resource
     /// </summary>
     [BurstCompile]
-    public struct Resource : IComponentData { }
+    public struct Resource : IComponentData, INetSerializable {
+    
+        public void Serialize(NetDataWriter writer) {  }
+        public void Deserialize(NetDataReader reader) {  }
+    }
     
 #endif
 }

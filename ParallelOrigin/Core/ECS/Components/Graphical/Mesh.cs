@@ -1,3 +1,4 @@
+using LiteNetLib.Utils;
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
@@ -11,7 +12,7 @@ namespace ParallelOrigin.Core.ECS.Components.Graphical {
     /// <summary>
     ///     A component that stores a ID of a particular mesh
     /// </summary>
-    public struct Mesh  {
+    public struct Mesh : INetSerializable{
         
         /// <summary>
         ///     The ID of a mesh from the internal database we wanna reference for this entity
@@ -22,6 +23,16 @@ namespace ParallelOrigin.Core.ECS.Components.Graphical {
         ///     If true, a system takes care of loading the referenced mesh... if false, you are forced to do that yourself.
         /// </summary>
         public bool instantiate;
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(id);
+            writer.Put(instantiate);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            id = reader.GetShort();
+            instantiate = reader.GetBool();
+        }
     }
     
 #elif CLIENT 
@@ -29,7 +40,7 @@ namespace ParallelOrigin.Core.ECS.Components.Graphical {
     /// <summary>
     ///     A component that stores a ID of a particular mesh
     /// </summary>
-    public struct Mesh : IComponentData {
+    public struct Mesh : IComponentData, INetSerializable {
         
         /// <summary>
         ///     The ID of a mesh from the internal database we wanna reference for this entity
@@ -40,6 +51,16 @@ namespace ParallelOrigin.Core.ECS.Components.Graphical {
         ///     If true, a system takes care of loading the referenced mesh... if false, you are forced to do that yourself.
         /// </summary>
         public bool instantiate;
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(id);
+            writer.Put(instantiate);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            id = reader.GetShort();
+            instantiate = reader.GetBool();
+        }
     }
 #endif
 }
