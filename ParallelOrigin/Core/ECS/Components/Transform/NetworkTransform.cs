@@ -120,9 +120,9 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
             var x = reader.GetFloat();
             var y = reader.GetFloat();
             var z = reader.GetFloat();
-            var w = reader.getFloat();
-            
-            value = new quaternion{ x = x, y = y, z = z, w = w};
+            var w = reader.GetFloat();
+
+            value = new quaternion(x, y, z, w);
         }
     }
     
