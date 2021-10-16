@@ -2,7 +2,7 @@ using System.Numerics;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
 using ParallelOriginGameServer.Server.Utils;
-using Quaternion = UnityEngine.Quaternion;
+
 using Vector2d = ParallelOriginGameServer.Server.Utils.Vector2d;
 
 #if CLIENT
@@ -10,6 +10,7 @@ using Mapbox.Utils;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Quaternion = UnityEngine.Quaternion;
 #elif CLIENT
 using System.Drawing;
 using ParallelOriginGameServer.Server.Utils;
@@ -51,6 +52,7 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
             writer.Put(value.X);
             writer.Put(value.Y);
             writer.Put(value.Z);
+            writer.Put(value.W);
         }
 
         public void Deserialize(NetDataReader reader) {
@@ -58,8 +60,9 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
             var x = reader.GetFloat();
             var y = reader.GetFloat();
             var z = reader.GetFloat();
-            
-            value = Quaternion.CreateFromYawPitchRoll(x,y,z);
+            var w = reader.GetFloat();
+
+            value = new Quaternion { X = x, Y = y, Z = z, W = w };
         }
     }
     
@@ -109,6 +112,7 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
             writer.Put(value.value.x);
             writer.Put(value.value.y);
             writer.Put(value.value.z);
+            writer.Put(value.value.w);
         }
 
         public void Deserialize(NetDataReader reader) {
@@ -116,8 +120,9 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
             var x = reader.GetFloat();
             var y = reader.GetFloat();
             var z = reader.GetFloat();
+            var w = reader.getFloat();
             
-            value = Quaternion.Euler(x,y,z);
+            value = new quaternion{ x = x, y = y, z = z, w = w};
         }
     }
     
