@@ -2,6 +2,7 @@ using System.Numerics;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
 using ParallelOriginGameServer.Server.Utils;
+using Quaternion = UnityEngine.Quaternion;
 using Vector2d = ParallelOriginGameServer.Server.Utils.Vector2d;
 
 #if CLIENT
@@ -100,8 +101,24 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     /// Mainly used for interpolation
     /// </summary>
     [BurstCompile]
-    public struct NetworkRotation : IComponentData {
+    public struct NetworkRotation : IComponentData, INetSerializable {
+        
         public quaternion value;
+        
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(value.value.x);
+            writer.Put(value.value.y);
+            writer.Put(value.value.z);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+
+            var x = reader.GetFloat();
+            var y = reader.GetFloat();
+            var z = reader.GetFloat();
+            
+            value = Quaternion.Euler(x,y,z);
+        }
     }
     
 #endif

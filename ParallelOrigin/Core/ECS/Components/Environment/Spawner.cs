@@ -4,6 +4,8 @@ using ParallelOriginGameServer.Server.Utils;
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {
 
+#if SERVER
+    
     /// <summary>
     /// An basic enum for the time
     /// </summary>
@@ -63,4 +65,6 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     }
 
     public struct ForestSpawner { }
+
+#endif
 }
