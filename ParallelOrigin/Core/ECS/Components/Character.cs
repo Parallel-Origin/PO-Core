@@ -39,9 +39,9 @@ namespace ParallelOrigin.Core.ECS.Components {
         public Color color;
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(name);
-            writer.Put(password);
-            writer.Put(email);
+            writer.Put(name, name.Length);
+            writer.Put(password, password.Length);
+            writer.Put(email, email.Length);
         }
 
         public void Deserialize(NetDataReader reader) {
@@ -58,17 +58,20 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
     [BurstCompile]
     public struct Character : IComponentData, INetSerializable {
-
-        public Entity entity;
-
+        
         public FixedString32 name;
         public FixedString32 password;
         public FixedString32 email;
         
         public void Serialize(NetDataWriter writer) {
-            writer.Put(name.ToStringCached());
-            writer.Put(password.ToStringCached());
-            writer.Put(email.ToStringCached());
+
+            var nameCached = name.ToStringCached();
+            var passwordCached = password.ToStringCached();
+            var emailCached = email.ToStringCached();
+            
+            writer.Put(nameCached, nameCached.Length);
+            writer.Put(passwordCached, passwordCached.Length);
+            writer.Put(emailCached, emailCached.Length);
         }
 
         public void Deserialize(NetDataReader reader) {

@@ -14,13 +14,13 @@ namespace ParallelOrigin.Core.Network {
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(Id);
-            writer.Put(Type);
+            writer.Put(Type, Type.Length);
             writer.Put(OpCode);
         }
 
         public void Deserialize(NetDataReader reader) {
             Id = reader.GetLong();
-            Type = reader.GetString();
+            Type = reader.GetString(32);
             OpCode = reader.GetByte();
         }
     }

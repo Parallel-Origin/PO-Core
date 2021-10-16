@@ -23,14 +23,14 @@ namespace ParallelOrigin.Core.ECS.Components {
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(id);
-            writer.Put(tag);
-            writer.Put(type);
+            writer.Put(tag, tag.Length);
+            writer.Put(type, type.Length);
         }
 
         public void Deserialize(NetDataReader reader) {
             id = reader.GetLong();
-            tag = reader.GetString();
-            type = reader.GetString();
+            tag = reader.GetString(32);
+            type = reader.GetString(32);
         }
     }    
     
@@ -48,8 +48,11 @@ namespace ParallelOrigin.Core.ECS.Components {
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(id);
-            writer.Put(tag.ToStringCached());
-            writer.Put(type.ToStringCached());
+
+            var tagCached = tag.ToStringCached();
+            var typeCached = type.ToStringCached();
+            writer.Put(tagCached, tagCached.Length);
+            writer.Put(typeCached, typeCached.Length);
         }
 
         public void Deserialize(NetDataReader reader) {
