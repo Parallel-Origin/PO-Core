@@ -18,6 +18,23 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
 
         // The weight for this entity to spawn 
         public ushort weight;
+        public float noiseThreshold;
+    }
+
+    /// <summary>
+    /// Marks an spawner entity to spawn some stuff 
+    /// </summary>
+    public struct Spawn{}
+    
+    /// <summary>
+    /// Tags an spawner entitity in a certain intervall with 
+    /// </summary>
+    public struct IntervallSpawner {
+        
+        public ushort intervall;
+        public TimeUnit unit;
+        
+        public DateTime refreshedOn;
     }
 
     /// <summary>
@@ -37,11 +54,13 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     /// <summary>
     /// A component which acts as an spawner to spawn in other entities and the environment based on a regular intervall. 
     /// </summary>
-    public struct IntervallSpawner {
+    public struct ForestLayer {
         
-        public ushort intervall;
-        public TimeUnit unit; 
-        
-        public DateTime refreshedOn;
+        public ushort resolution;
+        public FastNoiseLite noise;
+
+        public NoiseGeocoordinates[,] noiseGeocoordinates;
     }
+
+    public struct ForestSpawner { }
 }

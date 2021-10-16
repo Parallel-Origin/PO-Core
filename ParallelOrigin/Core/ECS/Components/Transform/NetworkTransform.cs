@@ -42,8 +42,24 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     /// The network representation of the rotation of an entity
     /// Mainly used for interpolation
     /// </summary>
-    public struct NetworkRotation  {
+    public struct NetworkRotation : INetSerializable{
+        
         public Quaternion value;
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(value.X);
+            writer.Put(value.Y);
+            writer.Put(value.Z);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+
+            var x = reader.GetFloat();
+            var y = reader.GetFloat();
+            var z = reader.GetFloat();
+            
+            value = Quaternion.CreateFromYawPitchRoll(x,y,z);
+        }
     }
     
 #elif CLIENT
@@ -78,7 +94,8 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
         public Grid chunk;
     }
     
-        /// <summary>
+
+    /// <summary>
     /// The network representation of the rotation of an entity
     /// Mainly used for interpolation
     /// </summary>
