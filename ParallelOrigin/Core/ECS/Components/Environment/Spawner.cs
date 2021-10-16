@@ -38,10 +38,7 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     /// A component which acts as an spawner to spawn in other entities and the environment based on a regular intervall. 
     /// </summary>
     public struct IntervallSpawner {
-
-        public ushort min;
-        public ushort max;
-
+        
         public ushort intervall;
         public TimeUnit unit; 
         
