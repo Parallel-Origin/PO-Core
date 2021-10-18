@@ -23,7 +23,7 @@ namespace ParallelOrigin.Core.Network {
 
         public void Deserialize(NetDataReader reader) {
 
-            var length = reader.GetInt()-1;
+            var length = reader.GetInt();
             Data = new T[length];
 
             for (var index = 0; index < Data.Length; index++)
