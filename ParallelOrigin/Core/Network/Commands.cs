@@ -6,6 +6,32 @@ using ParallelOriginGameServer.Server.Utils;
 namespace ParallelOrigin.Core.Network {
 
     /// <summary>
+    /// An command which batches multiple packets into one huge packet for improving the performance of sending and receiving.
+    /// One huge packet > faster than small packets. 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public struct BatchCommand<T> : INetSerializable where T : struct, INetSerializable {
+
+        public T[] Data { get; set; }
+
+        public void Serialize(NetDataWriter writer) {
+            
+            writer.Put(Data.Length);
+            for(var index = 0; index < Data.Length; index++)
+                writer.Put(Data[index]);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+
+            var length = reader.GetInt()-1;
+            Data = new T[length];
+
+            for (var index = 0; index < length; index++)
+                Data[index] = reader.Get<T>();
+        }
+    }
+    
+    /// <summary>
     /// A login command which is used to login an player
     /// </summary>
     public struct LoginCommand : INetSerializable {
