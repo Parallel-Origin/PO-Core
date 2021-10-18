@@ -26,7 +26,7 @@ namespace ParallelOrigin.Core.Network {
             var length = reader.GetInt()-1;
             Data = new T[length];
 
-            for (var index = 0; index < length; index++)
+            for (var index = 0; index < Data.Length; index++)
                 Data[index] = reader.Get<T>();
         }
     }
