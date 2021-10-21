@@ -3,6 +3,7 @@ using ParallelOrigin.Core.ECS;
 using ParallelOrigin.Core.ECS.Components;
 using ParallelOrigin.Core.Extensions;
 using ParallelOriginGameServer.Server.Utils;
+using UnityEngine;
 
 namespace ParallelOrigin.Core.Network {
 
