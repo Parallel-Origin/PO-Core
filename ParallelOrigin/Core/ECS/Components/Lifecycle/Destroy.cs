@@ -9,11 +9,10 @@ namespace ParallelOrigin.Core.ECS.Components.Lifecycle {
 #if SERVER
 
         /// <summary>
-        ///     A component which marks a <see cref="Entity" /> as getting destroyed during the next few ticks.
+        ///  A component which marks a <see cref="Entity" /> as getting destroyed during the next few seconds. 
         /// </summary>
-        
-        public struct DestroyAfter  {
-            public short ticks;
+        public struct DestroyAfter {
+            public float seconds;
         }
     
         /// <summary>

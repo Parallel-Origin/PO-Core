@@ -1,4 +1,5 @@
 using LiteNetLib.Utils;
+using ParallelOrigin.Core.ECS;
 using ParallelOrigin.Core.ECS.Components;
 using ParallelOrigin.Core.Extensions;
 using ParallelOriginGameServer.Server.Utils;
@@ -28,6 +29,30 @@ namespace ParallelOrigin.Core.Network {
 
             for (var index = 0; index < Data.Length; index++)
                 Data[index] = reader.Get<T>();
+        }
+    }
+    
+    /// <summary>
+    /// An enum of possible errors. 
+    /// </summary>
+    public enum Error : byte{
+        USERNAME_TAKEN, BAD_USERNAME, USERNAME_SHORT, 
+        BAD_PASSWORD,
+        EMAIL_TAKEN, BAD_EMAIL, 
+    }
+    
+    /// <summary>
+    /// Represents an error. 
+    /// </summary>
+    public struct ErrorCommand : INetSerializable{
+
+        public Error Error { get; set; }
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put((byte)Error);
+        }
+        public void Deserialize(NetDataReader reader) {
+            Error = (Error)reader.GetSByte();
         }
     }
     
@@ -96,26 +121,22 @@ namespace ParallelOrigin.Core.Network {
     }
 
     /// <summary>
-    /// An enum of possible errors. 
+    /// Represents an double click which was send from the client to the server to move the avatar. 
     /// </summary>
-    public enum Error : byte{
-        USERNAME_TAKEN, BAD_USERNAME, USERNAME_SHORT, 
-        BAD_PASSWORD,
-        EMAIL_TAKEN, BAD_EMAIL, 
-    }
-    
-    /// <summary>
-    /// Represents an error. 
-    /// </summary>
-    public struct ErrorCommand : INetSerializable{
+    public struct DoubleClickCommand : INetSerializable{
 
-        public Error Error { get; set; }
+        public EntityReference clicker;
+        public Vector2d position;
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put((byte)Error);
+            writer.Put(clicker);
+            NetworkSerializerExtensions.SerializeVector2d(writer, position);
         }
+
         public void Deserialize(NetDataReader reader) {
-            Error = (Error)reader.GetSByte();
+
+            clicker = reader.Get<EntityReference>();
+            position = NetworkSerializerExtensions.DeserializeVector2d(reader);
         }
     }
 }
