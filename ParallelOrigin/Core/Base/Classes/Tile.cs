@@ -48,7 +48,7 @@ namespace ParallelOriginGameServer.Server.Utils {
 
         public override string ToString() { return $"{nameof(x)}: {x}, {nameof(y)}: {y}"; }
         
-        public static Grid Zero => new(0, 0);
+        public static Grid Zero => new Grid(0, 0);
     }
     
     /// <summary>

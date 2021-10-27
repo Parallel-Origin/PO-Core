@@ -1,5 +1,10 @@
 using System.Collections.Generic;
+
+#if SERVER
 using DefaultEcs;
+#elif CLIENT
+using Unity.Entities;
+#endif
 
 namespace ParallelOrigin.Core.ECS.Components.Interactions {
     

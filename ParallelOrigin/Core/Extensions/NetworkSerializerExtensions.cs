@@ -76,7 +76,8 @@ namespace ParallelOrigin.Core.Extensions {
         public static void DeserializeList(NetDataReader reader, ref List<string> list) {
             
             var size = reader.GetInt();
-            list ??= new List<string>(size);
+            list = list ?? new List<string>(size); 
+            
             for (var index = 0; index < size; index++) {
 
                 var value = reader.GetString(10);
@@ -93,7 +94,10 @@ namespace ParallelOrigin.Core.Extensions {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count);
-            foreach (var (key, value) in dic) {
+            foreach (var kvp in dic) {
+
+                var key = kvp.Key;
+                var value = kvp.Value;
                 writer.Put(key, key.Length);
                 writer.Put(value);
             }
@@ -107,7 +111,8 @@ namespace ParallelOrigin.Core.Extensions {
         public static void DeserializeDic(NetDataReader reader, ref Dictionary<string, byte> dic) {
             
             var size = reader.GetInt();
-            dic ??= new Dictionary<string, byte>(size);
+             dic = dic ?? new Dictionary<string, byte>(size); 
+            
             for (var index = 0; index < size; index++) {
 
                 var key = reader.GetString(10);
@@ -125,7 +130,10 @@ namespace ParallelOrigin.Core.Extensions {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count);
-            foreach (var (key, value) in dic) {
+            foreach (var kvp in dic) {
+                
+                var key = kvp.Key;
+                var value = kvp.Value;
                 writer.Put(key, key.Length);
                 writer.Put(value);
             }
@@ -139,7 +147,8 @@ namespace ParallelOrigin.Core.Extensions {
         public static void DeserializeDic(NetDataReader reader, ref Dictionary<string, short> dic) {
             
             var size = reader.GetInt();
-            dic ??= new Dictionary<string, short>(size);
+            dic = dic ?? new Dictionary<string, short>(size);
+            
             for (var index = 0; index < size; index++) {
 
                 var key = reader.GetString(10);
@@ -157,7 +166,10 @@ namespace ParallelOrigin.Core.Extensions {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count);
-            foreach (var (key, value) in dic) {
+            foreach (var kvp in dic) {
+                
+                var key = kvp.Key;
+                var value = kvp.Value;
                 writer.Put(key, key.Length);
                 writer.Put(value);
             }
@@ -171,7 +183,8 @@ namespace ParallelOrigin.Core.Extensions {
         public static void DeserializeDic(NetDataReader reader, ref Dictionary<string, bool> dic) {
             
             var size = reader.GetInt();
-            dic ??= new Dictionary<string, bool>(size);
+            dic = dic ?? new Dictionary<string, bool>(size);
+            
             for (var index = 0; index < size; index++) {
 
                 var key = reader.GetString(10);

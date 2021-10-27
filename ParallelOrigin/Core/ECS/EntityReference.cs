@@ -1,11 +1,11 @@
 
 
-using ParallelOriginGameServer.Server.Extensions;
 #if SERVER
 using DefaultEcs;
 using LiteNetLib.Utils;
-
+using ParallelOriginGameServer.Server.Extensions;
 #elif CLIENT
+using LiteNetLib.Utils;
 using Unity.Collections;
 using Unity.Entities;
 using Script.Extensions;
@@ -47,7 +47,7 @@ namespace ParallelOrigin.Core.ECS {
     /// <summary>
     /// Represents an reference between entities, great for networking and automatic resolving of those references. 
     /// </summary>
-    public struct EntityReference {
+    public struct EntityReference : INetSerializable{
 
         public Entity entity;
         public long uniqueID;
@@ -100,6 +100,10 @@ namespace ParallelOrigin.Core.ECS {
             entity = mapping[uniqueID];
             return entity;
         }
+
+        public void Serialize(NetDataWriter writer) { writer.Put(uniqueID); }
+        public void Deserialize(NetDataReader reader) { uniqueID = reader.GetLong(); }
+
     }
     
 #endif
