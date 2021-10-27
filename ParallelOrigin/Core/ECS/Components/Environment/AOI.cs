@@ -1,9 +1,14 @@
 using System.Collections.Generic;
+
+#if SERVER
 using System.Drawing;
 using ParallelOriginGameServer.Server.Extensions;
 using ParallelOriginGameServer.Server.Systems;
+#endif
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {
+
+#if SERVER
     
     /// <summary>
     /// Marks an entity for being able to 
@@ -20,4 +25,6 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     public struct AOILeft {
         public HashSet<QuadEntity> left;
     }
+    
+#endif
 }

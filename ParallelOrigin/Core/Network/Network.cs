@@ -58,6 +58,13 @@ namespace ParallelOrigin.Core.Network {
         }
 
         /// <summary>
+        /// Stops the network
+        /// </summary>
+        public virtual void Stop() {
+            Manager.Stop();
+        }
+
+        /// <summary>
         /// Sends an packet to all other connected clients. 
         /// </summary>
         /// <param name="command"></param>

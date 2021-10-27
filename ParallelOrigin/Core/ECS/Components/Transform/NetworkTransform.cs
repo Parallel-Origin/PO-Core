@@ -3,7 +3,6 @@ using System.Numerics;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
 using ParallelOriginGameServer.Server.Utils;
-using QuadTrees.QTreePointF;
 using Vector2d = ParallelOriginGameServer.Server.Utils.Vector2d;
 
 #if CLIENT
@@ -12,9 +11,10 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Quaternion = UnityEngine.Quaternion;
-#elif CLIENT
+#elif SERVER
 using System.Drawing;
 using ParallelOriginGameServer.Server.Utils;
+using QuadTrees.QTreePointF;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components.Transform {
