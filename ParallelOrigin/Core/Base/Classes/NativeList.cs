@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ParallelOriginGameServer.Server.Utils {
+namespace ParallelOrigin.Core.Base.Classes {
     
     /// <summary>
     /// A wrapper for an <see cref="List"/> which is thread-safe.

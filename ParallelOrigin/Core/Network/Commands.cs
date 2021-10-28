@@ -2,7 +2,7 @@ using LiteNetLib.Utils;
 using ParallelOrigin.Core.ECS;
 using ParallelOrigin.Core.ECS.Components;
 using ParallelOrigin.Core.Extensions;
-using ParallelOriginGameServer.Server.Utils;
+using ParallelOrigin.Core.Base.Classes;
 
 namespace ParallelOrigin.Core.Network {
 

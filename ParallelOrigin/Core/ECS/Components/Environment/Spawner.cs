@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using ParallelOriginGameServer.Server.Utils;
+using ParallelOrigin.Core.Base.Classes;
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {
 

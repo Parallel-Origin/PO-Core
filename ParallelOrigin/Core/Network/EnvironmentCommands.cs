@@ -1,6 +1,6 @@
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
-using ParallelOriginGameServer.Server.Utils;
+using ParallelOrigin.Core.Base.Classes;
 
 namespace ParallelOrigin.Core.Network {
     

@@ -4,7 +4,7 @@ using ParallelOriginGameServer.Server.Utils;
 using Unity.Burst;
 using Unity.Entities;
 #elif SERVER
-using ParallelOriginGameServer.Server.Utils;
+using ParallelOrigin.Core.Base.Classes;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components.Transform {

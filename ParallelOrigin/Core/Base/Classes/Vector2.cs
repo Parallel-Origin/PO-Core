@@ -1,4 +1,4 @@
-namespace ParallelOriginGameServer.Server.Utils {
+namespace ParallelOrigin.Core.Base.Classes{
     
     /// <summary>
     /// A generic vec2

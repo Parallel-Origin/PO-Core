@@ -2,8 +2,7 @@ using System.Drawing;
 using System.Numerics;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
-using ParallelOriginGameServer.Server.Utils;
-using Vector2d = ParallelOriginGameServer.Server.Utils.Vector2d;
+using ParallelOrigin.Core.Base.Classes;
 
 #if CLIENT
 using Mapbox.Utils;
@@ -13,7 +12,7 @@ using Unity.Mathematics;
 using Quaternion = UnityEngine.Quaternion;
 #elif SERVER
 using System.Drawing;
-using ParallelOriginGameServer.Server.Utils;
+using ParallelOrigin.Core.Base.Classes;
 using QuadTrees.QTreePointF;
 #endif
 

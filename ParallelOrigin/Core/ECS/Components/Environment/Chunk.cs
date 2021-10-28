@@ -5,7 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using ConcurrentCollections;
 using DefaultEcs;
-using ParallelOriginGameServer.Server.Utils;
+using ParallelOrigin.Core.Base.Classes;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {

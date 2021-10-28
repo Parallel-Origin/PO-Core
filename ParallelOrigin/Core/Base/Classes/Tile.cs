@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Numerics;
 
-namespace ParallelOriginGameServer.Server.Utils {
+namespace ParallelOrigin.Core.Base.Classes {
 
     /// <summary>
     /// Represents a grid, other than the tile this is an absolute and short value which defines a single map grid in the world. 

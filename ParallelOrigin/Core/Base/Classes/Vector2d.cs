@@ -7,7 +7,7 @@ using Mapbox.Utils;
 using UnityEngine;
 #endif
 
-namespace ParallelOriginGameServer.Server.Utils {
+namespace ParallelOrigin.Core.Base.Classes {
 
     [Serializable]
     public struct Vector2d {
