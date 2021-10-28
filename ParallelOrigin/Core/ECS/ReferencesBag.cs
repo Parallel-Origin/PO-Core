@@ -51,7 +51,7 @@ namespace ParallelOrigin.Core.ECS {
             return false;
         }
         
-        public bool Contains(long uniqueID) {
+        public bool Contains(ulong uniqueID) {
 
             for (var index = 0; index < Length; index++) {
 

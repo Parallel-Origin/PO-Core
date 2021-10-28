@@ -50,7 +50,7 @@ namespace ParallelOrigin.Core.ECS {
     public struct EntityReference : INetSerializable{
 
         public Entity entity;
-        public long uniqueID;
+        public ulong uniqueID;
 
         /// <summary>
         /// Resolves the reference by searching an valid entity from the included uniqueID.
@@ -89,7 +89,7 @@ namespace ParallelOrigin.Core.ECS {
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
-        public Entity Resolve(ref NativeHashMap<long, Entity> mapping) {
+        public Entity Resolve(ref NativeHashMap<ulong, Entity> mapping) {
 
             if (entity != Entity.Null)
                 return entity;
@@ -102,8 +102,7 @@ namespace ParallelOrigin.Core.ECS {
         }
 
         public void Serialize(NetDataWriter writer) { writer.Put(uniqueID); }
-        public void Deserialize(NetDataReader reader) { uniqueID = reader.GetLong(); }
-
+        public void Deserialize(NetDataReader reader) { uniqueID = reader.GetULong(); }
     }
     
 #endif

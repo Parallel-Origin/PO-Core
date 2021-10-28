@@ -5,7 +5,7 @@ using ParallelOrigin.Core.Extensions;
 using ParallelOrigin.Core.Base.Classes;
 
 #if CLIENT
-using Mapbox.Utils;
+using ParallelOrigin.Core.Base.Classes;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
