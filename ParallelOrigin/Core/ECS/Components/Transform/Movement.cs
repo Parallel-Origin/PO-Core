@@ -1,5 +1,6 @@
 
 #if CLIENT
+using LiteNetLib.Utils;
 using ParallelOrigin.Core.Base.Classes;
 using Unity.Burst;
 using Unity.Entities;
@@ -14,9 +15,13 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     /// <summary>
     ///  A component which selects a target position which gets processed by a system to move the <see cref="Location" /> to the <see cref="target" />
     /// </summary>
-    public struct Movement  {
+    public struct Movement : INetSerializable {
+
         public float speed;
         public Vector2d target;
+
+        public void Serialize(NetDataWriter writer) { writer.Put(speed); }
+        public void Deserialize(NetDataReader reader) { speed = reader.GetFloat(); }
     }
     
     /// <summary>
@@ -31,9 +36,13 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     /// Normally requires a <see cref="Location"/> and a <see cref="Movement"/>
     /// </summary>
     [BurstCompile]
-    public struct Movement : IComponentData {
+    public struct Movement : IComponentData, INetSerializable {
+        
         public float speed;
         public Vector2d target;
+        
+        public void Serialize(NetDataWriter writer) { writer.Put(speed); }
+        public void Deserialize(NetDataReader reader) { speed = reader.GetFloat(); }
     }
     
     [BurstCompile]
