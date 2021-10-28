@@ -16,8 +16,8 @@ namespace ParallelOrigin.Core.Extensions {
         /// <param name="writer"></param>
         /// <param name="vector2d"></param>
         public static void SerializeVector2d(NetDataWriter writer, Vector2d vector2d) {
-            writer.Put(vector2d.x);
-            writer.Put(vector2d.y);
+            writer.Put((float)vector2d.x);
+            writer.Put((float)vector2d.y);
         }
         
         /// <summary>
@@ -27,8 +27,8 @@ namespace ParallelOrigin.Core.Extensions {
         /// <returns></returns>
         public static Vector2d DeserializeVector2d(NetDataReader reader) {
 
-            var x = reader.GetDouble();
-            var y = reader.GetDouble();
+            var x = reader.GetFloat();
+            var y = reader.GetFloat();
 
             return new Vector2d { x = x, y = y };
         }

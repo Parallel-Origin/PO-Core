@@ -87,6 +87,16 @@ namespace ParallelOrigin.Core.Network {
         public void Send<T>(NetPeer peer, ref T command) where T : struct, INetSerializable {
             Processor.SendNetSerializable(peer, command, DeliveryMethod.ReliableOrdered);
         }
+        
+        /// <summary>
+        /// Sends an packet to a specific connected client.
+        /// </summary>
+        /// <param name="peer"></param>
+        /// <param name="command"></param>
+        /// <typeparam name="T"></typeparam>
+        public void Send<T>(NetPeer peer, ref T command, DeliveryMethod method) where T : struct, INetSerializable {
+            Processor.SendNetSerializable(peer, command, method);
+        }
 
         /// <summary>
         /// Gets invoked once we receive a certain command. 

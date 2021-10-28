@@ -32,12 +32,10 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
 
         public void Serialize(NetDataWriter writer) {
             NetworkSerializerExtensions.SerializeVector2d(writer, pos);
-            NetworkSerializerExtensions.SerializeGrid(writer, chunk);
         }
 
         public void Deserialize(NetDataReader reader) {
             pos = NetworkSerializerExtensions.DeserializeVector2d(reader);
-            chunk = NetworkSerializerExtensions.DeserializeGrid(reader);
         }
     }
     
@@ -80,12 +78,10 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
         
         public void Serialize(NetDataWriter writer) {
             NetworkSerializerExtensions.SerializeVector2d(writer, pos);
-            NetworkSerializerExtensions.SerializeGrid(writer, chunk);
         }
 
         public void Deserialize(NetDataReader reader) {
             pos = NetworkSerializerExtensions.DeserializeVector2d(reader);
-            chunk = NetworkSerializerExtensions.DeserializeGrid(reader);
         }
     }
     

@@ -7,7 +7,7 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct EntityCommand : INetSerializable{
         
-        public long Id { get; set; }
+        public ulong Id { get; set; }
         public string Type { get; set; }
 
         public byte OpCode { get; set; }
@@ -19,7 +19,7 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            Id = reader.GetLong();
+            Id = reader.GetULong();
             Type = reader.GetString(32);
             OpCode = reader.GetByte();
         }
@@ -128,7 +128,7 @@ namespace ParallelOrigin.Core.Network {
     /// <typeparam name="T"></typeparam>
     public struct ComponentCommand<T> : INetSerializable where T : struct, INetSerializable {
 
-        public long Id { get; set; }
+        public ulong Id { get; set; }
         public T Component { get; set; }
         public byte OpCode { get; set; }
 
@@ -139,7 +139,7 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            Id = reader.GetLong();
+            Id = reader.GetULong();
             Component = reader.Get<T>();
             OpCode = reader.GetByte();
         }

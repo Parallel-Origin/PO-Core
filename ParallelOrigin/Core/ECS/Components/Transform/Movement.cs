@@ -19,6 +19,11 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
         public Vector2d target;
     }
     
+    /// <summary>
+    /// Marks an entity as moving this frame. 
+    /// </summary>
+    public struct Moving{}
+    
 #elif CLIENT
 
     /// <summary>

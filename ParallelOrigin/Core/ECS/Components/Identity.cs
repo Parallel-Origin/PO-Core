@@ -17,7 +17,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
     public struct Identity : INetSerializable {
         
-        public long id;
+        public ulong id;
         public string tag;
         public string type;
 
@@ -28,7 +28,7 @@ namespace ParallelOrigin.Core.ECS.Components {
         }
 
         public void Deserialize(NetDataReader reader) {
-            id = reader.GetLong();
+            id = reader.GetULong();
             tag = reader.GetString(32);
             type = reader.GetString(32);
         }
@@ -42,7 +42,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     [BurstCompile]
     public struct Identity : IComponentData, INetSerializable {
         
-        public long id;
+        public ulong id;
         public FixedString32 tag;
         public FixedString32 type;
 
@@ -56,7 +56,7 @@ namespace ParallelOrigin.Core.ECS.Components {
         }
 
         public void Deserialize(NetDataReader reader) {
-            id = reader.GetLong();
+            id = reader.GetULong();
             tag = reader.GetString(32);
             type = reader.GetString(32);
         }

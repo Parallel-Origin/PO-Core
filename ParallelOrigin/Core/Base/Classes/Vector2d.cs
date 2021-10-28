@@ -256,14 +256,15 @@ namespace ParallelOriginGameServer.Server.Utils {
         /// <param name="target">The target we wanna move to, is readonly... ref only used because in will copy if its not a readonly struct</param>
         /// <param name="maxDistanceDelta"></param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MoveTowards(this ref Vector2d current, ref Vector2d target, in float maxDistanceDelta) {
+        public static bool MoveTowards(this ref Vector2d current, ref Vector2d target, in float maxDistanceDelta) {
             
             var vector2 = target - current;
             var magnitude = vector2.magnitude;
             
-            if (magnitude <= maxDistanceDelta || magnitude == 0.0d) return;
+            if (magnitude <= maxDistanceDelta || magnitude == 0.0d) return false;
              
             current += vector2 / magnitude * maxDistanceDelta;
+            return true;
         }
     }
 }
