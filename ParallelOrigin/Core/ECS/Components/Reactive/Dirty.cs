@@ -1,4 +1,5 @@
 ﻿
+using System;
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
@@ -8,11 +9,24 @@ using Unity.Entities;
 namespace ParallelOrigin.Core.ECS.Components.Reactive {
 
 #if SERVER
-    
+
+    /// <summary>
+    /// Possible changes to an entity. 
+    /// </summary>
+    [Flags]
+    public enum DirtyFlags : byte {
+        None,
+        Transform,
+        Health,
+        Amount,
+        Other
+    }
+
     /// <summary>
     /// A Component which is used to check if Entites have been changed, updated or removed
     /// </summary>
-    public struct Dirty  {
+    public struct Dirty {
+        public DirtyFlags flags;
     }    
     
 #elif CLIENT

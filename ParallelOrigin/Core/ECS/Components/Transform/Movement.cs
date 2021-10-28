@@ -7,6 +7,7 @@ using Unity.Entities;
 #elif SERVER
 using ParallelOrigin.Core.Base.Classes;
 #endif
+using LiteNetLib.Utils;
 
 namespace ParallelOrigin.Core.ECS.Components.Transform {
 
