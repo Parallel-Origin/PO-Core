@@ -121,6 +121,25 @@ namespace ParallelOrigin.Core.Network {
     }
 
     /// <summary>
+    /// Represents a click which was send from the client to the server to interact with entities. 
+    /// </summary>
+    public struct ClickCommand : INetSerializable {
+
+        public EntityReference clicker;
+        public EntityReference clicked;
+        
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(clicker);
+            writer.Put(clicked);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            clicker = reader.Get<EntityReference>();
+            clicked = reader.Get<EntityReference>();
+        }
+    }
+
+    /// <summary>
     /// Represents an double click which was send from the client to the server to move the avatar. 
     /// </summary>
     public struct DoubleClickCommand : INetSerializable{

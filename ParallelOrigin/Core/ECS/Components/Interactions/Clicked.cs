@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 #if SERVER
@@ -11,7 +12,9 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// <summary>
     /// Marks an entity which was clicked and stores the entities which clicked it. 
     /// </summary>
-    public struct Clicked {
+    public struct Clicked : IDisposable{
+        
         public ISet<Entity> clickers;
+        public void Dispose() => clickers.Clear();
     }
 }
