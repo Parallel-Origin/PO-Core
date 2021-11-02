@@ -23,6 +23,13 @@ namespace ParallelOrigin.Core.ECS {
         public Entity entity;
         public ulong uniqueID;
 
+        public EntityReference(in Entity entity, in ulong id) : this() {
+            this.entity = entity;
+            this.uniqueID = id;
+        }
+
+        public EntityReference(in ulong uniqueId) : this() { uniqueID = uniqueId; }
+
         /// <summary>
         /// Resolves the reference by searching an valid entity from the included uniqueID.
         /// It resolves only once, once an valid entity was found, it gets attached to <see cref="entity"/> and is returned. 
@@ -30,6 +37,20 @@ namespace ParallelOrigin.Core.ECS {
         /// <param name="em"></param>
         /// <returns></returns>
         public Entity Resolve(ref World world) {
+
+            if (entity.IsAlive) return entity;
+            
+            entity = world.GetById(uniqueID);
+            return entity;
+        }
+        
+        /// <summary>
+        /// Resolves the reference by searching an valid entity from the included uniqueID.
+        /// It resolves only once, once an valid entity was found, it gets attached to <see cref="entity"/> and is returned. 
+        /// </summary>
+        /// <param name="em"></param>
+        /// <returns></returns>
+        public Entity Resolve(World world) {
 
             if (entity.IsAlive) return entity;
             
@@ -53,7 +74,10 @@ namespace ParallelOrigin.Core.ECS {
         public ulong uniqueID;
 
         public EntityReference(in ulong uniqueID) : this() { this.uniqueID = uniqueID; }
-        public EntityReference(in Entity entity) : this() { this.entity = entity; }
+        public EntityReference(in Entity entity, in ulong uniqueID) : this() {
+            this.entity = entity; 
+            this.uniqueID = uniqueID;
+        }
 
         /// <summary>
         /// Resolves the reference by searching an valid entity from the included uniqueID.

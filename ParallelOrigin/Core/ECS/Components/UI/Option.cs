@@ -1,19 +1,17 @@
 ﻿
-    
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components.Popups {
+namespace ParallelOrigin.Core.ECS.Components.UI {
     
 #if SERVER
     
     /// <summary>
-    ///     A component for a <see cref="Entity" /> which is a option for a <see cref="Popup" />
+    /// A component for a <see cref="Entity" /> which is a option for a <see cref="Popup" />
     /// </summary>
-    
     public struct Option  { }
     
 #elif CLIENT 
