@@ -71,7 +71,7 @@ namespace ParallelOrigin.Core.Network {
         /// <typeparam name="T"></typeparam>
         public void Send<T>(ref T command) where T : struct, INetSerializable {
 #if SERVER
-            Processor.SendNetSerializable<T>(Manager, command, DeliveryMethod.ReliableOrdered);    
+            Processor.SendNetSerializable(Manager, command, DeliveryMethod.ReliableOrdered);    
 #elif CLIENT
             var server = Manager.FirstPeer;
             Processor.SendNetSerializable(server, command, DeliveryMethod.ReliableOrdered);
@@ -105,7 +105,7 @@ namespace ParallelOrigin.Core.Network {
         /// <param name="packetConstructor"></param>
         /// <typeparam name="T"></typeparam>
         public void OnReceive<T>(Action<T, NetPeer> onReceive, Func<T> packetConstructor) where T : struct, INetSerializable{
-            Processor.SubscribeNetSerializable<T,NetPeer>(onReceive, packetConstructor);
+            Processor.SubscribeNetSerializable(onReceive, packetConstructor);
         }
 
         /// <summary>
