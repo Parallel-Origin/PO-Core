@@ -1,7 +1,12 @@
 using System.Collections.Generic;
+
+#if SERVER
 using ParallelOriginGameServer.Server.Extensions;
+#endif
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {
+
+#if SERVER
 
     /// <summary>
     /// Represents a simple 2D box collider.
@@ -37,4 +42,7 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     public struct CollisionsLeft {
         public HashSet<QuadEntity> left;
     }
+
+    
+#endif
 }
