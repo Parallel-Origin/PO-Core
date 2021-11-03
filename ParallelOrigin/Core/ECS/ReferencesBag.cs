@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using LiteNetLib.Utils;
+using ParallelOrigin.Core.Extensions;
 
 #if SERVER
 
@@ -17,12 +19,22 @@ namespace ParallelOrigin.Core.ECS {
     /// <summary>
     /// An struct which stores a list of <see cref="EntityReference"/> for networking and persistence purposes
     /// </summary>
-    public struct ReferencesBag : IEnumerable<EntityReference> {
+    public struct ReferencesBag : IEnumerable<EntityReference>, INetSerializable {
         
         public List<EntityReference> entities;
 
+        public ReferencesBag(int size) : this() { entities = new List<EntityReference>(size); }
+
         public IEnumerator<EntityReference> GetEnumerator() { return entities.GetEnumerator(); }
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
+
+        public void Serialize(NetDataWriter writer) {
+            NetworkSerializerExtensions.SerializeList(writer, entities);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            NetworkSerializerExtensions.DeserializeList(reader, ref entities);   
+        }
     }
     
     #elif CLIENT 

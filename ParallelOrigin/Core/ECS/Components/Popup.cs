@@ -1,4 +1,5 @@
-﻿using DefaultEcs;
+﻿using System.Collections.Generic;
+using DefaultEcs;
 using LiteNetLib.Utils;
 #if CLIENT
 using Unity.Burst;
@@ -20,6 +21,9 @@ namespace ParallelOrigin.Core.ECS.Components {
         
         // May be null
         public EntityReference target;
+
+        // The option types its gonna have
+        public List<string> options;
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(owner);
