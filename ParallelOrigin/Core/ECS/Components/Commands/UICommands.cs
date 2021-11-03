@@ -1,8 +1,14 @@
-using DefaultEcs;
+
 using ParallelOrigin.Core.ECS.Components.Interactions;
+
+#if SERVER
+using DefaultEcs;
+#endif
 
 namespace ParallelOriginGameServer.Server.Commands {
 
+#if SERVER
+    
     /// <summary>
     /// A command which should spawn in a popup with certain data. 
     /// </summary>
@@ -12,4 +18,6 @@ namespace ParallelOriginGameServer.Server.Commands {
         public Entity owner;
         public Entity target;
     }
+
+#endif
 }

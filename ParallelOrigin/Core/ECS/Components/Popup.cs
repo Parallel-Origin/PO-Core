@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
-using DefaultEcs;
 using LiteNetLib.Utils;
+
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
+#elif SERVER
+using DefaultEcs;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components {
