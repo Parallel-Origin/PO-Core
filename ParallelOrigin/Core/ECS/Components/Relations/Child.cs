@@ -1,4 +1,5 @@
 #if CLIENT
+using LiteNetLib.Utils;
 using Unity.Burst;
 using Unity.Entities;
 #elif SERVER
@@ -27,8 +28,12 @@ namespace ParallelOrigin.Core.ECS.Components.Relations {
     ///     Represents a child which has a "Parent-Child" Relation to its parent
     /// </summary>
     [BurstCompile]
-    public struct Child : IComponentData {
-        public Entity parent;
+    public struct Child : IComponentData, INetSerializable {
+            
+        public EntityReference parent;
+
+        public void Serialize(NetDataWriter writer) { writer.Put(parent); }
+        public void Deserialize(NetDataReader reader) { parent = reader.Get<EntityReference>(); }
     }
 
 #endif

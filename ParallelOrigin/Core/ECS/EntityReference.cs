@@ -73,6 +73,7 @@ namespace ParallelOrigin.Core.ECS {
         public Entity entity;
         public ulong uniqueID;
 
+        public EntityReference(in Entity entity) : this() { this.entity = entity; }
         public EntityReference(in ulong uniqueID) : this() { this.uniqueID = uniqueID; }
         public EntityReference(in Entity entity, in ulong uniqueID) : this() {
             this.entity = entity; 
