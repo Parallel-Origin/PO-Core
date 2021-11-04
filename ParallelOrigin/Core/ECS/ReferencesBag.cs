@@ -43,7 +43,7 @@ namespace ParallelOrigin.Core.ECS {
     /// An struct which stores a list of <see cref="EntityReference"/> for networking and persistence purposes
     /// </summary>
     [BurstCompatible]
-    public struct ReferencesBag : INativeDisposable, INativeList<EntityReference>, IEnumerable<EntityReference> {
+    public struct ReferencesBag : INativeDisposable, INativeList<EntityReference>, IEnumerable<EntityReference>, INetSerializable {
         
         public UnsafeList<EntityReference> entities;
 
@@ -100,6 +100,14 @@ namespace ParallelOrigin.Core.ECS {
         
         public void Dispose() { entities.Dispose(); }
         public JobHandle Dispose(JobHandle inputDeps) { return entities.Dispose(inputDeps); }
+
+        public void Serialize(NetDataWriter writer) {
+            NetworkSerializerExtensions.SerializeList(writer, ref entities);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            NetworkSerializerExtensions.DeserializeList(reader, ref entities);
+        }
     }
 
     #endif

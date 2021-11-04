@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Base.Classes;
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ParallelOrigin.Core.Extensions {
     
@@ -257,5 +260,37 @@ namespace ParallelOrigin.Core.Extensions {
                 dic.Add(key, value);
             }
         }
+
+#if CLIENT
+        
+        /// <summary>
+        /// Serializes a string list
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="list"></param>
+        public static void SerializeList<T>(NetDataWriter writer, ref UnsafeList<T> list) where T : unmanaged, INetSerializable{
+            
+            writer.Put(list.length);
+            for(var index = 0; index < list.Length; index++)
+                writer.Put(list[index]);
+        }
+
+        /// <summary>
+        /// Deserializes an list of string
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void DeserializeList<T>(NetDataReader reader, ref UnsafeList<T> list) where T : unmanaged, INetSerializable{
+            
+            var size = reader.GetInt();
+            if(!list.IsCreated) list =  new UnsafeList<T>(size, Allocator.Persistent); 
+            
+            for (var index = 0; index < size; index++) {
+
+                var value = reader.Get<T>();
+                list.Add(value);
+            }
+        }
+#endif
     }
 }
