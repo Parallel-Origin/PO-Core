@@ -187,6 +187,42 @@ namespace ParallelOrigin.Core.Extensions {
         }
         
         /// <summary>
+        ///  Serializes and string byte dic
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="dic"></param>
+        public static void SerializeDic(NetDataWriter writer, IDictionary<string,string> dic) {
+            
+            // Write overriden anim clips dic
+            writer.Put(dic.Count);
+            foreach (var kvp in dic) {
+                
+                var key = kvp.Key;
+                var value = kvp.Value;
+                writer.Put(key, key.Length);
+                writer.Put(value);
+            }
+        }
+
+        /// <summary>
+        /// Deserializes an dictionary of string and byte
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void DeserializeDic(NetDataReader reader, ref Dictionary<string, string> dic) {
+            
+            var size = reader.GetInt();
+            dic = dic ?? new Dictionary<string, string>(size);
+            
+            for (var index = 0; index < size; index++) {
+
+                var key = reader.GetString(10);
+                var value = reader.GetString();
+                dic.Add(key, value);
+            }
+        }
+        
+        /// <summary>
         /// Serializes and string bool list
         /// </summary>
         /// <param name="writer"></param>

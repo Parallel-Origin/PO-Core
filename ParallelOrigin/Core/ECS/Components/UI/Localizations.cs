@@ -1,5 +1,7 @@
 
 using System.Collections.Generic;
+using LiteNetLib.Utils;
+using ParallelOrigin.Core.Extensions;
 
 #if CLIENT
 using Unity.Burst;
@@ -15,9 +17,20 @@ namespace ParallelOrigin.Core.ECS.Components.UI {
     /// <summary>
     /// A component that stores a map of all valid localisations in a key value pair of string and id
     /// </summary>
-    public struct Localizations {
+    public struct Localizations : INetSerializable{
+        
         public Dictionary<string, short> localizations;
         public Dictionary<string, string> uniqueLocalizations;
+
+        public void Serialize(NetDataWriter writer) {
+            NetworkSerializerExtensions.SerializeDic(writer, localizations);
+            NetworkSerializerExtensions.SerializeDic(writer, uniqueLocalizations);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            NetworkSerializerExtensions.DeserializeDic(reader, ref localizations);
+            NetworkSerializerExtensions.DeserializeDic(reader, ref uniqueLocalizations);
+        }
     }
 
 #elif CLIENT
