@@ -2,8 +2,11 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Base.Classes;
+
+#if CLIENT
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
+#endif
 
 namespace ParallelOrigin.Core.Extensions {
     

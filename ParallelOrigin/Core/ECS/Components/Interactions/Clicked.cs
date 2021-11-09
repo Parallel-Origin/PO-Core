@@ -17,11 +17,4 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
         public ISet<Entity> clickers;
         public void Dispose() => clickers.Clear();
     }
-
-    /// <summary>
-    /// Once clicked, this entity will spawn a popup. 
-    /// </summary>
-    public struct OnClickedSpawnPopUp {
-        public string type;
-    }
 }

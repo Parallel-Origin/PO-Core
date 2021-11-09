@@ -15,8 +15,7 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
          
          public float maxHealth;
          public float currentHealth;
-         public bool destroyOnDeath;
- 
+
          /// <summary>
          ///     Returns true if the entity is dead
          /// </summary>
