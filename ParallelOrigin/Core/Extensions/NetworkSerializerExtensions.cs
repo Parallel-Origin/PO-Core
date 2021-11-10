@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Base.Classes;
-using Script.Extensions;
 
 #if CLIENT
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
+using Script.Extensions;
+#elif SERVER
+
 #endif
 
 namespace ParallelOrigin.Core.Extensions {

@@ -7,19 +7,19 @@ namespace ParallelOrigin.Core.Network {
     /// <summary>
     /// A packet which updates the clients map to show specific coordinates. 
     /// </summary>
-    public struct MapCommand : INetSerializable{
-        
-        public Vector2d Position { get; set; }
-        public byte OpCode { get; set; }
+    public struct MapCommand : INetSerializable {
+
+        public Vector2d position;
+        public byte opCode;
 
         public void Serialize(NetDataWriter writer) {
-            NetworkSerializerExtensions.SerializeVector2d(writer, Position);
-            writer.Put(OpCode);
+            NetworkSerializerExtensions.SerializeVector2d(writer, position);
+            writer.Put(opCode);
         }
 
         public void Deserialize(NetDataReader reader) {
-            Position = NetworkSerializerExtensions.DeserializeVector2d(reader);
-            OpCode = reader.GetByte();
+            position = NetworkSerializerExtensions.DeserializeVector2d(reader);
+            opCode = reader.GetByte();
         }
     }
 }
