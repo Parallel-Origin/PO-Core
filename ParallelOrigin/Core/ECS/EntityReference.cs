@@ -1,6 +1,7 @@
 
 
 #if SERVER
+using System;
 using DefaultEcs;
 using LiteNetLib.Utils;
 using ParallelOriginGameServer.Server.Extensions;
@@ -18,7 +19,7 @@ namespace ParallelOrigin.Core.ECS {
     /// <summary>
     /// Represents an reference between entities, great for networking and automatic resolving of those references. 
     /// </summary>
-    public struct EntityReference : INetSerializable{
+    public struct EntityReference : INetSerializable, IEquatable<EntityReference> {
 
         public Entity entity;
         public ulong uniqueID;
@@ -58,10 +59,14 @@ namespace ParallelOrigin.Core.ECS {
             return entity;
         }
         
-        public readonly bool Equals(in EntityReference other) {
+        public bool Equals(EntityReference other) {
             return entity.Equals(other.entity) && uniqueID == other.uniqueID;
         }
-
+        
+        public override int GetHashCode() {
+            unchecked { return (entity.GetHashCode() * 397) ^ uniqueID.GetHashCode(); }
+        }
+        
         public void Serialize(NetDataWriter writer) { writer.Put(uniqueID); }
 
         public void Deserialize(NetDataReader reader) { uniqueID = reader.GetULong(); }
