@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Base.Classes;
+using Script.Extensions;
 
 #if CLIENT
 using Unity.Collections;
@@ -292,6 +293,78 @@ namespace ParallelOrigin.Core.Extensions {
 
                 var value = reader.Get<T>();
                 list.Add(value);
+            }
+        }
+        
+        /// <summary>
+        /// Serializes and string bool list
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="dic"></param>
+        public static void SerializeDic(NetDataWriter writer, UnsafeHashMap<FixedString32, short> dic) {
+            
+            // Write overriden anim clips dic
+            writer.Put(dic.Count());
+            foreach (var kvp in dic) {
+                
+                var key = kvp.Key;
+                var value = kvp.Value;
+                writer.Put(key.ToStringCached(), key.Length);
+                writer.Put(value);
+            }
+        }
+
+        /// <summary>
+        /// Deserializes an dictionary of string and bool
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void DeserializeDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, short> dic) {
+            
+            var size = reader.GetInt();
+            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, short>(size, Allocator.Persistent);
+            
+            for (var index = 0; index < size; index++) {
+
+                var key = reader.GetString(10);
+                var value = reader.GetShort();
+                dic.Add(key, value);
+            }
+        }
+        
+        /// <summary>
+        /// Serializes and string bool list
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="dic"></param>
+        public static void SerializeDic(NetDataWriter writer, UnsafeHashMap<FixedString32, FixedString32> dic) {
+            
+            // Write overriden anim clips dic
+            writer.Put(dic.Count());
+            foreach (var kvp in dic) {
+                
+                var key = kvp.Key;
+                var value = kvp.Value;
+                writer.Put(key.ToStringCached(), key.Length);
+                writer.Put(value.ToStringCached());
+            }
+        }
+
+        /// <summary>
+        /// Deserializes an dictionary of string and bool
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void DeserializeDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, FixedString32> dic) {
+            
+            var size = reader.GetInt();
+            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, FixedString32>(size, Allocator.Persistent);
+            
+            for (var index = 0; index < size; index++) {
+
+                var key = reader.GetString(10);
+                var value = reader.GetString(10);
+                dic.Add(key, value);
             }
         }
 #endif

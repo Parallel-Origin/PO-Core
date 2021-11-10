@@ -39,9 +39,20 @@ namespace ParallelOrigin.Core.ECS.Components.UI {
     ///  A component that stores a map of all valid localisations in a key value pair of string and id
     /// </summary>
     [BurstCompile]
-    public struct Localizations : IComponentData {
+    public struct Localizations : IComponentData, INetSerializable {
+        
         public UnsafeHashMap<FixedString32, short> localizations;
         public UnsafeHashMap<FixedString32, FixedString32> uniqueLocalizations;
+
+        public void Serialize(NetDataWriter writer) {
+            NetworkSerializerExtensions.SerializeDic(writer, localizations);
+            NetworkSerializerExtensions.SerializeDic(writer, uniqueLocalizations);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            NetworkSerializerExtensions.DeserializeDic(reader, ref localizations);
+            NetworkSerializerExtensions.DeserializeDic(reader, ref uniqueLocalizations);
+        }
     }
     
 #endif
