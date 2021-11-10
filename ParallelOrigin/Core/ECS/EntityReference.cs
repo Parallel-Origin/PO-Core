@@ -58,6 +58,10 @@ namespace ParallelOrigin.Core.ECS {
             return entity;
         }
         
+        public readonly bool Equals(in EntityReference other) {
+            return entity.Equals(other.entity) && uniqueID == other.uniqueID;
+        }
+
         public void Serialize(NetDataWriter writer) { writer.Put(uniqueID); }
 
         public void Deserialize(NetDataReader reader) { uniqueID = reader.GetULong(); }
