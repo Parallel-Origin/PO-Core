@@ -8,7 +8,7 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// <summary>
     /// Represents a grid, other than the tile this is an absolute and short value which defines a single map grid in the world. 
     /// </summary>
-    public readonly struct Grid {
+    public readonly struct Grid : IEquatable<Grid> {
         
         public readonly ushort x;
         public readonly ushort y;
@@ -19,22 +19,21 @@ namespace ParallelOrigin.Core.Base.Classes {
         }
 
         public static bool operator == (in Grid obj1, in Grid obj2) {
-            return obj1.Equals(in obj2);
+            return obj1.Equals(obj2);
         }
 
-        public static bool operator !=(in Grid obj1, in Grid obj2) {
+        public static bool operator != (in Grid obj1, in Grid obj2) {
             return !(obj1 == obj2);
         }
         
-        [Pure]
-        public bool Equals(in Grid other) {
+        public bool Equals(Grid other) {
             return x == other.x && y == other.y;
         }
 
         public override bool Equals(object obj) {
             return obj is Grid other && Equals(other);
         }
-        
+
         public override int GetHashCode() {
             unchecked {
 
@@ -49,6 +48,7 @@ namespace ParallelOrigin.Core.Base.Classes {
         public override string ToString() { return $"{nameof(x)}: {x}, {nameof(y)}: {y}"; }
         
         public static Grid Zero => new Grid(0, 0);
+        
     }
     
     /// <summary>
