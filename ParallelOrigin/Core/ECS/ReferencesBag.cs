@@ -18,6 +18,7 @@ namespace ParallelOrigin.Core.ECS {
     
     /// <summary>
     /// An struct which stores a list of <see cref="EntityReference"/> for networking and persistence purposes
+    /// TODO : Remove ? Probably just a simple list makes more sense here... 
     /// </summary>
     public struct ReferencesBag : IEnumerable<EntityReference>, INetSerializable {
         
