@@ -9,6 +9,15 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
 #if SERVER
     
     /// <summary>
+    ///     A component attachable to a entity which contains variables to get represented as a item.
+    /// </summary>
+    public struct Item  {
+
+        public uint amount;
+        public bool stackable;
+    }
+    
+    /// <summary>
     ///  This class represents the local player inventory.
     ///  It is a <see cref="IBufferElementData" /> because it has no predefined size and therefore cannot be a <see cref="IComponentData" />
     /// </summary>
@@ -16,25 +25,14 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
         public ReferencesBag items;
     }
 
-    
     public struct AddedToInventory  {
         public ReferencesBag added;
     }
-
     
     public struct RemovedFromInventory  {
         public ReferencesBag removed;
     }
-    
-    /// <summary>
-    ///     A component attachable to a entity which contains variables to get represented as a item.
-    /// </summary>
-    public struct Item  {
 
-        public int amount;
-        public bool stackable;
-    }
-    
 #elif CLIENT 
     
     /// <summary>

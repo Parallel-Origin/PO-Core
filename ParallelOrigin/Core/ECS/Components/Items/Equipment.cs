@@ -13,13 +13,6 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
 #if SERVER
 
     /// <summary>
-    /// A struct for an entity which stores pairs of equiped item entities and their slot they are in
-    /// </summary>
-    public struct Equipment  {
-        public Dictionary<string, Equipable> equiped;
-    }
-    
-    /// <summary>
     /// A component which marks an item as equipable and contains the mesh.
     /// </summary>
     public struct Equipable  {
@@ -28,6 +21,13 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
         public string slot;
     }
     
+    /// <summary>
+    /// A struct for an entity which stores pairs of equiped item entities and their slot they are in
+    /// </summary>
+    public struct Equipment  {
+        public Dictionary<string, Equipable> equiped;
+    }
+
     /// <summary>
     /// Just an marker component for an entity which is equiped.
     /// Does not store the equiper entity because its currently not nessecary. 
