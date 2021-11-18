@@ -1,4 +1,5 @@
-﻿#if CLIENT
+﻿using System.Collections.Generic;
+#if CLIENT
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
@@ -22,15 +23,15 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     ///  It is a <see cref="IBufferElementData" /> because it has no predefined size and therefore cannot be a <see cref="IComponentData" />
     /// </summary>
     public struct Inventory {
-        public ReferencesBag items;
+        public List<EntityReference> items;
     }
 
     public struct AddedToInventory {
-        public ReferencesBag added;
+        public List<EntityReference> added;
     }
     
     public struct RemovedFromInventory {
-        public ReferencesBag removed;
+        public List<EntityReference> removed;
     }
 
 #elif CLIENT 
