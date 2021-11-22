@@ -70,6 +70,35 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="list"></param>
+        public static void SerializeArray<T>(NetDataWriter writer, T[] array) where T : struct, INetSerializable{
+            
+            writer.Put(array.Length);
+            for(var index = 0; index < array.Length; index++)
+                writer.Put(array[index]);
+        }
+        
+        /// <summary>
+        /// Deserializes an list of string
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void DeserializeArray<T>(NetDataReader reader, ref T[] array) where T : struct, INetSerializable{
+            
+            var size = reader.GetInt();
+            array = array ?? new T[size]; 
+            
+            for (var index = 0; index < size; index++) {
+
+                var value = reader.Get<T>();
+                array[index] = value;
+            }
+        }
+        
+        /// <summary>
+        /// Serializes a string list
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="list"></param>
         public static void SerializeList<T>(NetDataWriter writer, IList<T> list) where T : struct, INetSerializable{
             
             writer.Put(list.Count);

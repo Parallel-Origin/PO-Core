@@ -43,6 +43,9 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
         public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.DeserializeList(reader, ref items); }
     }
 
+    /// <summary>
+    /// A component which marks an entity to notify it about newly added items. 
+    /// </summary>
     public struct AddedToInventory {
         
         public List<Entity> added;

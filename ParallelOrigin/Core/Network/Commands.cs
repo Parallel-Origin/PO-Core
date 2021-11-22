@@ -31,6 +31,35 @@ namespace ParallelOrigin.Core.Network {
                 Data[index] = reader.Get<T>();
         }
     }
+
+    /// <summary>
+    /// A command which is used to add or remove items from a certain list. 
+    /// </summary>
+    /// <typeparam name="I"></typeparam>
+    /// <typeparam name="T"></typeparam>
+    public struct CollectiontCommand<Id,T,I> : INetSerializable where Id : struct,INetSerializable where T : struct,INetSerializable where I : struct,INetSerializable{
+
+        public Id identifier;
+        public I[] added;
+        public I[] removed;
+
+        public void Serialize(NetDataWriter writer) {
+            
+            writer.Put(identifier);
+
+            NetworkSerializerExtensions.SerializeArray(writer, added);
+            NetworkSerializerExtensions.SerializeArray(writer, removed);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            
+            identifier = reader.Get<Id>();
+
+            NetworkSerializerExtensions.DeserializeArray(reader, ref added);
+            NetworkSerializerExtensions.DeserializeArray(reader, ref removed);
+        }
+    }
+    
     
     /// <summary>
     /// An enum of possible errors. 
