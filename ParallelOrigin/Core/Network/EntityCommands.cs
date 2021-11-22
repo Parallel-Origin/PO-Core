@@ -234,7 +234,7 @@ namespace ParallelOrigin.Core.Network {
             t4Component = reader.Get<T4>();
             t5Component = reader.Get<T5>();
             t6Component = reader.Get<T6>();
-            t6Component = reader.Get<T7>();
+            t7Component = reader.Get<T7>();
         }
     }
     
