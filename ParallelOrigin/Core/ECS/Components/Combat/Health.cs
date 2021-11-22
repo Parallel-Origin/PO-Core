@@ -1,3 +1,5 @@
+using LiteNetLib.Utils;
+
 #if CLIENT
 using LiteNetLib.Utils;
 using Unity.Burst;
