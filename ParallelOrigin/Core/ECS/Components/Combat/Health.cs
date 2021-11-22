@@ -1,4 +1,5 @@
 #if CLIENT
+using LiteNetLib.Utils;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
@@ -11,7 +12,7 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
      /// <summary>
      ///  A component which stores informations about the health of a entity.
      /// </summary>
-     public struct Health  {
+     public struct Health : INetSerializable {
          
          public float maxHealth;
          public float currentHealth;
@@ -21,6 +22,16 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
          /// </summary>
          /// <returns></returns>
          public bool IsDead() { return currentHealth <= 0; }
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(maxHealth);
+            writer.Put(currentHealth);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            maxHealth = reader.GetFloat();
+            currentHealth = reader.GetFloat();
+        }
      }   
      
 #elif CLIENT 
@@ -29,17 +40,27 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
     ///     A component which stores informations about the health of a entity.
     /// </summary>
     [BurstCompile]
-    public struct Health : IComponentData {
+    public struct Health : IComponentData, INetSerializable {
         
         public float maxHealth;
         public float currentHealth;
         public bool destroyOnDeath;
 
         /// <summary>
-        ///     Returns true if the entity is dead
+        /// Returns true if the entity is dead
         /// </summary>
         /// <returns></returns>
         public bool IsDead() { return currentHealth <= 0; }
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(maxHealth);
+            writer.Put(currentHealth);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            maxHealth = reader.GetFloat();
+            currentHealth = reader.GetFloat();
+        }
     }
 #endif
 }

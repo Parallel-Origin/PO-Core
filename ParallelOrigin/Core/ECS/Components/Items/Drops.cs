@@ -1,8 +1,14 @@
 using System;
+
+#if SERVER
 using ParallelOriginGameServer.Server.Extensions;
+#endif
 
 namespace ParallelOrigin.Core.ECS.Components.Items {
 
+#if SERVER
+    
+    
     /// <summary>
     /// Defines a item drop upon a kill or a certain other action.
     /// </summary>
@@ -69,4 +75,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     public struct Chopable {
         public WeightTable drops;
     }
+
+
+#endif
 }

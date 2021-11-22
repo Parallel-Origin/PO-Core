@@ -32,11 +32,11 @@ namespace ParallelOrigin.Core.ECS.Components.Relations {
     [BurstCompile]
     public struct Parent : IComponentData, INetSerializable{
             
-        public ReferencesBag children;
+        public UnsafeList<EntityReference> children;
 
-        public void Serialize(NetDataWriter writer) { writer.Put(children); }
-        public void Deserialize(NetDataReader reader) { children = reader.Get<ReferencesBag>(); }
-        }
+        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.SerializeList(writer, ref children); }
+        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.DeserializeList(reader, ref children); }
+    }
     
 #endif
 }

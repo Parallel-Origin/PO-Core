@@ -30,12 +30,15 @@ namespace ParallelOrigin.Core.ECS.Components.Graphical {
     /// Represents a reference to a sprite, icon or logo for a entity.
     /// </summary>
     [BurstCompile]
-    public struct Sprite : IComponentData {
+    public struct Sprite : IComponentData, INetSerializable {
                 
         /// <summary>
         ///  The ID of a mesh from the internal database we wanna reference for this entity
         /// </summary>
         public short id;
+        
+        public void Serialize(NetDataWriter writer) { writer.Put(id); }
+        public void Deserialize(NetDataReader reader) { id = reader.GetShort(); }
     }
 #endif
 }
