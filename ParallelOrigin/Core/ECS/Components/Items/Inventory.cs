@@ -47,6 +47,13 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     }
 
     /// <summary>
+    /// Marks an item entity and tells us that its in a inventory. 
+    /// </summary>
+    public struct InInventory {
+        public Entity inventory;
+    }
+    
+    /// <summary>
     /// A component which marks an entity to notify it about newly added items. 
     /// </summary>
     public struct AddedToInventory {
@@ -55,6 +62,9 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
         public AddedToInventory(int size) { this.added = new List<Entity>(size); }
     }
     
+    /// <summary>
+    /// A component which marks an entity to notifty it about newly removed items.
+    /// </summary>
     public struct RemovedFromInventory {
         
         public List<Entity> removed;

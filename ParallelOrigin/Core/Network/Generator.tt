@@ -1,0 +1,38 @@
+<#@ template language="C#" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+<#
+    var amount = 20; 
+#>
+
+// Usings
+using LiteNetLib.Utils;
+
+<# for (var current = 1; current < amount; current++) {#>
+    
+public struct TestCommand<<# for (var index = 0; index < current; index++) { #> <#=$"T{index}"#><#if (index != current - 1) { #><#=','#><# }} #>> : INetSerializable <# for (var index = 0; index < current; index++) { #><#=$"where T{index} : struct, INetSerializable"#> <# } #>{
+
+<# for (var index = 0; index < current; index++) {  #>
+    public <#= "T"+index #> <#= "t"+index #>;
+<# } #>
+
+    public void Serialize(NetDataWriter writer) {
+
+    <# for (var index = 0; index < current; index++) { #>
+    <#=$"writer.Put(t{index});"#> 
+    <# } #>
+
+    }
+
+    public void Deserialize(NetDataReader reader) {
+
+    <# for (var index = 0; index < current; index++) { #>
+    <#=$"t{index} = reader.Get<T{index}>();"#> 
+    <# } #>
+
+    }
+}
+
+<# } #>
