@@ -71,6 +71,11 @@ namespace ParallelOrigin.Core.Extensions {
         /// <param name="writer"></param>
         /// <param name="list"></param>
         public static void SerializeArray<T>(NetDataWriter writer, T[] array) where T : struct, INetSerializable{
+
+            if (array == null) {
+                writer.Put(0);
+                return;
+            }
             
             writer.Put(array.Length);
             for(var index = 0; index < array.Length; index++)
