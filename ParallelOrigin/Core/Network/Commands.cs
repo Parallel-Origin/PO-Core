@@ -41,6 +41,7 @@ namespace ParallelOrigin.Core.Network {
 
         public Id identifier;
         public I[] added;
+        public I[] updated;
         public I[] removed;
 
         public void Serialize(NetDataWriter writer) {
@@ -48,6 +49,7 @@ namespace ParallelOrigin.Core.Network {
             writer.Put(identifier);
 
             NetworkSerializerExtensions.SerializeArray(writer, added);
+            NetworkSerializerExtensions.SerializeArray(writer, updated);
             NetworkSerializerExtensions.SerializeArray(writer, removed);
         }
 
@@ -56,6 +58,7 @@ namespace ParallelOrigin.Core.Network {
             identifier = reader.Get<Id>();
 
             NetworkSerializerExtensions.DeserializeArray(reader, ref added);
+            NetworkSerializerExtensions.DeserializeArray(reader, ref updated);
             NetworkSerializerExtensions.DeserializeArray(reader, ref removed);
         }
     }

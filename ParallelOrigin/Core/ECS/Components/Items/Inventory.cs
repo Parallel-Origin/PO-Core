@@ -63,6 +63,15 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     }
     
     /// <summary>
+    /// A component which marks an entity to notify it about newly added items. 
+    /// </summary>
+    public struct UpdatedInInventory {
+        
+        public List<Entity> updated;
+        public UpdatedInInventory(int size) { this.updated = new List<Entity>(size); }
+    }
+    
+    /// <summary>
     /// A component which marks an entity to notifty it about newly removed items.
     /// </summary>
     public struct RemovedFromInventory {
