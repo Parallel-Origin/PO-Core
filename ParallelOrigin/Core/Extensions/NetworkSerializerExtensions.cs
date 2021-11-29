@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using LiteNetLib.Utils;
@@ -18,7 +19,31 @@ namespace ParallelOrigin.Core.Extensions {
     /// </summary>
     public static class NetworkSerializerExtensions {
 
+        /// <summary>
+        /// Serializes an <see cref="string"/> and also sends its size, this way we need to allocate less on the receiving client.
+        /// Uses ushort because most string lengths wont be that great at all. 
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="str"></param>
+        /// <param name="size"></param>
+        /// <param name="sendStringSize"></param>
+        public static void PutFixedString(this NetDataWriter writer, string str, ushort size) {
+            
+            writer.Put(size);
+            writer.Put(str, size);
+        }
 
+        /// <summary>
+        /// Deserializes an string which was serialized and sended with its size ( <see cref="PutFixedString"/> )
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static string GetFixedString(this NetDataReader reader) {
+            
+            var size = reader.GetUShort();
+            return size == 0 ? string.Empty : reader.GetString(size);
+        }
+        
         /// <summary>
         /// Serializes an <see cref="Vector2d"/>
         /// </summary>
