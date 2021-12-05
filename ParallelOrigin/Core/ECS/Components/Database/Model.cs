@@ -16,4 +16,9 @@ namespace ParallelOrigin.Core.ECS.Components.Database {
     /// Marks an entity as updateable
     /// </summary>
     public struct Updateable{}
+    
+    /// <summary>
+    /// Marks an entity for being deleted from the database properly. 
+    /// </summary>
+    public struct Delete{}
 }
