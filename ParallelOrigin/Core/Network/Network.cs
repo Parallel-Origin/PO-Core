@@ -40,7 +40,7 @@ namespace ParallelOrigin.Core.Network {
             Setup();
             
 #if SERVER
-            Manager.Start(PORT);
+            Manager.Start(Port);
 #elif CLIENT
             Manager.Start();
             Manager.Connect(IP, Port, "SomeConnectionKey");  
