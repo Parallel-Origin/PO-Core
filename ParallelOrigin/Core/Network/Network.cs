@@ -10,10 +10,7 @@ namespace ParallelOrigin.Core.Network {
     /// For client and server
     /// </summary>
     public partial class Network {
-
-        public const string IP = "localhost";
-        public const ushort PORT = 9050;
-
+        
         public Network() {
             
             Listener = new EventBasedNetListener();
@@ -46,7 +43,7 @@ namespace ParallelOrigin.Core.Network {
             Manager.Start(PORT);
 #elif CLIENT
             Manager.Start();
-            Manager.Connect(IP, PORT, "SomeConnectionKey");  
+            Manager.Connect(IP, Port, "SomeConnectionKey");  
 #endif
         }
 
@@ -108,6 +105,16 @@ namespace ParallelOrigin.Core.Network {
             Processor.SubscribeNetSerializable(onReceive, packetConstructor);
         }
 
+        /// <summary>
+        /// The IP Adress of this network connection
+        /// </summary>
+        public string IP { get; set; }
+        
+        /// <summary>
+        /// The port of this network connection
+        /// </summary>
+        public ushort Port { get; set; }
+        
         /// <summary>
         /// The event listener
         /// </summary>
