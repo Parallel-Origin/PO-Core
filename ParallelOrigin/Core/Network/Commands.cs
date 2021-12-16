@@ -13,12 +13,21 @@ namespace ParallelOrigin.Core.Network {
     /// <typeparam name="T"></typeparam>
     public struct BatchCommand<T> : INetSerializable where T : struct, INetSerializable {
 
+        /// <summary>
+        /// The size of the <see cref="Data"/>-Array. Basically the last index in the array we use.
+        /// Required for pooling purposes.
+        /// </summary>
+        public int Size { get; set; }
+        
+        /// <summary>
+        /// The data we wanna serialize. May be bigger than <see cref="Size"/>... everything beyond <see cref="Size"/> gets ignored.
+        /// </summary>
         public T[] Data { get; set; }
 
         public void Serialize(NetDataWriter writer) {
             
-            writer.Put(Data.Length);
-            for(var index = 0; index < Data.Length; index++)
+            writer.Put(Size);
+            for(var index = 0; index < Size; index++)
                 writer.Put(Data[index]);
         }
 
