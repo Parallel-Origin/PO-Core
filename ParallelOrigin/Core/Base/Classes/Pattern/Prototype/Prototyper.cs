@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using ParallelOrigin.Core.Base.Interfaces;
 using ParallelOrigin.Core.Base.Interfaces.Prototype;
+using ParallelOriginGameServer;
+using ZLogger;
 
 namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
 
@@ -46,11 +48,11 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
                 Customizer.Add(ID, configurator);
             
             // Create an instance and add it to the cache for lookups later on
-            if(!Instances.ContainsKey(ID)){
-                var instanced = Clone(ID);
-                Instances[ID] = instanced;
-                AfterInstanced(ID, instanced);
-            }
+            if (Instances.ContainsKey(ID)) return;
+            
+            var instanced = Clone(ID);
+            Instances[ID] = instanced;
+            AfterInstanced(ID, instanced);
         }
 
         /// <summary>
@@ -59,8 +61,11 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="id"></param>
         /// <returns></returns>
         public T Get(I id) {
-            
-            if(!Instances.ContainsKey(id)) return default;
+
+            if (!Instances.ContainsKey(id)) {
+                Program.Logger.ZLogDebug("Prototyper, returned default entity during get");
+                return default;
+            }
             return Instances[id];
         }
 
