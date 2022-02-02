@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ParallelOrigin.Core.Base.Interfaces;
 using ParallelOrigin.Core.Base.Interfaces.Prototype;
 using ParallelOriginGameServer;
-using ZLogger;
 
 namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
 
@@ -61,12 +60,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="id"></param>
         /// <returns></returns>
         public T Get(I id) {
-
-            if (!Instances.ContainsKey(id)) {
-                Program.Logger.ZLogDebug("Prototyper, returned default entity during get");
-                return default;
-            }
-            return Instances[id];
+            return !Instances.ContainsKey(id) ? default : Instances[id];
         }
 
         /// <summary>
