@@ -22,7 +22,7 @@ namespace ParallelOrigin.Core.Network {
             writer.PutFixedString(senderUsername, (ushort)senderUsername.Length);
             writer.Put(channel);
             writer.PutFixedString(message, (ushort)message.Length);
-            writer.Put(date.ToBinary());
+            writer.Put(date.Ticks);
         }
 
         public void Deserialize(NetDataReader reader) {
@@ -31,7 +31,7 @@ namespace ParallelOrigin.Core.Network {
             senderUsername = reader.GetFixedString();
             channel = reader.GetByte();
             message = reader.GetFixedString();
-            date = DateTime.FromBinary(reader.GetLong());
+            date = new DateTime(reader.GetLong());
         }
     }
 }
