@@ -41,7 +41,7 @@ namespace ParallelOrigin.Core.Extensions {
         public static string GetFixedString(this NetDataReader reader) {
             
             var size = reader.GetUShort();
-            return size == 0 ? string.Empty : reader.GetString(size);
+            return reader.GetString(size);
         }
         
         /// <summary>
