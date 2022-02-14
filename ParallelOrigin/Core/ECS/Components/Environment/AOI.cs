@@ -17,6 +17,11 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     public struct DirtyNetworkTransform { }
     
     /// <summary>
+    /// Marks an entity as dirty for updating its health in the network. 
+    /// </summary>
+    public struct DirtyNetworkHealth{}
+    
+    /// <summary>
     /// Marks an entity for being able to 
     /// </summary>
     public struct AOI {
