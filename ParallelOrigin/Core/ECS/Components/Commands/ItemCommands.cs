@@ -16,6 +16,7 @@ namespace ParallelOriginGameServer.Server.Commands {
     /// <summary>
     /// A component for an entity which acts as an inventory command to modify a entities inventory.
     /// Required for multithreading inventory operations... creating new added items isnt possible otherwise
+    /// Another reason ist that the adding/updating/removing logic for items is handled in its own inventory command system
     /// </summary>
     public struct InventoryCommand {
         

@@ -7,6 +7,41 @@ using ParallelOrigin.Core.Base.Classes;
 namespace ParallelOrigin.Core.Network {
 
     /// <summary>
+    /// Possible states... mostly used for collection stuff
+    /// </summary>
+    public enum State : byte{
+
+        ADDED,
+        UPDATED,
+        REMOVED
+    }
+
+    /// <summary>
+    /// A item which its network state.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public struct CollectionItem<T> : INetSerializable where T : struct, INetSerializable {
+
+        public State state;
+        public T item;
+
+        public CollectionItem(State state, T item) {
+            this.state = state;
+            this.item = item;
+        }
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put((byte)state); 
+            writer.Put(item);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            state = (State)reader.GetByte();
+            item = reader.Get<T>();
+        }
+    }
+    
+    /// <summary>
     /// An command which batches multiple packets into one huge packet for improving the performance of sending and receiving.
     /// One huge packet > faster than small packets. 
     /// </summary>
@@ -46,30 +81,30 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     /// <typeparam name="I"></typeparam>
     /// <typeparam name="T"></typeparam>
-    public struct CollectiontCommand<Id,T,I> : INetSerializable where Id : struct,INetSerializable where T : struct,INetSerializable where I : struct,INetSerializable{
+    public struct CollectionCommand<Id,T,I> : INetSerializable where Id : struct,INetSerializable where T : struct,INetSerializable where I : struct,INetSerializable{
 
         public Id identifier;
-        public I[] added;
-        public I[] updated;
-        public I[] removed;
+        public CollectionItem<I>[] items;
+
+        public CollectionCommand(ref Id identifier, int capacity) : this() {
+            this.identifier = identifier;
+            items = new CollectionItem<I>[capacity];
+        }
 
         public void Serialize(NetDataWriter writer) {
             
             writer.Put(identifier);
-
-            NetworkSerializerExtensions.SerializeArray(writer, added);
-            NetworkSerializerExtensions.SerializeArray(writer, updated);
-            NetworkSerializerExtensions.SerializeArray(writer, removed);
+            NetworkSerializerExtensions.SerializeArray(writer, items);
         }
 
         public void Deserialize(NetDataReader reader) {
             
             identifier = reader.Get<Id>();
-
-            NetworkSerializerExtensions.DeserializeArray(reader, ref added);
-            NetworkSerializerExtensions.DeserializeArray(reader, ref updated);
-            NetworkSerializerExtensions.DeserializeArray(reader, ref removed);
+            NetworkSerializerExtensions.DeserializeArray(reader, ref items);
         }
+        
+        public ref CollectionItem<I> this[int index] => ref items[index];
+        public I this[State state, int index] { set => items[index] = new CollectionItem<I>(state, value); }
     }
     
     
