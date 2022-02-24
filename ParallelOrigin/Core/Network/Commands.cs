@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.ECS;
 using ParallelOrigin.Core.ECS.Components;
@@ -46,19 +49,19 @@ namespace ParallelOrigin.Core.Network {
     /// One huge packet > faster than small packets. 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public struct BatchCommand<T> : INetSerializable where T : struct, INetSerializable {
-
+    public struct BatchCommand<T> : INetSerializable, IEnumerable<T> where T : struct, INetSerializable {
+        
         /// <summary>
         /// The size of the <see cref="Data"/>-Array. Basically the last index in the array we use.
         /// Required for pooling purposes.
         /// </summary>
         public int Size { get; set; }
-        
+       
         /// <summary>
         /// The data we wanna serialize. May be bigger than <see cref="Size"/>... everything beyond <see cref="Size"/> gets ignored.
         /// </summary>
         public T[] Data { get; set; }
-
+        
         public void Serialize(NetDataWriter writer) {
             
             writer.Put(Size);
@@ -74,6 +77,19 @@ namespace ParallelOrigin.Core.Network {
             for (var index = 0; index < Data.Length; index++)
                 Data[index] = reader.Get<T>();
         }
+        
+        public ref T this[int index] => ref Data[index];
+
+        public IEnumerator<T> GetEnumerator() {
+
+            for (var index = 0; index < Data.Length; index++) {
+
+                var item = Data[index];
+                yield return item;
+            }
+        }
+        
+        IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
     }
 
     /// <summary>

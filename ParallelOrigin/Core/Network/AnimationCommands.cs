@@ -21,4 +21,18 @@ namespace ParallelOrigin.Core.Network {
             activated = reader.GetBool();
         }
     }
+
+    /// <summary>
+    /// A simple struct representing a animation command representing a list of changed animation states.
+    /// Just because we cant use a alias to hide this generic shit. 
+    /// </summary>
+    public struct AnimationCommand : INetSerializable{
+        
+        public BatchCommand<CollectionItem<BoolParams>> animationChanges;
+
+
+        public void Serialize(NetDataWriter writer) { writer.Put(animationChanges); }
+        public void Deserialize(NetDataReader reader) { animationChanges = reader.Get<BatchCommand<CollectionItem<BoolParams>>>(); }
+
+    }
 }
