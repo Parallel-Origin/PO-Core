@@ -161,8 +161,10 @@ namespace ParallelOrigin.Core.Extensions {
         public static void SerializeList(NetDataWriter writer, IList<string> list) {
             
             writer.Put(list.Count);
-            for(var index = 0; index < list.Count; index++)
-                writer.Put(list[index]);
+            for (var index = 0; index < list.Count; index++) {
+                var item = list[index];
+                writer.PutFixedString(item, (ushort)item.Length);
+            }
         }
 
         /// <summary>
@@ -177,7 +179,7 @@ namespace ParallelOrigin.Core.Extensions {
             
             for (var index = 0; index < size; index++) {
 
-                var value = reader.GetString(10);
+                var value = reader.GetFixedString();
                 list.Add(value);
             }
         }
@@ -195,7 +197,7 @@ namespace ParallelOrigin.Core.Extensions {
 
                 var key = kvp.Key;
                 var value = kvp.Value;
-                writer.Put(key, key.Length);
+                writer.PutFixedString(key, (ushort)key.Length);
                 writer.Put(value);
             }
         }
@@ -212,7 +214,7 @@ namespace ParallelOrigin.Core.Extensions {
             
             for (var index = 0; index < size; index++) {
 
-                var key = reader.GetString(10);
+                var key = reader.GetFixedString();
                 var value = reader.GetByte();
                 dic.Add(key, value);
             }
@@ -231,7 +233,7 @@ namespace ParallelOrigin.Core.Extensions {
                 
                 var key = kvp.Key;
                 var value = kvp.Value;
-                writer.Put(key, key.Length);
+                writer.PutFixedString(key, (ushort)key.Length);
                 writer.Put(value);
             }
         }
@@ -248,7 +250,7 @@ namespace ParallelOrigin.Core.Extensions {
             
             for (var index = 0; index < size; index++) {
 
-                var key = reader.GetString(10);
+                var key = reader.GetFixedString();
                 var value = reader.GetByte();
                 dic.Add(key, value);
             }
@@ -267,8 +269,8 @@ namespace ParallelOrigin.Core.Extensions {
                 
                 var key = kvp.Key;
                 var value = kvp.Value;
-                writer.Put(key, key.Length);
-                writer.Put(value);
+                writer.PutFixedString(key, (ushort)key.Length);
+                writer.PutFixedString(value, (ushort)value.Length);
             }
         }
 
@@ -284,8 +286,8 @@ namespace ParallelOrigin.Core.Extensions {
             
             for (var index = 0; index < size; index++) {
 
-                var key = reader.GetString(10);
-                var value = reader.GetString();
+                var key = reader.GetFixedString();
+                var value = reader.GetFixedString();
                 dic.Add(key, value);
             }
         }
@@ -303,7 +305,7 @@ namespace ParallelOrigin.Core.Extensions {
                 
                 var key = kvp.Key;
                 var value = kvp.Value;
-                writer.Put(key, key.Length);
+                writer.PutFixedString(key, (ushort)key.Length);
                 writer.Put(value);
             }
         }
@@ -320,7 +322,7 @@ namespace ParallelOrigin.Core.Extensions {
             
             for (var index = 0; index < size; index++) {
 
-                var key = reader.GetString(10);
+                var key = reader.GetFixedString();
                 var value = reader.GetBool();
                 dic.Add(key, value);
             }
@@ -358,6 +360,23 @@ namespace ParallelOrigin.Core.Extensions {
         }
         
         /// <summary>
+        /// Deserializes an list of string
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void DeserializeList(NetDataReader reader, ref UnsafeList<FixedString32> list) {
+            
+            var size = reader.GetInt();
+            if(!list.IsCreated) list =  new UnsafeList<FixedString32>(size, Allocator.Persistent); 
+            
+            for (var index = 0; index < size; index++) {
+
+                var value = reader.GetFixedString();
+                list.Add(value);
+            }
+        }
+        
+        /// <summary>
         /// Serializes and string bool list
         /// </summary>
         /// <param name="writer"></param>
@@ -370,7 +389,7 @@ namespace ParallelOrigin.Core.Extensions {
                 
                 var key = kvp.Key;
                 var value = kvp.Value;
-                writer.Put(key.ToStringCached(), key.Length);
+                writer.PutFixedString(key.ToStringCached(), (ushort)key.Length);
                 writer.Put(value);
             }
         }
@@ -387,8 +406,44 @@ namespace ParallelOrigin.Core.Extensions {
             
             for (var index = 0; index < size; index++) {
 
-                var key = reader.GetString(10);
+                var key = reader.GetFixedString();
                 var value = reader.GetShort();
+                dic.Add(key, value);
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes an dictionary of string and bool
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void DeserializeDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, byte> dic) {
+            
+            var size = reader.GetInt();
+            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, byte>(size, Allocator.Persistent);
+            
+            for (var index = 0; index < size; index++) {
+
+                var key = reader.GetFixedString();
+                var value = reader.GetByte();
+                dic.Add(key, value);
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes an dictionary of string and bool
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void DeserializeDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, bool> dic) {
+            
+            var size = reader.GetInt();
+            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, bool>(size, Allocator.Persistent);
+            
+            for (var index = 0; index < size; index++) {
+
+                var key = reader.GetFixedString();
+                var value = reader.GetBool();
                 dic.Add(key, value);
             }
         }
@@ -406,8 +461,8 @@ namespace ParallelOrigin.Core.Extensions {
                 
                 var key = kvp.Key;
                 var value = kvp.Value;
-                writer.Put(key.ToStringCached(), key.Length);
-                writer.Put(value.ToStringCached());
+                writer.PutFixedString(key.ToStringCached(), (ushort)key.Length);
+                writer.PutFixedString(value.ToStringCached(), (ushort)value.Length);
             }
         }
 
@@ -423,8 +478,8 @@ namespace ParallelOrigin.Core.Extensions {
             
             for (var index = 0; index < size; index++) {
 
-                var key = reader.GetString(10);
-                var value = reader.GetString(10);
+                var key = reader.GetFixedString();
+                var value = reader.GetFixedString();
                 dic.Add(key, value);
             }
         }

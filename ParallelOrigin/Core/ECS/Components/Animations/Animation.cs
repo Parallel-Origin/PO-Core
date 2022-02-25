@@ -1,5 +1,7 @@
 
 #if CLIENT
+using LiteNetLib.Utils;
+using ParallelOrigin.Core.Extensions;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
@@ -61,13 +63,22 @@ namespace ParallelOrigin.Core.ECS.Components.Animations {
     ///  A component which represents the animation that is currently playing or should play for an specific gameobject entity.
     /// </summary>
     [BurstCompile]
-    public struct Animation : IComponentData {
+    public struct Animation : IComponentData, INetSerializable {
         
         public byte controllerID;
         
         public UnsafeHashMap<FixedString32, byte> overridenAnimationClips;
         public UnsafeHashMap<FixedString32, bool> boolParams;
         public UnsafeList<FixedString32> triggers;
+        
+        public void Serialize(NetDataWriter writer) { throw new System.NotImplementedException(); }
+
+        public void Deserialize(NetDataReader reader) {
+            controllerID = reader.GetByte();
+            NetworkSerializerExtensions.DeserializeDic(reader, ref overridenAnimationClips);
+            NetworkSerializerExtensions.DeserializeDic(reader, ref boolParams);
+            NetworkSerializerExtensions.DeserializeList(reader, ref triggers);
+        }
     }
     
     /// <summary>
