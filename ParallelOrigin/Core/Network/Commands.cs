@@ -71,10 +71,10 @@ namespace ParallelOrigin.Core.Network {
 
         public void Deserialize(NetDataReader reader) {
 
-            var length = reader.GetInt();
-            Data = new T[length];
+            Size = reader.GetInt();
+            Data = new T[Size];
 
-            for (var index = 0; index < Data.Length; index++)
+            for (var index = 0; index < Size; index++)
                 Data[index] = reader.Get<T>();
         }
         
