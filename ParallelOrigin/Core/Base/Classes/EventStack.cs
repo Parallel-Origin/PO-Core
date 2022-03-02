@@ -10,7 +10,7 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// </summary>
     /// <typeparam name="K"></typeparam>
     /// <typeparam name="T"></typeparam>
-    public class EventStack<TK, T> : IEventStack<TK, T> {
+    public class EventStack<TK, T>  {
         
         /// <summary>
         ///     Opens a UI-Element and puts the previous one on top of the stack
