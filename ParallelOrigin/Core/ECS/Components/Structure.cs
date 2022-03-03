@@ -12,7 +12,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// <summary>
     ///  Represents a Strcuture in the Game
     /// </summary>
-    public struct Structure  {
+    public struct Structure {
         public long ownerID;
     }
     
