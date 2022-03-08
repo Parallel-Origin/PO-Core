@@ -42,8 +42,8 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
         public List<EntityReference> items;
         public Inventory(int size) { this.items = new List<EntityReference>(size); }
         
-        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.SerializeList(writer, items); }
-        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.DeserializeList(reader, ref items); }
+        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, items); }
+        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref items); }
     }
 
     /// <summary>

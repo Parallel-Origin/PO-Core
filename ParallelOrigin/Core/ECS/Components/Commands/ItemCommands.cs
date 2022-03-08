@@ -10,7 +10,7 @@ namespace ParallelOriginGameServer.Server.Commands {
     /// Possible inventory perations
     /// </summary>
     public enum InventoryOperation {
-        ADD,UPDATE,REMOVE
+        ADD,SUBSTRACT
     }
     
     /// <summary>
@@ -24,18 +24,13 @@ namespace ParallelOriginGameServer.Server.Commands {
         public uint amount;
         
         public Entity inventory;
-        public Entity item;
+        public InventoryOperation opCode;
 
-        public InventoryCommand(string type, uint amount, in Entity inventory) : this() {
+        public InventoryCommand(string type, uint amount, in Entity inventory, InventoryOperation operation) : this() {
             this.type = type;
             this.amount = amount;
             this.inventory = inventory;
-        }
-
-        public InventoryCommand(uint amount, in Entity inventory, in Entity item) : this() {
-            this.amount = amount;
-            this.inventory = inventory;
-            this.item = item;
+            this.opCode = operation;
         }
     }
     

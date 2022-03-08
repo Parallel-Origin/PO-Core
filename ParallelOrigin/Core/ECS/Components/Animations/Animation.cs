@@ -32,9 +32,9 @@ namespace ParallelOrigin.Core.ECS.Components.Animations {
         public void Serialize(NetDataWriter writer) {
             
             writer.Put(controllerID);
-            NetworkSerializerExtensions.SerializeDic(writer, overridenAnimationClips);
-            NetworkSerializerExtensions.SerializeDic(writer, boolParams);
-            NetworkSerializerExtensions.SerializeList(writer, triggers);
+            writer.PutDic(overridenAnimationClips);
+            writer.PutDic(boolParams);
+            writer.PutList(triggers);
         }
 
         public void Deserialize(NetDataReader reader) {
@@ -44,9 +44,9 @@ namespace ParallelOrigin.Core.ECS.Components.Animations {
             var dic = boolParams.Dictionary;
             
             controllerID = reader.GetByte();
-            NetworkSerializerExtensions.DeserializeDic(reader, ref overridenAnimationClips);
-            NetworkSerializerExtensions.DeserializeDic(reader, ref dic);
-            NetworkSerializerExtensions.DeserializeList(reader, ref triggers);
+            reader.GetDic(ref overridenAnimationClips);
+            reader.GetDic(ref dic);
+            reader.GetList(ref triggers);
         }
     }
 

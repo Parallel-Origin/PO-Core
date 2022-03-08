@@ -23,13 +23,13 @@ namespace ParallelOrigin.Core.ECS.Components.UI {
         public Dictionary<string, string> uniqueLocalizations;
 
         public void Serialize(NetDataWriter writer) {
-            NetworkSerializerExtensions.SerializeDic(writer, localizations);
-            NetworkSerializerExtensions.SerializeDic(writer, uniqueLocalizations);
+            writer.PutDic(localizations);
+            writer.PutDic(uniqueLocalizations);
         }
 
         public void Deserialize(NetDataReader reader) {
-            NetworkSerializerExtensions.DeserializeDic(reader, ref localizations);
-            NetworkSerializerExtensions.DeserializeDic(reader, ref uniqueLocalizations);
+            reader.GetDic(ref localizations);
+            reader.GetDic(ref uniqueLocalizations);
         }
     }
 

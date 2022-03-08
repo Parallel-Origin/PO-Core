@@ -110,13 +110,13 @@ namespace ParallelOrigin.Core.Network {
         public void Serialize(NetDataWriter writer) {
             
             writer.Put(identifier);
-            NetworkSerializerExtensions.SerializeArray(writer, items);
+            writer.PutArray(items);
         }
 
         public void Deserialize(NetDataReader reader) {
             
             identifier = reader.Get<Id>();
-            NetworkSerializerExtensions.DeserializeArray(reader, ref items);
+            reader.GetArray(ref items);
         }
         
         public ref CollectionItem<I> this[int index] => ref items[index];
@@ -200,7 +200,8 @@ namespace ParallelOrigin.Core.Network {
             writer.Put(Password);
             writer.Put(Email);
             writer.Put((sbyte)Gender);
-            NetworkSerializerExtensions.SerializeVector2d(writer, Position);
+            var position = Position;
+            writer.Put(ref position);
         }
 
         public void Deserialize(NetDataReader reader) {
@@ -208,7 +209,7 @@ namespace ParallelOrigin.Core.Network {
             Password = reader.GetString();
             Email = reader.GetString();
             Gender = (Gender)reader.GetSByte();
-            Position = NetworkSerializerExtensions.DeserializeVector2d(reader);
+            Position = reader.GetVector2d();
         }
     }
 
@@ -241,13 +242,13 @@ namespace ParallelOrigin.Core.Network {
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(clicker);
-            NetworkSerializerExtensions.SerializeVector2d(writer, position);
+            writer.Put(ref position);
         }
 
         public void Deserialize(NetDataReader reader) {
 
             clicker = reader.Get<EntityReference>();
-            position = NetworkSerializerExtensions.DeserializeVector2d(reader);
+            position = reader.GetVector2d();
         }
     }
 }

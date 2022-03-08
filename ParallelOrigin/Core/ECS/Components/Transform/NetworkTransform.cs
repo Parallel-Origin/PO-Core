@@ -30,11 +30,11 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
         public Grid chunk;
 
         public void Serialize(NetDataWriter writer) {
-            NetworkSerializerExtensions.SerializeVector2d(writer, pos);
+            writer.Put(ref pos);
         }
 
         public void Deserialize(NetDataReader reader) {
-            pos = NetworkSerializerExtensions.DeserializeVector2d(reader);
+            pos = reader.GetVector2d();
         }
     }
     

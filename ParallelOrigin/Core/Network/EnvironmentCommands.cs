@@ -13,12 +13,12 @@ namespace ParallelOrigin.Core.Network {
         public byte opCode;
 
         public void Serialize(NetDataWriter writer) {
-            NetworkSerializerExtensions.SerializeVector2d(writer, position);
+            writer.Put(ref position);
             writer.Put(opCode);
         }
 
         public void Deserialize(NetDataReader reader) {
-            position = NetworkSerializerExtensions.DeserializeVector2d(reader);
+            position = reader.GetVector2d();
             opCode = reader.GetByte();
         }
     }

@@ -29,8 +29,7 @@ namespace ParallelOrigin.Core.Network {
     public struct AnimationCommand : INetSerializable{
         
         public BatchCommand<CollectionItem<BoolParams>> animationChanges;
-
-
+        
         public void Serialize(NetDataWriter writer) { writer.Put(animationChanges); }
         public void Deserialize(NetDataReader reader) { animationChanges = reader.Get<BatchCommand<CollectionItem<BoolParams>>>(); }
 

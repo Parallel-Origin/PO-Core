@@ -19,8 +19,8 @@ namespace ParallelOrigin.Core.ECS.Components.Relations {
     public struct Parent : INetSerializable{
         
         public List<EntityReference> children;
-        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.SerializeList(writer, children); }
-        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.DeserializeList(reader, ref children); }
+        public void Serialize(NetDataWriter writer) { writer.PutList(children); }
+        public void Deserialize(NetDataReader reader) { reader.GetList(ref children); }
     }    
     
 #elif CLIENT

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Base.Classes;
+using ParallelOrigin.Core.ECS.Components.Interactions;
 
 #if CLIENT
 using Unity.Collections;
@@ -15,7 +16,9 @@ using Script.Extensions;
 namespace ParallelOrigin.Core.Extensions {
     
     /// <summary>
-    /// An extenions which contains primary methods for serializing and deserializing certain data types. 
+    /// An extenions which contains primary methods for serializing and deserializing certain data types.
+    /// !! Attention !!
+    /// Components do mostly inherit INetSerializable while pure data structs shouldnt inherit that interface, thats because of purity.
     /// </summary>
     public static class NetworkSerializerExtensions {
 
@@ -49,7 +52,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="vector2d"></param>
-        public static void SerializeVector2d(NetDataWriter writer, Vector2d vector2d) {
+        public static void Put(this NetDataWriter writer, ref Vector2d vector2d) {
             writer.Put((float)vector2d.x);
             writer.Put((float)vector2d.y);
         }
@@ -59,35 +62,122 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        public static Vector2d DeserializeVector2d(NetDataReader reader) {
+        public static Vector2d GetVector2d(this NetDataReader reader) {
 
             var x = reader.GetFloat();
             var y = reader.GetFloat();
 
             return new Vector2d { x = x, y = y };
         }
+        
 
         /// <summary>
-        /// Serializes an <see cref="Grid"/>
+        /// A method which simply serializes a <see cref="Recipe"/> data struct
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="grid"></param>
-        public static void SerializeGrid(NetDataWriter writer, Grid grid) {
-            writer.Put(grid.x);
-            writer.Put(grid.y);
+        /// <param name="recipe"></param>
+        public static void Put(this NetDataWriter writer, ref Recipe recipe) {
+
+            // Write ingredients
+            writer.Put(recipe.ingredients.Length);
+            for (var index = 0; index < recipe.ingredients.Length; index++) {
+
+                ref var ingredient = ref recipe.ingredients[index];
+                writer.PutFixedString(ingredient.type, (ushort)ingredient.type.Length);
+                writer.Put(ingredient.amount);
+                writer.Put(ingredient.consume);
+            }
+            
+            // Write craftables
+            writer.Put(recipe.craftables.Length);
+            for (var index = 0; index < recipe.craftables.Length; index++) {
+
+                ref var craftable = ref recipe.craftables[index];
+                writer.PutFixedString(craftable.type, (ushort)craftable.type.Length);
+                writer.Put(craftable.amount);
+            }
         }
         
         /// <summary>
-        /// Deserializes an <see cref="Grid"/>
+        /// A method which simply serializes a <see cref="Recipe"/> data struct
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="grid"></param>
-        public static Grid DeserializeGrid(NetDataReader reader) {
+        /// <param name="recipe"></param>
+        public static Recipe GetRecipe(this NetDataReader reader) {
 
-            var x = reader.GetUShort();
-            var y = reader.GetUShort();
+            // Write ingredients
+            var recipe = new Recipe();
+            var size = reader.GetInt();
+            
+            recipe.ingredients = new Ingredient[size];
+            for (var index = 0; index < size; index++) {
 
-            return new Grid(x, y);
+                var ingredient = new Ingredient {
+                    type = reader.GetFixedString(),
+                    amount = reader.GetUInt(),
+                    consume = reader.GetBool()
+                };
+                
+                recipe.ingredients[index] = ingredient;
+            }
+            
+            // Write craftables
+            size = reader.GetInt();
+            
+            recipe.craftables = new Craftable[size];
+            for (var index = 0; index < size; index++) {
+
+                var craftable = new Craftable {
+                    type = reader.GetFixedString(),
+                    amount = reader.GetUInt()
+                };
+
+                recipe.craftables[index] = craftable;
+            }
+
+            return recipe;
+        }
+        
+        /// <summary>
+        /// Serializes a array full of <see cref="BuildingRecipe"/>
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="recipes"></param>
+        public static void Put(this NetDataWriter writer, BuildingRecipe[] recipes) {
+
+            // Write all recipes and then the additional building information
+            writer.Put(recipes.Length);
+            for (var index = 0; index < recipes.Length; index++) {
+
+                ref var recipe = ref recipes[index];
+                writer.Put(ref recipe.recipe);
+                writer.Put((byte)recipe.spot);
+                writer.Put((byte)recipe.buildCondition);
+                writer.Put(recipe.duration);
+            }
+        }
+        
+        /// <summary>
+        /// Serializes a array full of <see cref="BuildingRecipe"/>
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="recipes"></param>
+        public static BuildingRecipe[] GetBuildingRecipes(this NetDataReader reader) {
+
+            // Write all recipes and then the additional building information
+            var size = reader.GetInt();
+            var recipes = new BuildingRecipe[size];
+            
+            for (var index = 0; index < size; index++) {
+
+                ref var recipe = ref recipes[index];
+                recipe.recipe = reader.GetRecipe();
+                recipe.spot = (BuildSpot)reader.GetByte();
+                recipe.buildCondition = (BuildCondition)reader.GetByte();
+                recipe.duration = reader.GetFloat();
+            }
+
+            return recipes;
         }
 
         /// <summary>
@@ -95,7 +185,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="list"></param>
-        public static void SerializeArray<T>(NetDataWriter writer, T[] array) where T : struct, INetSerializable{
+        public static void PutArray<T>(this NetDataWriter writer, T[] array) where T : struct, INetSerializable{
 
             if (array == null) {
                 writer.Put(0);
@@ -112,7 +202,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeArray<T>(NetDataReader reader, ref T[] array) where T : struct, INetSerializable{
+        public static void GetArray<T>(this NetDataReader reader, ref T[] array) where T : struct, INetSerializable{
             
             var size = reader.GetInt();
             array = array ?? new T[size]; 
@@ -129,7 +219,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="list"></param>
-        public static void SerializeList<T>(NetDataWriter writer, IList<T> list) where T : struct, INetSerializable{
+        public static void PutList<T>(this NetDataWriter writer, IList<T> list) where T : struct, INetSerializable{
             
             writer.Put(list.Count);
             for(var index = 0; index < list.Count; index++)
@@ -141,7 +231,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeList<T>(NetDataReader reader, ref List<T> list) where T : struct, INetSerializable{
+        public static void GetList<T>(this NetDataReader reader, ref List<T> list) where T : struct, INetSerializable{
             
             var size = reader.GetInt();
             list = list ?? new List<T>(size); 
@@ -158,7 +248,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="list"></param>
-        public static void SerializeList(NetDataWriter writer, IList<string> list) {
+        public static void PutList(this NetDataWriter writer, IList<string> list) {
             
             writer.Put(list.Count);
             for (var index = 0; index < list.Count; index++) {
@@ -172,7 +262,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeList(NetDataReader reader, ref List<string> list) {
+        public static void GetList(this NetDataReader reader, ref List<string> list) {
             
             var size = reader.GetInt();
             list = list ?? new List<string>(size); 
@@ -189,7 +279,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void SerializeDic(NetDataWriter writer, IDictionary<string,byte> dic) {
+        public static void PutDic(this NetDataWriter writer, IDictionary<string,byte> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count);
@@ -207,7 +297,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeDic(NetDataReader reader, ref Dictionary<string, byte> dic) {
+        public static void GetDic(this NetDataReader reader, ref Dictionary<string, byte> dic) {
             
             var size = reader.GetInt();
              dic = dic ?? new Dictionary<string, byte>(size); 
@@ -225,7 +315,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void SerializeDic(NetDataWriter writer, IDictionary<string,short> dic) {
+        public static void PutDic(this NetDataWriter writer, IDictionary<string,short> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count);
@@ -243,7 +333,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeDic(NetDataReader reader, ref Dictionary<string, short> dic) {
+        public static void GetDic(this NetDataReader reader, ref Dictionary<string, short> dic) {
             
             var size = reader.GetInt();
             dic = dic ?? new Dictionary<string, short>(size);
@@ -261,7 +351,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void SerializeDic(NetDataWriter writer, IDictionary<string,string> dic) {
+        public static void PutDic(this NetDataWriter writer, IDictionary<string,string> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count);
@@ -279,7 +369,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeDic(NetDataReader reader, ref Dictionary<string, string> dic) {
+        public static void GetDic(this NetDataReader reader, ref Dictionary<string, string> dic) {
             
             var size = reader.GetInt();
             dic = dic ?? new Dictionary<string, string>(size);
@@ -297,7 +387,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void SerializeDic(NetDataWriter writer, IDictionary<string,bool> dic) {
+        public static void PutDic(this NetDataWriter writer, IDictionary<string,bool> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count);
@@ -315,7 +405,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeDic(NetDataReader reader, ref Dictionary<string, bool> dic) {
+        public static void GetDic(this NetDataReader reader, ref Dictionary<string, bool> dic) {
             
             var size = reader.GetInt();
             dic = dic ?? new Dictionary<string, bool>(size);
