@@ -31,9 +31,9 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// A component which represents a build command for an entity to construct a certain structure.
     /// </summary>
     public struct Build {
-
-        public string type;    // Structure to build
+        
         public Entity entity;  // The newly spaned structure 
+        public float duration;
     }
     
 #endif

@@ -1,5 +1,7 @@
 
 
+
+using System.Diagnostics.Contracts;
 #if SERVER
 using System;
 using DefaultEcs;
