@@ -238,6 +238,47 @@ namespace ParallelOrigin.Core.Network {
         }
     }
     
+    /**
+     * An entity command with four of its direct components to save bandwith.
+     */
+    public struct EntityCommand<T1, T2, T3, T4, T5, T6, T7, T8> : INetSerializable where T1 : struct, INetSerializable where T2 : struct, INetSerializable where T3 : struct, INetSerializable where T4 : struct, INetSerializable where T5 : struct, INetSerializable where T6 : struct, INetSerializable where T7 : struct, INetSerializable where T8 : struct, INetSerializable{
+
+        public EntityCommand command;
+
+        public T1 t1Component;
+        public T2 t2Component;
+        public T3 t3Component;
+        public T4 t4Component;
+        public T5 t5Component;
+        public T6 t6Component;
+        public T7 t7Component;
+        public T8 t8Component;
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(command);
+            writer.Put(t1Component);
+            writer.Put(t2Component);
+            writer.Put(t3Component);
+            writer.Put(t4Component);
+            writer.Put(t5Component);
+            writer.Put(t6Component);
+            writer.Put(t7Component);
+            writer.Put(t8Component);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            command = reader.Get<EntityCommand>();
+            t1Component = reader.Get<T1>();
+            t2Component = reader.Get<T2>();
+            t3Component = reader.Get<T3>();
+            t4Component = reader.Get<T4>();
+            t5Component = reader.Get<T5>();
+            t6Component = reader.Get<T6>();
+            t7Component = reader.Get<T7>();
+            t8Component = reader.Get<T8>();
+        }
+    }
+    
     /// <summary>
     /// An component command which either adds, updates or removes an component <see cref="T"/> from an existing entity. 
     /// </summary>

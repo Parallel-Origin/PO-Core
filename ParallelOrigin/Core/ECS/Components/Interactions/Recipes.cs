@@ -30,11 +30,13 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     public struct Ingredient {
         
         public string type;    // The item type... 3:1 is wood for example
+        public byte icon;      // Its icon
         public uint amount;
         public bool consume;
 
-        public Ingredient(string type, uint amount, bool consume) {
+        public Ingredient(string type, byte icon, uint amount, bool consume) {
             this.type = type;
+            this.icon = icon;
             this.amount = amount;
             this.consume = consume;
         }
@@ -46,10 +48,12 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     public struct Craftable {
 
         public string type;   // The item type... 2:1 is gold for example
+        public byte icon;
         public uint amount;
 
-        public Craftable(string type, uint amount) {
+        public Craftable(string type, byte icon, uint amount) {
             this.type = type;
+            this.icon = icon;
             this.amount = amount;
         }
     }
@@ -61,10 +65,12 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
 
         public Ingredient[] ingredients;
         public Craftable[] craftables;
+        public byte describtion;
 
-        public Recipe(Ingredient[] ingredients, Craftable[] craftables) {
+        public Recipe(Ingredient[] ingredients, Craftable[] craftables, byte describtion) {
             this.ingredients = ingredients;
             this.craftables = craftables;
+            this.describtion = describtion;
         }
     }
 

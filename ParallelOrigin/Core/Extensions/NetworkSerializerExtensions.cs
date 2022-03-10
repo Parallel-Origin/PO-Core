@@ -84,6 +84,7 @@ namespace ParallelOrigin.Core.Extensions {
 
                 ref var ingredient = ref recipe.ingredients[index];
                 writer.PutFixedString(ingredient.type, (ushort)ingredient.type.Length);
+                writer.Put(ingredient.icon);
                 writer.Put(ingredient.amount);
                 writer.Put(ingredient.consume);
             }
@@ -94,8 +95,11 @@ namespace ParallelOrigin.Core.Extensions {
 
                 ref var craftable = ref recipe.craftables[index];
                 writer.PutFixedString(craftable.type, (ushort)craftable.type.Length);
+                writer.Put(craftable.icon);
                 writer.Put(craftable.amount);
             }
+            
+            writer.Put(recipe.describtion);
         }
         
         /// <summary>
@@ -114,6 +118,7 @@ namespace ParallelOrigin.Core.Extensions {
 
                 var ingredient = new Ingredient {
                     type = reader.GetFixedString(),
+                    icon = reader.GetByte(),
                     amount = reader.GetUInt(),
                     consume = reader.GetBool()
                 };
@@ -129,12 +134,14 @@ namespace ParallelOrigin.Core.Extensions {
 
                 var craftable = new Craftable {
                     type = reader.GetFixedString(),
+                    icon = reader.GetByte(),
                     amount = reader.GetUInt()
                 };
 
                 recipe.craftables[index] = craftable;
             }
 
+            recipe.describtion = reader.GetByte();
             return recipe;
         }
         
