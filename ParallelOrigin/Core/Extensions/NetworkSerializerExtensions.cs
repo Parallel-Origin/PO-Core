@@ -76,115 +76,56 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="recipe"></param>
-        public static void Put(this NetDataWriter writer, ref Recipe recipe) {
+        public static void Put(this NetDataWriter writer, ref Ingredient ingredient) {
 
             // Write ingredients
-            writer.Put(recipe.ingredients.Length);
-            for (var index = 0; index < recipe.ingredients.Length; index++) {
-
-                ref var ingredient = ref recipe.ingredients[index];
-                writer.PutFixedString(ingredient.type, (ushort)ingredient.type.Length);
-                writer.Put(ingredient.icon);
-                writer.Put(ingredient.amount);
-                writer.Put(ingredient.consume);
-            }
-            
-            // Write craftables
-            writer.Put(recipe.craftables.Length);
-            for (var index = 0; index < recipe.craftables.Length; index++) {
-
-                ref var craftable = ref recipe.craftables[index];
-                writer.PutFixedString(craftable.type, (ushort)craftable.type.Length);
-                writer.Put(craftable.icon);
-                writer.Put(craftable.amount);
-            }
-            
-            writer.Put(recipe.describtion);
+            writer.PutFixedString(ingredient.type, (ushort)ingredient.type.Length);
+            writer.Put(ingredient.icon);
+            writer.Put(ingredient.amount);
+            writer.Put(ingredient.consume);
         }
         
+                
         /// <summary>
-        /// A method which simply serializes a <see cref="Recipe"/> data struct
+        /// A method which simply serializes a <see cref="Ingredient"/> data struct
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="recipe"></param>
-        public static Recipe GetRecipe(this NetDataReader reader) {
-
-            // Write ingredients
-            var recipe = new Recipe();
-            var size = reader.GetInt();
+        public static Ingredient GetIngredient(this NetDataReader reader) {
             
-            recipe.ingredients = new Ingredient[size];
-            for (var index = 0; index < size; index++) {
+            return new Ingredient {
+                type = reader.GetFixedString(),
+                icon = reader.GetByte(),
+                amount = reader.GetUInt(),
+                consume = reader.GetBool()
+            };
+        }
 
-                var ingredient = new Ingredient {
-                    type = reader.GetFixedString(),
-                    icon = reader.GetByte(),
-                    amount = reader.GetUInt(),
-                    consume = reader.GetBool()
-                };
-                
-                recipe.ingredients[index] = ingredient;
-            }
+        /// <summary>
+        /// Serializes a simple <see cref="Craftable"/>
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="craftable"></param>
+        public static void Put(this NetDataWriter writer, ref Craftable craftable) {
             
             // Write craftables
-            size = reader.GetInt();
-            
-            recipe.craftables = new Craftable[size];
-            for (var index = 0; index < size; index++) {
+            writer.PutFixedString(craftable.type, (ushort)craftable.type.Length);
+            writer.Put(craftable.icon);
+            writer.Put(craftable.amount);
+        }
 
-                var craftable = new Craftable {
+        /// <summary>
+        /// Deserializes a <see cref="Craftable"/>
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static Craftable GetCraftable(this NetDataReader reader) {
+
+            return new Craftable {
                     type = reader.GetFixedString(),
                     icon = reader.GetByte(),
                     amount = reader.GetUInt()
-                };
-
-                recipe.craftables[index] = craftable;
-            }
-
-            recipe.describtion = reader.GetByte();
-            return recipe;
-        }
-        
-        /// <summary>
-        /// Serializes a array full of <see cref="BuildingRecipe"/>
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="recipes"></param>
-        public static void Put(this NetDataWriter writer, BuildingRecipe[] recipes) {
-
-            // Write all recipes and then the additional building information
-            writer.Put(recipes.Length);
-            for (var index = 0; index < recipes.Length; index++) {
-
-                ref var recipe = ref recipes[index];
-                writer.Put(ref recipe.recipe);
-                writer.Put((byte)recipe.spot);
-                writer.Put((byte)recipe.buildCondition);
-                writer.Put(recipe.duration);
-            }
-        }
-        
-        /// <summary>
-        /// Serializes a array full of <see cref="BuildingRecipe"/>
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="recipes"></param>
-        public static BuildingRecipe[] GetBuildingRecipes(this NetDataReader reader) {
-
-            // Write all recipes and then the additional building information
-            var size = reader.GetInt();
-            var recipes = new BuildingRecipe[size];
-            
-            for (var index = 0; index < size; index++) {
-
-                ref var recipe = ref recipes[index];
-                recipe.recipe = reader.GetRecipe();
-                recipe.spot = (BuildSpot)reader.GetByte();
-                recipe.buildCondition = (BuildCondition)reader.GetByte();
-                recipe.duration = reader.GetFloat();
-            }
-
-            return recipes;
+            };
         }
 
         /// <summary>

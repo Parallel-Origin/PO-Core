@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.ECS.Components.Items;
 using ParallelOrigin.Core.Extensions;
@@ -61,16 +62,49 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// <summary>
     /// The recipe, containing ingredients and a craftable result. 
     /// </summary>
-    public struct Recipe {
-
+    public struct Recipe : INetSerializable{
+        
+        public byte describtion;
+        
         public Ingredient[] ingredients;
         public Craftable[] craftables;
-        public byte describtion;
 
-        public Recipe(Ingredient[] ingredients, Craftable[] craftables, byte describtion) {
+        public Recipe(byte describtion, Ingredient[] ingredients, Craftable[] craftables) {
+            this.describtion = describtion;
             this.ingredients = ingredients;
             this.craftables = craftables;
-            this.describtion = describtion;
+        }
+
+        public void Serialize(NetDataWriter writer) {
+            
+            writer.Put(describtion);
+            
+            writer.Put(ingredients.Length);
+            for (var index = 0; index < ingredients.Length; index++) {
+
+                ref var ingredient = ref ingredients[index];
+                writer.Put(ref ingredient);
+            }
+            
+            writer.Put(craftables.Length);
+            for (var index = 0; index < craftables.Length; index++) {
+
+                ref var craftable = ref craftables[index];
+                writer.Put(ref craftable);
+            }
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            
+            describtion = reader.GetByte();
+            
+            ingredients = new Ingredient[reader.GetInt()];
+            for (var index = 0; index < ingredients.Length; index++) 
+                ingredients[index] = reader.GetIngredient();
+            
+            craftables = new Craftable[reader.GetInt()];
+            for (var index = 0; index < craftables.Length; index++) 
+                craftables[index] = reader.GetCraftable();
         }
     }
 
@@ -78,19 +112,28 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// The building recipe, determining what is builded when and where...
     /// Additional conditions like required items, level or whatever can be extra fields in this struct. 
     /// </summary>
-    public struct BuildingRecipe {
-
-        public Recipe recipe;
-
+    public struct BuildingRecipe : INetSerializable{
+        
         public BuildSpot spot;
         public BuildCondition buildCondition;
         public float duration;
 
-        public BuildingRecipe(Recipe recipe, BuildSpot spot, BuildCondition buildCondition, float duration) {
-            this.recipe = recipe;
+        public BuildingRecipe(BuildSpot spot, BuildCondition buildCondition, float duration) {
             this.spot = spot;
             this.buildCondition = buildCondition;
             this.duration = duration;
+        }
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put((byte)spot);
+            writer.Put((byte)buildCondition);
+            writer.Put(duration);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            spot = (BuildSpot)reader.GetByte();
+            buildCondition = (BuildCondition)reader.GetByte();
+            duration = reader.GetFloat();
         }
     }
     
@@ -99,10 +142,10 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// </summary>
     public struct BuildRecipes : INetSerializable{
 
-        public BuildingRecipe[] recipes;
+        public string[] recipes;
         
-        public void Serialize(NetDataWriter writer) { writer.Put(recipes); }
-        public void Deserialize(NetDataReader reader) { recipes = reader.GetBuildingRecipes(); }
+        public void Serialize(NetDataWriter writer) { writer.PutArray(recipes); }
+        public void Deserialize(NetDataReader reader) { recipes = reader.GetStringArray(); }
     }
     
 #elif CLIENT

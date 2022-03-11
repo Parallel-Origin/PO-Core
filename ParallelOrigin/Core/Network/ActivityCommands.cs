@@ -1,5 +1,7 @@
+using System.Globalization;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.ECS;
+using ParallelOrigin.Core.Extensions;
 
 namespace ParallelOrigin.Core.Network {
 
@@ -9,16 +11,16 @@ namespace ParallelOrigin.Core.Network {
     public struct BuildCommand : INetSerializable {
 
         public EntityReference builder;
-        public byte buildRecipeIndex;
+        public string recipe;
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(builder);
-            writer.Put(buildRecipeIndex);
+            writer.PutFixedString(recipe, (ushort)recipe.Length);
         }
 
         public void Deserialize(NetDataReader reader) {
             builder = reader.Get<EntityReference>();
-            buildRecipeIndex = reader.GetByte();
+            recipe = reader.GetFixedString();
         }
     }
 }
