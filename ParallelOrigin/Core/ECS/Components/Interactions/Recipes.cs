@@ -193,19 +193,15 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
 
         public UnsafeList<Ingredient> ingredients;
         public UnsafeList<Craftable> craftables;
-        public byte describtion;
 
         public Recipe(UnsafeList<Ingredient> ingredients, UnsafeList<Craftable> craftables, byte describtion) {
             this.ingredients = ingredients;
             this.craftables = craftables;
-            this.describtion = describtion;
         }
 
         public void Serialize(NetDataWriter writer) { throw new NotImplementedException(); }
 
         public void Deserialize(NetDataReader reader) {
-            
-            describtion = reader.GetByte();
 
             ingredients = new UnsafeList<Ingredient>(reader.GetInt(), Allocator.Persistent);
             for (var index = 0; index < ingredients.Length; index++) 
