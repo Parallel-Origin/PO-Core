@@ -37,12 +37,14 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
         
         public string type;    // The item type... 3:1 is wood for example
         public byte icon;      // Its icon
+        public byte localisation;
         public uint amount;
         public bool consume;
 
-        public Ingredient(string type, byte icon, uint amount, bool consume) {
+        public Ingredient(string type, byte icon, byte localisation, uint amount, bool consume) {
             this.type = type;
             this.icon = icon;
+            this.localisation = localisation;
             this.amount = amount;
             this.consume = consume;
         }
