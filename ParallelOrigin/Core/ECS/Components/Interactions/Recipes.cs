@@ -249,8 +249,8 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
 
         public UnsafeList<FixedString32> recipes;
         
-        public void Serialize(NetDataWriter writer) { writer.PutArray(recipes); }
-        public void Deserialize(NetDataReader reader) { recipes = reader.GetStringArray(); }
+        public void Serialize(NetDataWriter writer) { writer.PutList(ref recipes); }
+        public void Deserialize(NetDataReader reader) { reader.GetList(ref recipes); }
     }
     
 #endif

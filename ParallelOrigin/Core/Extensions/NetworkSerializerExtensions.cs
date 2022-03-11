@@ -468,10 +468,25 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetList(NetDataReader reader, ref UnsafeList<FixedString32> list) {
+        public static void PutList(this NetDataWriter writer, ref UnsafeList<FixedString32> list) {
+            
+            writer.Put(list.Length);
+            for (var index = 0; index < list.Length; index++) {
+
+                var item = list[index];
+                writer.PutFixedString(item.ToStringCached(), (ushort)item.Length);
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes an list of string
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void GetList(this NetDataReader reader, ref UnsafeList<FixedString32> list) {
             
             var size = reader.GetInt();
-            if(!list.IsCreated) list =  new UnsafeList<FixedString32>(size, Allocator.Persistent); 
+            if(!list.IsCreated) list = new UnsafeList<FixedString32>(size, Allocator.Persistent); 
             
             for (var index = 0; index < size; index++) {
 
@@ -485,7 +500,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void PutDic(NetDataWriter writer, UnsafeHashMap<FixedString32, short> dic) {
+        public static void PutDic(this NetDataWriter writer, UnsafeHashMap<FixedString32, short> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count());
@@ -503,7 +518,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, short> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32, short> dic) {
             
             var size = reader.GetInt();
             if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, short>(size, Allocator.Persistent);
@@ -521,7 +536,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, byte> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32, byte> dic) {
             
             var size = reader.GetInt();
             if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, byte>(size, Allocator.Persistent);
@@ -539,7 +554,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, bool> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32, bool> dic) {
             
             var size = reader.GetInt();
             if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, bool>(size, Allocator.Persistent);
@@ -557,7 +572,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void PutDic(NetDataWriter writer, UnsafeHashMap<FixedString32, FixedString32> dic) {
+        public static void PutDic(this NetDataWriter writer, UnsafeHashMap<FixedString32, FixedString32> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count());
@@ -575,7 +590,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, FixedString32> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32, FixedString32> dic) {
             
             var size = reader.GetInt();
             if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, FixedString32>(size, Allocator.Persistent);
