@@ -143,9 +143,23 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     public struct BuildRecipes : INetSerializable{
 
         public string[] recipes;
-        
-        public void Serialize(NetDataWriter writer) { writer.PutArray(recipes); }
-        public void Deserialize(NetDataReader reader) { recipes = reader.GetStringArray(); }
+
+        public void Serialize(NetDataWriter writer) {
+            
+            writer.Put(recipes.Length);
+            for (var index = 0; index < recipes.Length; ++index) {
+
+                var item = recipes[index];
+                writer.PutFixedString(item, (ushort)item.Length);
+            }
+        }
+
+        public void Deserialize(NetDataReader reader) {
+
+            recipes = new string[reader.GetInt()];
+            for (var index = 0; index < recipes.Length; ++index)
+                recipes[index] = reader.GetFixedString();
+        }
     }
     
 #elif CLIENT
