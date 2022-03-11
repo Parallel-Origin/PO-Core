@@ -52,10 +52,11 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="vector2d"></param>
-        public static void PutList(this NetDataWriter writer, ref Vector2d vector2d) {
+        public static void Put(this NetDataWriter writer, ref Vector2d vector2d) {
             writer.Put((float)vector2d.x);
             writer.Put((float)vector2d.y);
         }
+        
         
         /// <summary>
         /// Deserializes an <see cref="Vector2d"/>

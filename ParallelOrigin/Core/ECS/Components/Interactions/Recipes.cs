@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.ECS.Components.Items;
 using ParallelOrigin.Core.Extensions;
-using Unity.Collections;
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.Entities;
 
 namespace ParallelOrigin.Core.ECS.Components.Interactions {
     
@@ -26,9 +23,7 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     
     
 #if SERVER
-
-    using ParallelOriginGameServer.Server.Extensions;
-
+    
     /// <summary>
     /// Represents an ingredient.
     /// </summary>
@@ -68,20 +63,15 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// </summary>
     public struct Recipe : INetSerializable{
         
-        public byte describtion;
-        
         public Ingredient[] ingredients;
         public Craftable[] craftables;
 
-        public Recipe(byte describtion, Ingredient[] ingredients, Craftable[] craftables) {
-            this.describtion = describtion;
+        public Recipe(Ingredient[] ingredients, Craftable[] craftables) {
             this.ingredients = ingredients;
             this.craftables = craftables;
         }
 
         public void Serialize(NetDataWriter writer) {
-            
-            writer.Put(describtion);
             
             writer.Put(ingredients.Length);
             for (var index = 0; index < ingredients.Length; index++) {
@@ -99,8 +89,6 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
         }
 
         public void Deserialize(NetDataReader reader) {
-            
-            describtion = reader.GetByte();
             
             ingredients = new Ingredient[reader.GetInt()];
             for (var index = 0; index < ingredients.Length; index++) 
@@ -153,6 +141,10 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     }
     
 #elif CLIENT
+
+    using Unity.Collections;
+    using Unity.Collections.LowLevel.Unsafe;
+    using Unity.Entities;
 
     /// <summary>
     /// Represents an ingredient.
