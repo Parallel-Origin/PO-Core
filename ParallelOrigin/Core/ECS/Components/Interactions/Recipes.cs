@@ -4,6 +4,12 @@ using LiteNetLib.Utils;
 using ParallelOrigin.Core.ECS.Components.Items;
 using ParallelOrigin.Core.Extensions;
 
+#if CLIENT
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.Entities;
+#endif
+
 namespace ParallelOrigin.Core.ECS.Components.Interactions {
     
     
@@ -142,10 +148,6 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     
 #elif CLIENT
 
-    using Unity.Collections;
-    using Unity.Collections.LowLevel.Unsafe;
-    using Unity.Entities;
-
     /// <summary>
     /// Represents an ingredient.
     /// </summary>
@@ -153,12 +155,14 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
         
         public FixedString32 type;    // The item type... 3:1 is wood for example
         public byte icon;             // Its icon
+        public byte localisation;
         public uint amount;
         public bool consume;
 
-        public Ingredient(FixedString32 type, byte icon, uint amount, bool consume) {
+        public Ingredient(FixedString32 type, byte icon, byte localisation, uint amount, bool consume) {
             this.type = type;
             this.icon = icon;
+            this.localisation = localisation;
             this.amount = amount;
             this.consume = consume;
         }
