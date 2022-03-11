@@ -75,9 +75,9 @@ namespace ParallelOrigin.Core.ECS.Components.Animations {
 
         public void Deserialize(NetDataReader reader) {
             controllerID = reader.GetByte();
-            NetworkSerializerExtensions.DeserializeDic(reader, ref overridenAnimationClips);
-            NetworkSerializerExtensions.DeserializeDic(reader, ref boolParams);
-            NetworkSerializerExtensions.DeserializeList(reader, ref triggers);
+            NetworkSerializerExtensions.GetDic(reader, ref overridenAnimationClips);
+            NetworkSerializerExtensions.GetDic(reader, ref boolParams);
+            NetworkSerializerExtensions.GetList(reader, ref triggers);
         }
     }
     

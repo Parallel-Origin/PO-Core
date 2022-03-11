@@ -52,7 +52,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="vector2d"></param>
-        public static void Put(this NetDataWriter writer, ref Vector2d vector2d) {
+        public static void PutList(this NetDataWriter writer, ref Vector2d vector2d) {
             writer.Put((float)vector2d.x);
             writer.Put((float)vector2d.y);
         }
@@ -69,65 +69,7 @@ namespace ParallelOrigin.Core.Extensions {
 
             return new Vector2d { x = x, y = y };
         }
-        
-/*
-        /// <summary>
-        /// A method which simply serializes a <see cref="Recipe"/> data struct
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="recipe"></param>
-        public static void Put(this NetDataWriter writer, ref Ingredient ingredient) {
 
-            // Write ingredients
-            writer.PutFixedString(ingredient.type, (ushort)ingredient.type.Length);
-            writer.Put(ingredient.icon);
-            writer.Put(ingredient.amount);
-            writer.Put(ingredient.consume);
-        }
-        
-                
-        /// <summary>
-        /// A method which simply serializes a <see cref="Ingredient"/> data struct
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="recipe"></param>
-        public static Ingredient GetIngredient(this NetDataReader reader) {
-            
-            return new Ingredient {
-                type = reader.GetFixedString(),
-                icon = reader.GetByte(),
-                amount = reader.GetUInt(),
-                consume = reader.GetBool()
-            };
-        }
-
-        /// <summary>
-        /// Serializes a simple <see cref="Craftable"/>
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="craftable"></param>
-        public static void Put(this NetDataWriter writer, ref Craftable craftable) {
-            
-            // Write craftables
-            writer.PutFixedString(craftable.type, (ushort)craftable.type.Length);
-            writer.Put(craftable.icon);
-            writer.Put(craftable.amount);
-        }
-
-        /// <summary>
-        /// Deserializes a <see cref="Craftable"/>
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        public static Craftable GetCraftable(this NetDataReader reader) {
-
-            return new Craftable {
-                    type = reader.GetFixedString(),
-                    icon = reader.GetByte(),
-                    amount = reader.GetUInt()
-            };
-        }
-*/
         /// <summary>
         /// Serializes a string list
         /// </summary>
@@ -144,9 +86,8 @@ namespace ParallelOrigin.Core.Extensions {
             for(var index = 0; index < array.Length; index++)
                 writer.Put(array[index]);
         }
-        */
-
-/*
+        
+        
         /// <summary>
         /// Deserializes an list of string
         /// </summary>
@@ -368,14 +309,132 @@ namespace ParallelOrigin.Core.Extensions {
             }
         }
 
-#if CLIENT
+        
+#if SERVER
+
+        
+        /// <summary>
+        /// A method which simply serializes a <see cref="Recipe"/> data struct
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="recipe"></param>
+        public static void Put(this NetDataWriter writer, ref Ingredient ingredient) {
+
+            // Write ingredients
+            writer.PutFixedString(ingredient.type, (ushort)ingredient.type.Length);
+            writer.Put(ingredient.icon);
+            writer.Put(ingredient.amount);
+            writer.Put(ingredient.consume);
+        }
+        
+                
+        /// <summary>
+        /// A method which simply serializes a <see cref="Ingredient"/> data struct
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="recipe"></param>
+        public static Ingredient GetIngredient(this NetDataReader reader) {
+            
+            return new Ingredient {
+                type = reader.GetFixedString(),
+                icon = reader.GetByte(),
+                amount = reader.GetUInt(),
+                consume = reader.GetBool()
+            };
+        }
+
+        /// <summary>
+        /// Serializes a simple <see cref="Craftable"/>
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="craftable"></param>
+        public static void Put(this NetDataWriter writer, ref Craftable craftable) {
+            
+            // Write craftables
+            writer.PutFixedString(craftable.type, (ushort)craftable.type.Length);
+            writer.Put(craftable.icon);
+            writer.Put(craftable.amount);
+        }
+
+        /// <summary>
+        /// Deserializes a <see cref="Craftable"/>
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static Craftable GetCraftable(this NetDataReader reader) {
+
+            return new Craftable {
+                    type = reader.GetFixedString(),
+                    icon = reader.GetByte(),
+                    amount = reader.GetUInt()
+            };
+        }
+
+#elif CLIENT
+        
+                /// <summary>
+        /// A method which simply serializes a <see cref="Recipe"/> data struct
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="recipe"></param>
+        public static void Put(this NetDataWriter writer, ref Ingredient ingredient) {
+
+            // Write ingredients
+            writer.PutFixedString(ingredient.type.ToStringCached(), (ushort)ingredient.type.Length);
+            writer.Put(ingredient.icon);
+            writer.Put(ingredient.amount);
+            writer.Put(ingredient.consume);
+        }
+        
+                
+        /// <summary>
+        /// A method which simply serializes a <see cref="Ingredient"/> data struct
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="recipe"></param>
+        public static Ingredient GetIngredient(this NetDataReader reader) {
+            
+            return new Ingredient {
+                type = reader.GetFixedString(),
+                icon = reader.GetByte(),
+                amount = reader.GetUInt(),
+                consume = reader.GetBool()
+            };
+        }
+
+        /// <summary>
+        /// Serializes a simple <see cref="Craftable"/>
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="craftable"></param>
+        public static void Put(this NetDataWriter writer, ref Craftable craftable) {
+            
+            // Write craftables
+            writer.PutFixedString(craftable.type.ToStringCached(), (ushort)craftable.type.Length);
+            writer.Put(craftable.icon);
+            writer.Put(craftable.amount);
+        }
+
+        /// <summary>
+        /// Deserializes a <see cref="Craftable"/>
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static Craftable GetCraftable(this NetDataReader reader) {
+
+            return new Craftable {
+                    type = reader.GetFixedString(),
+                    icon = reader.GetByte(),
+                    amount = reader.GetUInt()
+            };
+        }
         
         /// <summary>
         /// Serializes a string list
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="list"></param>
-        public static void SerializeList<T>(this NetDataWriter writer, ref UnsafeList<T> list) where T : unmanaged, INetSerializable{
+        public static void PutList<T>(this NetDataWriter writer, ref UnsafeList<T> list) where T : unmanaged, INetSerializable{
             
             writer.Put(list.length);
             for(var index = 0; index < list.Length; index++)
@@ -387,7 +446,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeList<T>(NetDataReader reader, ref UnsafeList<T> list) where T : unmanaged, INetSerializable{
+        public static void GetList<T>(this NetDataReader reader, ref UnsafeList<T> list) where T : unmanaged, INetSerializable{
             
             var size = reader.GetInt();
             if(!list.IsCreated) list =  new UnsafeList<T>(size, Allocator.Persistent); 
@@ -404,7 +463,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeList(NetDataReader reader, ref UnsafeList<FixedString32> list) {
+        public static void GetList(NetDataReader reader, ref UnsafeList<FixedString32> list) {
             
             var size = reader.GetInt();
             if(!list.IsCreated) list =  new UnsafeList<FixedString32>(size, Allocator.Persistent); 
@@ -421,7 +480,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void SerializeDic(NetDataWriter writer, UnsafeHashMap<FixedString32, short> dic) {
+        public static void PutDic(NetDataWriter writer, UnsafeHashMap<FixedString32, short> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count());
@@ -439,7 +498,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, short> dic) {
+        public static void GetDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, short> dic) {
             
             var size = reader.GetInt();
             if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, short>(size, Allocator.Persistent);
@@ -457,7 +516,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, byte> dic) {
+        public static void GetDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, byte> dic) {
             
             var size = reader.GetInt();
             if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, byte>(size, Allocator.Persistent);
@@ -475,7 +534,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, bool> dic) {
+        public static void GetDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, bool> dic) {
             
             var size = reader.GetInt();
             if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, bool>(size, Allocator.Persistent);
@@ -493,7 +552,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void SerializeDic(NetDataWriter writer, UnsafeHashMap<FixedString32, FixedString32> dic) {
+        public static void PutDic(NetDataWriter writer, UnsafeHashMap<FixedString32, FixedString32> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count());
@@ -511,7 +570,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void DeserializeDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, FixedString32> dic) {
+        public static void GetDic(NetDataReader reader, ref UnsafeHashMap<FixedString32, FixedString32> dic) {
             
             var size = reader.GetInt();
             if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, FixedString32>(size, Allocator.Persistent);

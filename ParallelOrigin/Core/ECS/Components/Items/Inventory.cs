@@ -91,8 +91,8 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
         
         public UnsafeList<EntityReference> items;
         
-        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.SerializeList(writer, ref items); }
-        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.DeserializeList(reader, ref items); }
+        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, ref items); }
+        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref items); }
     }
 
     [BurstCompile]

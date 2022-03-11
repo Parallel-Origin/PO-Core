@@ -45,13 +45,13 @@ namespace ParallelOrigin.Core.ECS.Components.UI {
         public UnsafeHashMap<FixedString32, FixedString32> uniqueLocalizations;
 
         public void Serialize(NetDataWriter writer) {
-            NetworkSerializerExtensions.SerializeDic(writer, localizations);
-            NetworkSerializerExtensions.SerializeDic(writer, uniqueLocalizations);
+            NetworkSerializerExtensions.PutDic(writer, localizations);
+            NetworkSerializerExtensions.PutDic(writer, uniqueLocalizations);
         }
 
         public void Deserialize(NetDataReader reader) {
-            NetworkSerializerExtensions.DeserializeDic(reader, ref localizations);
-            NetworkSerializerExtensions.DeserializeDic(reader, ref uniqueLocalizations);
+            NetworkSerializerExtensions.GetDic(reader, ref localizations);
+            NetworkSerializerExtensions.GetDic(reader, ref uniqueLocalizations);
         }
     }
     

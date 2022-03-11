@@ -201,7 +201,7 @@ namespace ParallelOrigin.Core.Network {
             writer.Put(Email);
             writer.Put((sbyte)Gender);
             var position = Position;
-            writer.Put(ref position);
+            writer.PutList(ref position);
         }
 
         public void Deserialize(NetDataReader reader) {
@@ -242,7 +242,7 @@ namespace ParallelOrigin.Core.Network {
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(clicker);
-            writer.Put(ref position);
+            writer.PutList(ref position);
         }
 
         public void Deserialize(NetDataReader reader) {

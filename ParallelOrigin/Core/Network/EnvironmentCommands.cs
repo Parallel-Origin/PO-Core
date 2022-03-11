@@ -13,7 +13,7 @@ namespace ParallelOrigin.Core.Network {
         public byte opCode;
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(ref position);
+            writer.PutList(ref position);
             writer.Put(opCode);
         }
 

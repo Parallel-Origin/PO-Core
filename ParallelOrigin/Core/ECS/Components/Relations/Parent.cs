@@ -34,8 +34,8 @@ namespace ParallelOrigin.Core.ECS.Components.Relations {
             
         public UnsafeList<EntityReference> children;
 
-        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.SerializeList(writer, ref children); }
-        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.DeserializeList(reader, ref children); }
+        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, ref children); }
+        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref children); }
     }
     
 #endif
