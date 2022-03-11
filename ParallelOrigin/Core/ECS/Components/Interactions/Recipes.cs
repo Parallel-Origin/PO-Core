@@ -208,21 +208,23 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
         public UnsafeList<Ingredient> ingredients;
         public UnsafeList<Craftable> craftables;
 
-        public Recipe(UnsafeList<Ingredient> ingredients, UnsafeList<Craftable> craftables, byte describtion) {
+        public Recipe(UnsafeList<Ingredient> ingredients, UnsafeList<Craftable> craftables) {
             this.ingredients = ingredients;
             this.craftables = craftables;
         }
 
-        public void Serialize(NetDataWriter writer) { throw new NotImplementedException(); }
+        public void Serialize(NetDataWriter writer) {  }
 
         public void Deserialize(NetDataReader reader) {
 
-            ingredients = new UnsafeList<Ingredient>(reader.GetInt(), Allocator.Persistent);
-            for (var index = 0; index < ingredients.Length; index++) 
+            var size = reader.GetInt();
+            ingredients = new UnsafeList<Ingredient>(size, Allocator.Persistent);
+            for (var index = 0; index < size; index++) 
                 ingredients[index] = reader.GetIngredient();
-            
-            craftables = new UnsafeList<Craftable>(reader.GetInt(), Allocator.Persistent);
-            for (var index = 0; index < craftables.Length; index++) 
+
+            size = reader.GetInt();
+            craftables = new UnsafeList<Craftable>(size, Allocator.Persistent);
+            for (var index = 0; index < size; index++) 
                 craftables[index] = reader.GetCraftable();
         }
     }
