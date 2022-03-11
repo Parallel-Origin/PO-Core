@@ -324,6 +324,7 @@ namespace ParallelOrigin.Core.Extensions {
             // Write ingredients
             writer.PutFixedString(ingredient.type, (ushort)ingredient.type.Length);
             writer.Put(ingredient.icon);
+            writer.Put(ingredient.localisation);
             writer.Put(ingredient.amount);
             writer.Put(ingredient.consume);
         }
@@ -339,6 +340,7 @@ namespace ParallelOrigin.Core.Extensions {
             return new Ingredient {
                 type = reader.GetFixedString(),
                 icon = reader.GetByte(),
+                localisation = reader.GetByte(),
                 amount = reader.GetUInt(),
                 consume = reader.GetBool()
             };
