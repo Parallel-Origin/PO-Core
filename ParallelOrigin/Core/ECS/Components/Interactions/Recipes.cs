@@ -242,5 +242,16 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
         }
     }
     
+    /// <summary>
+    /// The actual component for a player which defines his building recipes
+    /// </summary>
+    public struct BuildRecipes : IComponentData, INetSerializable{
+
+        public UnsafeList<FixedString32> recipes;
+        
+        public void Serialize(NetDataWriter writer) { writer.PutArray(recipes); }
+        public void Deserialize(NetDataReader reader) { recipes = reader.GetStringArray(); }
+    }
+    
 #endif
 }
