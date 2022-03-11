@@ -75,13 +75,9 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
         public Vector2d pos;
         public Grid chunk;
         
-        public void Serialize(NetDataWriter writer) {
-            NetworkSerializerExtensions.SerializeVector2d(writer, pos);
-        }
+        public void Serialize(NetDataWriter writer) { writer.Put(ref pos); }
 
-        public void Deserialize(NetDataReader reader) {
-            pos = NetworkSerializerExtensions.DeserializeVector2d(reader);
-        }
+        public void Deserialize(NetDataReader reader) { pos = reader.GetVector2d(); }
     }
     
     /// <summary>

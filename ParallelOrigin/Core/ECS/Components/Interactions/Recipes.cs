@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.ECS.Components.Items;
 using ParallelOrigin.Core.Extensions;
-using ParallelOriginGameServer.Server.Extensions;
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.Entities;
 
 namespace ParallelOrigin.Core.ECS.Components.Interactions {
     
@@ -24,6 +26,8 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     
     
 #if SERVER
+
+    using ParallelOriginGameServer.Server.Extensions;
 
     /// <summary>
     /// Represents an ingredient.
@@ -150,5 +154,101 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     
 #elif CLIENT
 
+        /// <summary>
+    /// Represents an ingredient.
+    /// </summary>
+    public struct Ingredient {
+        
+        public FixedString32 type;    // The item type... 3:1 is wood for example
+        public byte icon;      // Its icon
+        public uint amount;
+        public bool consume;
+
+        public Ingredient(FixedString32 type, byte icon, uint amount, bool consume) {
+            this.type = type;
+            this.icon = icon;
+            this.amount = amount;
+            this.consume = consume;
+        }
+    }
+
+    /// <summary>
+    /// The craftable result
+    /// </summary>
+    public struct Craftable {
+
+        public FixedString32 type;   // The item type... 2:1 is gold for example
+        public byte icon;
+        public uint amount;
+
+        public Craftable(FixedString32 type, byte icon, uint amount) {
+            this.type = type;
+            this.icon = icon;
+            this.amount = amount;
+        }
+    }
+
+    /// <summary>
+    /// The recipe, containing ingredients and a craftable result. 
+    /// </summary>
+    public struct Recipe {
+
+        public UnsafeList<Ingredient> ingredients;
+        public UnsafeList<Craftable> craftables;
+        public byte describtion;
+
+        public Recipe(UnsafeList<Ingredient> ingredients, UnsafeList<Craftable> craftables, byte describtion) {
+            this.ingredients = ingredients;
+            this.craftables = craftables;
+            this.describtion = describtion;
+        }
+    }
+
+    /// <summary>
+    /// The building recipe, determining what is builded when and where...
+    /// Additional conditions like required items, level or whatever can be extra fields in this struct. 
+    /// </summary>
+    public struct BuildingRecipe {
+
+        public Recipe recipe;
+
+        public BuildSpot spot;
+        public BuildCondition buildCondition;
+        public float duration;
+
+        public BuildingRecipe(Recipe recipe, BuildSpot spot, BuildCondition buildCondition, float duration) {
+            this.recipe = recipe;
+            this.spot = spot;
+            this.buildCondition = buildCondition;
+            this.duration = duration;
+        }
+    }
+    
+    /// <summary>
+    /// The actual component for a player which defines his building recipes
+    /// </summary>
+    public struct BuildRecipes : IComponentData {
+        
+        /*
+        public UnsafeList<BuildingRecipe> recipes;
+
+        public void Serialize(NetDataWriter writer) { writer.Put(ref recipes); }
+        public void Deserialize(NetDataReader reader) { recipes = reader.GetBuildingRecipes(); }*/
+    }
+    
+    // This describes the number of buffer elements that should be reserved
+// in chunk data for each instance of a buffer. In this case, 8 integers
+// will be reserved (32 bytes) along with the size of the buffer header
+// (currently 16 bytes on 64-bit targets)
+    [InternalBufferCapacity(8)]
+    public struct MyBufferElement : IBufferElementData {
+        
+        // Actual value each buffer element will store.
+        public BuildingRecipe recipe;
+        //public NativeList<NativeList<int>> test;
+        public DynamicBuffer<BuildingRecipe> test;
+
+    }
+    
 #endif
 }

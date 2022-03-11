@@ -1,6 +1,8 @@
 using System.Collections.Generic;
-using DefaultEcs;
 using ParallelOrigin.Core.ECS;
+
+#if SERVER
+using DefaultEcs;
 
 namespace ParallelOrigin.Core.Extensions {
     
@@ -27,3 +29,5 @@ namespace ParallelOrigin.Core.Extensions {
         }
     }
 }
+
+#endif

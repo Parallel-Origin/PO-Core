@@ -70,7 +70,7 @@ namespace ParallelOrigin.Core.Extensions {
             return new Vector2d { x = x, y = y };
         }
         
-
+/*
         /// <summary>
         /// A method which simply serializes a <see cref="Recipe"/> data struct
         /// </summary>
@@ -127,7 +127,7 @@ namespace ParallelOrigin.Core.Extensions {
                     amount = reader.GetUInt()
             };
         }
-
+*/
         /// <summary>
         /// Serializes a string list
         /// </summary>
@@ -144,7 +144,9 @@ namespace ParallelOrigin.Core.Extensions {
             for(var index = 0; index < array.Length; index++)
                 writer.Put(array[index]);
         }
-        
+        */
+
+/*
         /// <summary>
         /// Deserializes an list of string
         /// </summary>
@@ -373,7 +375,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="list"></param>
-        public static void SerializeList<T>(NetDataWriter writer, ref UnsafeList<T> list) where T : unmanaged, INetSerializable{
+        public static void SerializeList<T>(this NetDataWriter writer, ref UnsafeList<T> list) where T : unmanaged, INetSerializable{
             
             writer.Put(list.length);
             for(var index = 0; index < list.Length; index++)
