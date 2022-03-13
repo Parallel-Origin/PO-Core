@@ -220,12 +220,12 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
             var size = reader.GetInt();
             ingredients = new UnsafeList<Ingredient>(size, Allocator.Persistent);
             for (var index = 0; index < size; index++) 
-                ingredients[index] = reader.GetIngredient();
+                ingredients.Add(reader.GetIngredient());
 
             size = reader.GetInt();
             craftables = new UnsafeList<Craftable>(size, Allocator.Persistent);
             for (var index = 0; index < size; index++) 
-                craftables[index] = reader.GetCraftable();
+                craftables.Add(reader.GetCraftable());
         }
     }
 
