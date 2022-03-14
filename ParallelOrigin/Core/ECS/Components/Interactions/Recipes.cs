@@ -17,14 +17,14 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// Possible build spots
     /// </summary>
     public enum BuildSpot : byte{
-        TILE
+        SPOT,TILE
     }
 
     /// <summary>
     /// Possible build conditions before we can place it on the build spot. 
     /// </summary>
     public enum BuildCondition : byte{
-        FREE_SPACE
+        NONE, FREE_SPACE
     }
     
     
