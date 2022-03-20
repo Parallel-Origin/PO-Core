@@ -33,6 +33,8 @@ namespace ParallelOrigin.Core.ECS {
 
         public EntityReference(in ulong uniqueId) : this() { uniqueID = uniqueId; }
 
+        public EntityReference(ulong uniqueId) : this() { uniqueID = uniqueId; }
+        
         /// <summary>
         /// Resolves the reference by searching an valid entity from the included uniqueID.
         /// It resolves only once, once an valid entity was found, it gets attached to <see cref="entity"/> and is returned. 

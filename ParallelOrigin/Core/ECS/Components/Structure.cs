@@ -13,7 +13,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     ///  Represents a Strcuture in the Game
     /// </summary>
     public struct Structure {
-        public long ownerID;
+        public EntityReference owner;
     }
     
 #elif CLIENT
