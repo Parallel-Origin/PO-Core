@@ -1,4 +1,5 @@
 ﻿
+using System.Drawing;
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
@@ -13,6 +14,8 @@ namespace ParallelOrigin.Core.ECS.Components {
     ///  Represents a Strcuture in the Game
     /// </summary>
     public struct Structure {
+
+        public Color color;
         public EntityReference owner;
     }
     
