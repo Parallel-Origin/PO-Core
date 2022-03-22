@@ -33,6 +33,11 @@ namespace ParallelOrigin.Core.ECS.Components.UI {
         }
     }
 
+    /// <summary>
+    /// A component which makes the ui element include its owner name as a unique localisation, requires a also attached <see cref="Localizations"/>
+    /// </summary>
+    public struct OwnerNameLocalisation { }
+    
 #elif CLIENT
 
     /// <summary>
