@@ -60,7 +60,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="id"></param>
         /// <returns></returns>
         public T Get(I id) {
-            return !Instances.ContainsKey(id) ? default : Instances[id];
+            return Instances.TryGetValue(id, out var instance) ? instance : default;
         }
 
         /// <summary>
@@ -71,9 +71,10 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         public T Clone(I ID) {
 
             try {
+                
                 // Constructing entity and configurating it shortly after
                 var instance = Creators[ID]();
-                if (Customizer.ContainsKey(ID)) Customizer[ID](instance);
+                if(Customizer.TryGetValue(ID, out var customizer)) customizer(instance);
                 AfterClone(ID, instance);
 
                 return instance;

@@ -10,15 +10,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
     /// <typeparam name="PATH">The path-type... mostly a string.</typeparam>
     /// <typeparam name="T">The input we take to clone a object from the <see cref="IPrototyper{I,T}" /></typeparam>
     /// <typeparam name="O">The output we await from the <see cref="IPrototyper{I,T}" /></typeparam>
-    public class PrototyperHierarchy<TPath, T, TO> {
+    public class PrototyperHierarchy<T, TO> {
+        
+        protected Func<string, ValueTuple<string, T>> pathDissembler;
+        protected Func<string, string, string> pathExtender;
 
-        protected Func<TPath[], TPath> pathCombiner;
-
-        protected Func<TPath, TPath[]> pathDissembler;
-        protected Func<TPath, TPath, TPath> pathExtender;
-        protected Func<TPath, T> pathToInput;
-
-        protected IDictionary<TPath, PrototypeNode> prototypeHierarchy = new Dictionary<TPath, PrototypeNode>();
+        protected IDictionary<string, PrototypeNode> prototypeHierarchy = new Dictionary<string, PrototypeNode>();
 
         /// <summary>
         ///     Constructs a Hierarchy with the required methods to identify the path of the hierachy to the registered <see cref="IPrototyper{I,T}" />
@@ -27,11 +24,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="pathExtender">A callback that is used to extend a path to a new layer.</param>
         /// <param name="pathDissembler">A callback that is used to disemble a path into its various layers</param>
         /// <param name="pathToInput">A callback that is used to convert a layer from the path into the input for cloning a object.</param>
-        public PrototyperHierarchy(Func<TPath[], TPath> pathCombiner, Func<TPath, TPath, TPath> pathExtender, Func<TPath, TPath[]> pathDissembler, Func<TPath, T> pathToInput) {
-            this.pathCombiner = pathCombiner;
+        public PrototyperHierarchy(Func<string, ValueTuple<string, T>> pathDissembler, Func<string, string, string> pathExtender) {
             this.pathExtender = pathExtender;
             this.pathDissembler = pathDissembler;
-            this.pathToInput = pathToInput;
         }
 
 
@@ -41,13 +36,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path">The id & path which we wanna assign to that prototyper</param>
         /// <param name="prototyper">The prototyper we wanna register.</param>
         /// <exception cref="RuntimeException">A exception getting thrown if a <see cref="IPrototyper{I,T}" /> with that path was already registered</exception>
-        public void Register(TPath path, IPrototyper<T, TO> prototyper) {
+        public void Register(string path, IPrototyper<T, TO> prototyper) {
 
             if (!prototypeHierarchy.ContainsKey(path)) {
 
                 var node = new PrototypeNode {path = path, prototype = prototyper};
                 prototypeHierarchy.Add(path, node);
-
             }
             else { throw new SystemException("Prototyper with that key already registered : [" + path + "]"); }
         }
@@ -59,7 +53,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="id">The childs id</param>
         /// <param name="prototyper">The <see cref="IPrototyper{I,T}" /> we wanna register to that ID-Path.</param>
         /// <exception cref="RuntimeException"></exception>
-        public void Register(TPath parent, TPath id, IPrototyper<T, TO> prototyper) {
+        public void Register(string parent, string id, IPrototyper<T, TO> prototyper) {
 
             if (prototypeHierarchy.ContainsKey(parent)) {
 
@@ -81,7 +75,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path"></param>
         /// <param name="typeID"></param>
         /// <returns></returns>
-        public bool Has(TPath path, T typeID) {
+        public bool Has(string path, T typeID) {
 
             if (!prototypeHierarchy.ContainsKey(path)) return false;
             
@@ -96,12 +90,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public bool Has(TPath path) {
+        public bool Has(string path) {
 
             // TODO : Find way to check for incoming path without try and catch
             try {
                 
-                var prototyperPath = DissamblePath(path);
+                var prototyperPath = pathDissembler(path);
                 var node = prototypeHierarchy[prototyperPath.Item1];
 
                 if (node == null) return false;
@@ -119,7 +113,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path">The path of the prototyper we wanna acess</param>
         /// <param name="typeID">The type of the entity we wanna clone</param>
         /// <returns>The cloned entity from the prototyper</returns>
-        public TO Clone(TPath path, T typeID) {
+        public TO Clone(string path, T typeID) {
 
             var node = prototypeHierarchy[path];
             return node.prototype.Clone(typeID);
@@ -132,9 +126,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// </summary>
         /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
         /// <returns>The cloned entity from the prototyper</returns>
-        public TO Clone(TPath path) {
+        public TO Clone(string path) {
 
-            var dissembledPath = DissamblePath(path);
+            var dissembledPath = pathDissembler(path);
             return Clone(dissembledPath.Item1, dissembledPath.Item2);
         }
 
@@ -144,7 +138,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path">The path of the prototyper we wanna acess</param>
         /// <param name="typeID">The type of the entity we wanna clone</param>
         /// <returns>The cloned entity from the prototyper</returns>
-        public TO Get(TPath path, T typeID) {
+        public TO Get(string path, T typeID) {
 
             var node = prototypeHierarchy[path];
             return node.prototype.Get(typeID);
@@ -157,27 +151,10 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// </summary>
         /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
         /// <returns>The cloned entity from the prototyper</returns>
-        public TO Get(TPath path) {
-
-            var dissembledPath = DissamblePath(path);
-            return Get(dissembledPath.Item1, dissembledPath.Item2);
-        }
-        
-        /// <summary>
-        /// Dissambles a path into path and typeid
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public Tuple<TPath, T> DissamblePath(TPath path){
+        public TO Get(string path) {
 
             var dissembledPath = pathDissembler(path);
-            var copiedPath = new TPath[dissembledPath.Length - 1];
-            Array.Copy(dissembledPath, copiedPath, dissembledPath.Length - 1);
-            
-            var prototyperPath = pathCombiner(copiedPath);
-            var typeID = pathToInput(dissembledPath[dissembledPath.Length-1]);
-
-            return new Tuple<TPath, T>(prototyperPath, typeID);
+            return Get(dissembledPath.Item1, dissembledPath.Item2);
         }
 
 
@@ -188,7 +165,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
 
             public PrototypeNode parent;
 
-            public TPath path;
+            public string path;
             public IPrototyper<T, TO> prototype;
         }
     }
