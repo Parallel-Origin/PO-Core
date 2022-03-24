@@ -10,6 +10,10 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// <summary>
     /// A component for a button which makes the clicker chop down the clicked entity.
     /// </summary>
-    public struct OnClickedChop{
-    }
+    public struct OnClickedChop{ }
+    
+    /// <summary>
+    /// A component for a button which makes the clicker visit the clicked structure ( teleports )....
+    /// </summary>
+    public struct OnClickedVisit{}
 }

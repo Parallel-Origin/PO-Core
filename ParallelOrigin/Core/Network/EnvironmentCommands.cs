@@ -1,6 +1,7 @@
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
 using ParallelOrigin.Core.Base.Classes;
+using ParallelOrigin.Core.ECS;
 
 namespace ParallelOrigin.Core.Network {
     
@@ -20,6 +21,25 @@ namespace ParallelOrigin.Core.Network {
         public void Deserialize(NetDataReader reader) {
             position = reader.GetVector2d();
             opCode = reader.GetByte();
+        }
+    }
+
+    /// <summary>
+    /// A command which teleports an entity to a certain position.
+    /// </summary>
+    public struct TeleportationCommand : INetSerializable {
+
+        public EntityReference entity;
+        public Vector2d position;
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(entity);
+            writer.Put(ref position);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            entity = reader.Get<EntityReference>();
+            position = reader.GetVector2d();
         }
     }
 }

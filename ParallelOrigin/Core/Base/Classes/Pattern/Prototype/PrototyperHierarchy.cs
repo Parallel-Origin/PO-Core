@@ -77,11 +77,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <returns></returns>
         public bool Has(string path, T typeID) {
 
-            if (!prototypeHierarchy.ContainsKey(path)) return false;
+            if (!prototypeHierarchy.TryGetValue(path, out var node)) return false;
             
-            var node = prototypeHierarchy[path];
             var found = node.prototype.Get(typeID);
-
             return !found.Equals(default(TO));
         }
 
