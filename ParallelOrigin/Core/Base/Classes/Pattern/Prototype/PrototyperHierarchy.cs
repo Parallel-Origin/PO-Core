@@ -13,9 +13,11 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
     public class PrototyperHierarchy<T, TO> {
         
         public Func<string, ValueTuple<string, T>> pathDissembler;
-        protected Func<string, string, string> pathExtender;
 
-        protected IDictionary<string, PrototypeNode> prototypeHierarchy = new Dictionary<string, PrototypeNode>();
+        protected IDictionary<string, IPrototyper<T,TO>> prototypeHierarchy = new Dictionary<string, IPrototyper<T,TO>>();
+        
+        protected IDictionary<string, Func<TO>> instances = new Dictionary<string, Func<TO>>();
+        protected IDictionary<string, Func<TO>> cloners = new Dictionary<string, Func<TO>>();
 
         /// <summary>
         ///     Constructs a Hierarchy with the required methods to identify the path of the hierachy to the registered <see cref="IPrototyper{I,T}" />
@@ -24,100 +26,40 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="pathExtender">A callback that is used to extend a path to a new layer.</param>
         /// <param name="pathDissembler">A callback that is used to disemble a path into its various layers</param>
         /// <param name="pathToInput">A callback that is used to convert a layer from the path into the input for cloning a object.</param>
-        public PrototyperHierarchy(Func<string, ValueTuple<string, T>> pathDissembler, Func<string, string, string> pathExtender) {
-            this.pathExtender = pathExtender;
+        public PrototyperHierarchy(Func<string, ValueTuple<string, T>> pathDissembler) {
             this.pathDissembler = pathDissembler;
         }
 
-
         /// <summary>
-        ///     Registers a "root" <see cref="IPrototyper{I,T}" /> to a id which is used to acess that prototyper later on.
-        /// </summary>
-        /// <param name="path">The id & path which we wanna assign to that prototyper</param>
-        /// <param name="prototyper">The prototyper we wanna register.</param>
-        /// <exception cref="RuntimeException">A exception getting thrown if a <see cref="IPrototyper{I,T}" /> with that path was already registered</exception>
-        public void Register(string path, IPrototyper<T, TO> prototyper) {
-
-            if (!prototypeHierarchy.ContainsKey(path)) {
-
-                var node = new PrototypeNode {path = path, prototype = prototyper};
-                prototypeHierarchy.Add(path, node);
-            }
-            else { throw new SystemException("Prototyper with that key already registered : [" + path + "]"); }
-        }
-
-        /// <summary>
-        ///     Registers a child <see cref="IPrototyper{I,T}" /> to a existing parent {@link IPrototype}, to use the combined ID for acess.
-        /// </summary>
-        /// <param name="parent">parent The parents id</param>
-        /// <param name="id">The childs id</param>
-        /// <param name="prototyper">The <see cref="IPrototyper{I,T}" /> we wanna register to that ID-Path.</param>
-        /// <exception cref="RuntimeException"></exception>
-        public void Register(string parent, string id, IPrototyper<T, TO> prototyper) {
-
-            if (prototypeHierarchy.ContainsKey(parent)) {
-
-                var node = prototypeHierarchy[parent];
-
-                var child = new PrototypeNode {path = id, prototype = prototyper, parent = node};
-                node.childs.Add(child);
-
-                var combinedPath = pathExtender(node.path, child.path);
-                prototypeHierarchy.Add(combinedPath, child);
-
-            }
-            else { throw new SystemException("Prototyper with that key is not registered yet : [" + id + "]"); }
-        }
-
-        /// <summary>
-        ///  Searches for a path and checks if theres a prototype registered.
+        /// Registers a <see cref="IPrototyper{I,T}"/> to a global map for quick acess to their instance and clone methods. 
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="typeID"></param>
-        /// <returns></returns>
-        public bool Has(string path, T typeID) {
-
-            if (!prototypeHierarchy.TryGetValue(path, out var node)) return false;
+        /// <param name="prototyper"></param>
+        public void Register(string path, IPrototyper<T, TO> prototyper) {
             
-            var found = node.prototype.Get(typeID);
-            return !found.Equals(default(TO));
-        }
+            prototypeHierarchy[path] = prototyper;
 
+            // Link every single path to each registered prototyper instance to a map for quick acess
+            var ids = prototyper.Ids;
+            for (var index = 0; index < ids.Length; index++) {
+
+                var id = ids[index];
+                var clonePath = path + ":" + 1;
+
+                instances[clonePath] = () => prototyper.Get(id);
+                cloners[clonePath] = () => prototyper.Clone(id);
+            }
+        }
+        
         /// <summary>
         /// Searches for a path and checks if theres a prototype registered.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         public bool Has(string path) {
-
-            // TODO : Find way to check for incoming path without try and catch
-            try {
-                
-                var prototyperPath = pathDissembler(path);
-                var node = prototypeHierarchy[prototyperPath.Item1];
-
-                if (node == null) return false;
-
-                var found = node.prototype.Get(prototyperPath.Item2);
-                return !found.Equals(default(TO));
-            }
-            catch (Exception e) { return false; }
+            return instances.ContainsKey(path);
         }
         
-
-        /// <summary>
-        ///     Finds a registered <see cref="IPrototyper{I,T}" /> by his path and clones a objects by its typeID.
-        /// </summary>
-        /// <param name="path">The path of the prototyper we wanna acess</param>
-        /// <param name="typeID">The type of the entity we wanna clone</param>
-        /// <returns>The cloned entity from the prototyper</returns>
-        public TO Clone(string path, T typeID) {
-
-            var node = prototypeHierarchy[path];
-            return node.prototype.Clone(typeID);
-        }
-
-
         /// <summary>
         ///     Finds a registered <see cref="IPrototyper{I,T}" /> by his path and clones a objects by its typeID, the last path addition
         ///     gets used to clone the entity.
@@ -125,24 +67,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
         /// <returns>The cloned entity from the prototyper</returns>
         public TO Clone(string path) {
-
-            var dissembledPath = pathDissembler(path);
-            return Clone(dissembledPath.Item1, dissembledPath.Item2);
+            return cloners[path]();
         }
-
-        /// <summary>
-        ///     Finds a registered <see cref="IPrototyper{I,T}" /> by his path and clones a objects by its typeID.
-        /// </summary>
-        /// <param name="path">The path of the prototyper we wanna acess</param>
-        /// <param name="typeID">The type of the entity we wanna clone</param>
-        /// <returns>The cloned entity from the prototyper</returns>
-        public TO Get(string path, T typeID) {
-
-            var node = prototypeHierarchy[path];
-            return node.prototype.Get(typeID);
-        }
-
-
+        
         /// <summary>
         ///     Finds a registered <see cref="IPrototyper{I,T}" /> by his path and clones a objects by its typeID, the last path addition
         ///     gets used to clone the entity.
@@ -150,21 +77,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
         /// <returns>The cloned entity from the prototyper</returns>
         public TO Get(string path) {
-
-            var dissembledPath = pathDissembler(path);
-            return Get(dissembledPath.Item1, dissembledPath.Item2);
-        }
-
-
-        // Recursive Data-Structure for linking the child prototyper to its parent.
-        protected class PrototypeNode {
-            
-            public IList<PrototypeNode> childs = new List<PrototypeNode>();
-
-            public PrototypeNode parent;
-
-            public string path;
-            public IPrototyper<T, TO> prototype;
+            return instances[path]();
         }
     }
 }

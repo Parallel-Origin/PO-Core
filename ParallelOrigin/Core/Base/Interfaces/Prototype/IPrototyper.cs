@@ -47,7 +47,12 @@ namespace ParallelOrigin.Core.Base.Interfaces.Prototype {
         /// <param name="typeID">The type id of the cloned instance</param>
         /// <param name="clonedInstance">The cloned instance</param>
         void AfterClone(I typeID, T clonedInstance);
-
+        
+        /// <summary>
+        /// All registered ids inside the prototyper. 
+        /// </summary>
+        I[] Ids { get;  }
+        
         /// <summary>
         /// The creators used for creating the entities
         /// </summary>

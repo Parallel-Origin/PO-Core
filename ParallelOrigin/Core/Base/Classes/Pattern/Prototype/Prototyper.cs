@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ParallelOrigin.Core.Base.Interfaces;
 using ParallelOrigin.Core.Base.Interfaces.Prototype;
 using ParallelOriginGameServer;
@@ -95,8 +96,10 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="typeID">Its typeID</param>
         /// <param name="clonedInstance">The already cloned instance we can modify</param>
         public virtual void AfterClone(I typeID, T clonedInstance) { }
-        
-        private IDictionary<I,T> Instances { get; set; }         // A cache that stores each instance once for lookup purposes
+
+        public I[] Ids => Instances.Keys.ToArray();
+
+        public IDictionary<I,T> Instances { get; set; }         // A cache that stores each instance once for lookup purposes
         public IDictionary<I, Func<T>> Creators { get; set; }    // Stores all suppliers for creating instances of the types
         public IDictionary<I, Action<T>> Customizer { get; set; } // Gets called after creating a certain instance for configuration
     }

@@ -42,8 +42,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
                 }
 
                 return default;
-            },
-            (s, s1) => s + ":" + s1) { }
+            }) { }
     }
 
     #elif SERVER 
@@ -77,8 +76,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
                 }
 
                 return default;
-            },
-            (s, s1) => s + ":" + s1){}
+            }){}
     }
     
     #endif
