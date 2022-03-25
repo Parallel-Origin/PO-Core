@@ -12,7 +12,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
     /// <typeparam name="O">The output we await from the <see cref="IPrototyper{I,T}" /></typeparam>
     public class PrototyperHierarchy<T, TO> {
         
-        protected Func<string, ValueTuple<string, T>> pathDissembler;
+        public Func<string, ValueTuple<string, T>> pathDissembler;
         protected Func<string, string, string> pathExtender;
 
         protected IDictionary<string, PrototypeNode> prototypeHierarchy = new Dictionary<string, PrototypeNode>();

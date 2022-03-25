@@ -21,21 +21,24 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         ///     Constructs a Hierarchy with the required methods to identify the path of the hierachy to the registered <see cref="IPrototyper{I,T}" />
         /// </summary>
         public EntityPrototyperHierarchy() : base(path => {
-
-                // Loop over path from back to for
-                for (var index = path.Length-1; index >= 0; index--) {
-
-                    // Watch for the split char
-                    var currentChar = path[index];
-                    if (currentChar != ':') continue;
+                
+                unsafe{
                     
-                    // Split into two, the path and the type and return them 
-                    var pathSpan = path.AsSpan(0, index);
-                    var typeSpan = path.AsSpan(index+1, (path.Length-1)-index);
+                    fixed(char *ptr = path) {
 
-                    var splitPath = pathSpan.ToString();
-                    var type = short.Parse(typeSpan);
-                    return new ValueTuple<string, short>(splitPath, type);
+                        var current = ptr+path.Length-1;
+                        for (var index = path.Length-1; index >= 0; index--) {
+                            
+                            current--;
+                            if(*current != ':') continue;
+                        
+                            var length = current - ptr;
+                            var splittedPath = new string(ptr, 0, (int)length);
+                            var type = short.Parse(new string(ptr, index, path.Length - index));
+
+                            return new ValueTuple<string, short>(splittedPath, type);
+                        }
+                    }
                 }
 
                 return default;

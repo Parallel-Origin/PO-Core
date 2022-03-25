@@ -441,7 +441,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// <param name="list"></param>
         public static void PutList<T>(this NetDataWriter writer, ref UnsafeList<T> list) where T : unmanaged, INetSerializable{
             
-            writer.Put(list.length);
+            writer.Put(list.Length);
             for(var index = 0; index < list.Length; index++)
                 writer.Put(list[index]);
         }
@@ -468,7 +468,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void PutList(this NetDataWriter writer, ref UnsafeList<FixedString32> list) {
+        public static void PutList(this NetDataWriter writer, ref UnsafeList<FixedString32Bytes> list) {
             
             writer.Put(list.Length);
             for (var index = 0; index < list.Length; index++) {
@@ -483,10 +483,10 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetList(this NetDataReader reader, ref UnsafeList<FixedString32> list) {
+        public static void GetList(this NetDataReader reader, ref UnsafeList<FixedString32Bytes> list) {
             
             var size = reader.GetInt();
-            if(!list.IsCreated) list = new UnsafeList<FixedString32>(size, Allocator.Persistent); 
+            if(!list.IsCreated) list = new UnsafeList<FixedString32Bytes>(size, Allocator.Persistent); 
             
             for (var index = 0; index < size; index++) {
 
@@ -500,7 +500,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void PutDic(this NetDataWriter writer, UnsafeHashMap<FixedString32, short> dic) {
+        public static void PutDic(this NetDataWriter writer, UnsafeHashMap<FixedString32Bytes, short> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count());
@@ -518,10 +518,10 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32, short> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32Bytes, short> dic) {
             
             var size = reader.GetInt();
-            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, short>(size, Allocator.Persistent);
+            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32Bytes, short>(size, Allocator.Persistent);
             
             for (var index = 0; index < size; index++) {
 
@@ -536,10 +536,10 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32, byte> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32Bytes, byte> dic) {
             
             var size = reader.GetInt();
-            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, byte>(size, Allocator.Persistent);
+            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32Bytes, byte>(size, Allocator.Persistent);
             
             for (var index = 0; index < size; index++) {
 
@@ -554,10 +554,10 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32, bool> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32Bytes, bool> dic) {
             
             var size = reader.GetInt();
-            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, bool>(size, Allocator.Persistent);
+            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32Bytes, bool>(size, Allocator.Persistent);
             
             for (var index = 0; index < size; index++) {
 
@@ -572,7 +572,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void PutDic(this NetDataWriter writer, UnsafeHashMap<FixedString32, FixedString32> dic) {
+        public static void PutDic(this NetDataWriter writer, UnsafeHashMap<FixedString32Bytes, FixedString32Bytes> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count());
@@ -590,10 +590,10 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32, FixedString32> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32Bytes, FixedString32Bytes> dic) {
             
             var size = reader.GetInt();
-            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32, FixedString32>(size, Allocator.Persistent);
+            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32Bytes, FixedString32Bytes>(size, Allocator.Persistent);
             
             for (var index = 0; index < size; index++) {
 

@@ -122,7 +122,7 @@ namespace ParallelOrigin.Core.Base.Classes {
             return (double)Vector2d.SqrMagnitude(lhs - rhs) >= 0.0 / 1.0;
         }
 
-#if UNITY_2020
+#if UNITY_2020 || UNITY_2021
         
         public static explicit operator Vector2d(Mapbox.Utils.Vector2d content) {
             return new Vector2d {

@@ -169,13 +169,13 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// </summary>
     public struct Ingredient {
         
-        public FixedString32 type;    // The item type... 3:1 is wood for example
+        public FixedString32Bytes type;    // The item type... 3:1 is wood for example
         public byte icon;             // Its icon
         public byte localisation;
         public uint amount;
         public bool consume;
 
-        public Ingredient(FixedString32 type, byte icon, byte localisation, uint amount, bool consume) {
+        public Ingredient(FixedString32Bytes type, byte icon, byte localisation, uint amount, bool consume) {
             this.type = type;
             this.icon = icon;
             this.localisation = localisation;
@@ -189,11 +189,11 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// </summary>
     public struct Craftable {
 
-        public FixedString32 type;   // The item type... 2:1 is gold for example
+        public FixedString32Bytes type;   // The item type... 2:1 is gold for example
         public byte icon;
         public uint amount;
 
-        public Craftable(FixedString32 type, byte icon, uint amount) {
+        public Craftable(FixedString32Bytes type, byte icon, uint amount) {
             this.type = type;
             this.icon = icon;
             this.amount = amount;
@@ -263,7 +263,7 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// </summary>
     public struct BuildRecipes : IComponentData, INetSerializable{
 
-        public UnsafeList<FixedString32> recipes;
+        public UnsafeList<FixedString32Bytes> recipes;
         
         public void Serialize(NetDataWriter writer) { writer.PutList(ref recipes); }
         public void Deserialize(NetDataReader reader) { reader.GetList(ref recipes); }

@@ -59,9 +59,9 @@ namespace ParallelOrigin.Core.ECS.Components {
     [BurstCompile]
     public struct Character : IComponentData, INetSerializable {
         
-        public FixedString32 name;
-        public FixedString32 password;
-        public FixedString32 email;
+        public FixedString32Bytes name;
+        public FixedString32Bytes password;
+        public FixedString32Bytes email;
         
         public void Serialize(NetDataWriter writer) {
 

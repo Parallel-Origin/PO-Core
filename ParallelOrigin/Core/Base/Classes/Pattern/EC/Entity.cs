@@ -213,7 +213,7 @@ namespace Script.Server.Pattern {
         /// <returns></returns>
         public IEnumerator GetEnumerator() {
             
-            for (var index = 0; index < components.length; index++) {
+            for (var index = 0; index < components.Length; index++) {
                 
                 var ptr = components[index];
                 var handle = (GCHandle)ptr;

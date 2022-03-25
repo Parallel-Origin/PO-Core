@@ -43,8 +43,8 @@ namespace ParallelOrigin.Core.ECS.Components {
     public struct Identity : IComponentData, INetSerializable {
         
         public ulong id;
-        public FixedString32 tag;
-        public FixedString32 type;
+        public FixedString32Bytes tag;
+        public FixedString32Bytes type;
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(id);
