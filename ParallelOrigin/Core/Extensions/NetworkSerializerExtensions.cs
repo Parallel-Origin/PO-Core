@@ -31,7 +31,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// <param name="size"></param>
         /// <param name="sendStringSize"></param>
         public static void PutFixedString(this NetDataWriter writer, string str, ushort size) {
-            
+          
             writer.Put(size);
             writer.Put(str, size);
         }

@@ -20,7 +20,8 @@ namespace ParallelOrigin.Core.Network {
     public struct EntityCommand : INetSerializable {
 
         public ulong id;
-        public string type;
+        public string type; // Only being used if the type does NOT exist on the client 
+        public int typeHash;
         public byte opcode;
 
         public void Serialize(NetDataWriter writer) {

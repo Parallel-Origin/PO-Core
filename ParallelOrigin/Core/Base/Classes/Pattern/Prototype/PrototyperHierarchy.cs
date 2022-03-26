@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ParallelOrigin.Core.Base.Interfaces.Prototype;
+using ParallelOrigin.Core.Extensions;
 
 namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
 
@@ -19,6 +20,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         protected IDictionary<string, Func<TO>> instances = new Dictionary<string, Func<TO>>();
         protected IDictionary<string, Func<TO>> cloners = new Dictionary<string, Func<TO>>();
 
+        protected IDictionary<int, Func<TO>> instancesByHash = new Dictionary<int, Func<TO>>();
+        protected IDictionary<int, Func<TO>> clonersByHash = new Dictionary<int, Func<TO>>();
+        
         /// <summary>
         ///     Constructs a Hierarchy with the required methods to identify the path of the hierachy to the registered <see cref="IPrototyper{I,T}" />
         /// </summary>
@@ -45,9 +49,13 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
 
                 var id = ids[index];
                 var clonePath = path + ":" + 1;
+                var hash = clonePath.GetDeterministicHashCode();
 
                 instances[clonePath] = () => prototyper.Get(id);
                 cloners[clonePath] = () => prototyper.Clone(id);
+                
+                instancesByHash[hash] = () => prototyper.Get(id);
+                clonersByHash[hash] = () => prototyper.Clone(id);
             }
         }
         
@@ -58,6 +66,15 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <returns></returns>
         public bool Has(string path) {
             return instances.ContainsKey(path);
+        }
+        
+        /// <summary>
+        /// Searches for a path and checks if theres a prototype registered.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public bool Has(int path) {
+            return instancesByHash.ContainsKey(path);
         }
         
         /// <summary>
@@ -76,8 +93,28 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// </summary>
         /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
         /// <returns>The cloned entity from the prototyper</returns>
+        public TO Clone(int path) {
+            return clonersByHash[path]();
+        }
+        
+        /// <summary>
+        ///     Finds a registered <see cref="IPrototyper{I,T}" /> by his path and clones a objects by its typeID, the last path addition
+        ///     gets used to clone the entity.
+        /// </summary>
+        /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
+        /// <returns>The cloned entity from the prototyper</returns>
         public TO Get(string path) {
             return instances[path]();
+        }
+        
+        /// <summary>
+        ///     Finds a registered <see cref="IPrototyper{I,T}" /> by his path and clones a objects by its typeID, the last path addition
+        ///     gets used to clone the entity.
+        /// </summary>
+        /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
+        /// <returns>The cloned entity from the prototyper</returns>
+        public TO Get(int path) {
+            return instancesByHash[path]();
         }
     }
 }
