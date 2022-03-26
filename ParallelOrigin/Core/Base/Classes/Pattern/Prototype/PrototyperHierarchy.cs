@@ -48,7 +48,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
             for (var index = 0; index < ids.Length; index++) {
 
                 var id = ids[index];
-                var clonePath = path + ":" + 1;
+                var clonePath = path + ":" + id;
                 var hash = clonePath.GetDeterministicHashCode();
 
                 instances[clonePath] = () => prototyper.Get(id);
