@@ -1,4 +1,5 @@
 using LiteNetLib.Utils;
+using ParallelOrigin.Core.Extensions;
 
 namespace ParallelOrigin.Core.Network {
 
@@ -21,18 +22,17 @@ namespace ParallelOrigin.Core.Network {
 
         public ulong id;
         public string type; // Only being used if the type does NOT exist on the client 
-        public int typeHash;
         public byte opcode;
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(id);
-            writer.Put(type, type.Length);
+            writer.PutFixedString(type, (ushort)type.Length);
             writer.Put(opcode);
         }
 
         public void Deserialize(NetDataReader reader) {
             id = reader.GetULong();
-            type = reader.GetString(32);
+            type = reader.GetFixedString();
             opcode = reader.GetByte();
         }
     }
