@@ -16,4 +16,9 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// A component for a button which makes the clicker visit the clicked structure ( teleports )....
     /// </summary>
     public struct OnClickedVisit{}
+    
+    /// <summary>
+    /// A component for an option, once it was pressed the whole popup will be marked for being destroyed
+    /// </summary>
+    public struct OnClickedDestroyPopup{}
 }
