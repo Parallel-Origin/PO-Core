@@ -9,7 +9,7 @@ namespace ParallelOriginGameServer.Server.Commands {
     /// <summary>
     /// Possible inventory perations
     /// </summary>
-    public enum InventoryOperation {
+    public enum InventoryOperation : byte{
         ADD,SUBSTRACT
     }
     
