@@ -26,14 +26,22 @@ namespace ParallelOrigin.Core.ECS {
         public Entity entity;
         public ulong uniqueID;
 
-        public EntityReference(in Entity entity, in ulong id) : this() {
+        
+        public EntityReference(Entity entity, ulong id) {
             this.entity = entity;
             this.uniqueID = id;
         }
 
-        public EntityReference(in ulong uniqueId) : this() { uniqueID = uniqueId; }
+        
+        public EntityReference(in Entity entity, ulong id) {
+            this.entity = entity;
+            this.uniqueID = id;
+        }
 
-        public EntityReference(ulong uniqueId) : this() { uniqueID = uniqueId; }
+        public EntityReference(ulong uniqueId) {
+            entity = default;
+            uniqueID = uniqueId;
+        }
         
         /// <summary>
         /// Resolves the reference by searching an valid entity from the included uniqueID.
@@ -86,9 +94,12 @@ namespace ParallelOrigin.Core.ECS {
         public Entity entity;
         public ulong uniqueID;
 
-        public EntityReference(in Entity entity) : this() { this.entity = entity; }
-        public EntityReference(in ulong uniqueID) : this() { this.uniqueID = uniqueID; }
-        public EntityReference(in Entity entity, in ulong uniqueID) : this() {
+        public EntityReference(in Entity entity)  { this.entity = entity; }
+        public EntityReference(in ulong uniqueID) {
+            this.entity = Entity.Null;
+            this.uniqueID = uniqueID; 
+        }
+        public EntityReference(in Entity entity, in ulong uniqueID)  {
             this.entity = entity; 
             this.uniqueID = uniqueID;
         }
