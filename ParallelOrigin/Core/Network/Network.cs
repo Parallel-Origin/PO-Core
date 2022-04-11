@@ -71,6 +71,7 @@ namespace ParallelOrigin.Core.Network {
             Processor.SendNetSerializable(Manager, command, DeliveryMethod.ReliableOrdered);    
 #elif CLIENT
             var server = Manager.FirstPeer;
+            if(server == null || server.ConnectionState == ConnectionState.Disconnected) return;
             Processor.SendNetSerializable(server, command, DeliveryMethod.ReliableOrdered);
 #endif
         }
