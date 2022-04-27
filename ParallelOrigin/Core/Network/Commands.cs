@@ -46,7 +46,7 @@ namespace ParallelOrigin.Core.Network {
     
     /// <summary>
     /// An command which batches multiple packets into one huge packet for improving the performance of sending and receiving.
-    /// One huge packet > faster than small packets. 
+    /// One huge packet > faster than small packets... however this class doesnt need to be used if the network lib includes automatic packet merging and sending upon our end of the server tick. 
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public struct BatchCommand<T> : INetSerializable, IEnumerable<T> where T : struct, INetSerializable {

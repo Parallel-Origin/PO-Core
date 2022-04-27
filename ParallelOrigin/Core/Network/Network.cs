@@ -78,6 +78,8 @@ namespace ParallelOrigin.Core.Network {
         
         /// <summary>
         /// Sends an packet to a specific connected client.
+        /// If the lib has automatic packet merging and a way to store packets to release them later, this method will only write the bytes to the certain packet to be filled.
+        /// This way each call does not create a new packet. 
         /// </summary>
         /// <param name="peer"></param>
         /// <param name="command"></param>
@@ -88,6 +90,8 @@ namespace ParallelOrigin.Core.Network {
         
         /// <summary>
         /// Sends an packet to a specific connected client.
+        /// If the lib has automatic packet merging and a way to store packets to release them later, this method will only write the bytes to the certain packet to be filled.
+        /// This way each call does not create a new packet. 
         /// </summary>
         /// <param name="peer"></param>
         /// <param name="command"></param>
