@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using ParallelOrigin.Core.Base.Classes;
+using ParallelOrigin.Core.ECS.Components.Items;
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {
 
@@ -16,20 +17,22 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     /// <summary>
     /// Marks an entity as spawnable
     /// </summary>
-    public struct Spawnable {
+    public struct Spawnable : IWeight{
 
         // The weight for this entity to spawn 
-        public ushort weight;
+        public float weight;
         public float noiseThreshold;
+        
+        public float Weight { get => weight; set => weight = value; }
     }
 
     /// <summary>
-    /// Marks an spawner entity to spawn some stuff 
+    /// Marks an spawner entity to spawn some stuff on command
     /// </summary>
     public struct Spawn{}
     
     /// <summary>
-    /// Tags an spawner entitity in a certain intervall with 
+    /// Tags an spawner entitity in a certain intervall with a <see cref="Spawn"/> component
     /// </summary>
     public struct IntervallSpawner {
         
@@ -40,31 +43,14 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     }
 
     /// <summary>
-    /// An struct which stores a noise value assigned to certain geo-coordinates for each lookup acess. 
+    /// A struct which marks an spawner to spawn in forests
     /// </summary>
-    public readonly struct NoiseGeocoordinates {
-
-        public readonly Vector2d geocoordinates;
-        public readonly float noise;
-
-        public NoiseGeocoordinates(Vector2d geocoordinates, float noise) {
-            this.geocoordinates = geocoordinates;
-            this.noise = noise;
-        }
-    }
+    public struct ForestSpawner { }
     
     /// <summary>
-    /// A component which acts as an spawner to spawn in other entities and the environment based on a regular intervall. 
+    /// A struct marking a spawner to spawn in various mobs 
     /// </summary>
-    public struct ForestLayer {
-        
-        public ushort resolution;
-        public FastNoiseLite noise;
-
-        public NoiseGeocoordinates[,] noiseGeocoordinates;
-    }
-
-    public struct ForestSpawner { }
+    public struct MobSpawner{}
 
 #endif
 }

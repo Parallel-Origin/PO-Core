@@ -1,32 +1,32 @@
 using System;
 
 #if SERVER
+using DefaultEcs;
+using ParallelOrigin.Core.ECS.Components.Environment;
 using ParallelOriginGameServer.Server.Extensions;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components.Items {
 
 #if SERVER
-    
-    
+
+
     /// <summary>
-    /// Defines a item drop upon a kill or a certain other action.
+    /// A interface for an item which can be passed to the <see cref="WeightTable{T}"/>
     /// </summary>
-    public struct WeightedItem {
-        public uint amount;
-        public float weight;
-        public string type;
+    public interface IWeight {
+        public float Weight { get; set; }
     }
-    
+
     /// <summary>
     /// A drop table which stores multiple drops for an entity. 
     /// </summary>
-    public class WeightTable {
+    public class WeightTable<T> where T : IWeight{
         
-        public WeightedItem[] weighteds;
+        public T[] weighteds;
         private float totalWeight;
 
-        public WeightTable(params WeightedItem[] weighteds)  { this.weighteds = weighteds; }
+        public WeightTable(params T[] weighteds)  { this.weighteds = weighteds; }
 
         /// <summary>
         /// Calculates the total weight of this table.
@@ -38,7 +38,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
             for (var index = 0; index < weighteds.Length; index++) {
 
                 ref var weighted = ref weighteds[index];
-                weight += weighted.weight;
+                weight += weighted.Weight;
 
             }
 
@@ -49,7 +49,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
         /// Returns a weighted item based on its weight.
         /// </summary>
         /// <returns></returns>
-        public WeightedItem Get() {
+        public T Get() {
 
             // Assign total weight
             if (totalWeight == 0)
@@ -61,21 +61,39 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
             for(var index = 0; index < weighteds.Length; index++) {
 
                 ref var weighted = ref weighteds[index];
-                if (weighted.weight <= randomVal) return weighted;
-                randomVal -= weighted.weight;
+                if (weighted.Weight <= randomVal) return weighted;
+                randomVal -= weighted.Weight;
             }
-            
-            return new WeightedItem{amount = 0, type = string.Empty, weight = -1};
+
+            return default;
         }
+    }
+
+    /// <summary>
+    /// Defines a entity with a certain weight, for example for spawning processes. 
+    /// </summary>
+    public struct WeightedEntity : IWeight {
+
+        public string type;
+        public float Weight { get; set;  }
+    }
+    
+    /// <summary>
+    /// Defines a item drop upon a kill or a certain other action.
+    /// </summary>
+    public struct WeightedItem : IWeight {
+        
+        public uint amount;
+        public string type;
+        
+        public float Weight { get; set; }
     }
 
     /// <summary>
     /// Marks an entity as choppable and defines which items it will drop once being harvested. 
     /// </summary>
     public struct Chopable {
-        public WeightTable drops;
+        public WeightTable<WeightedItem> drops;
     }
-
-
 #endif
 }
