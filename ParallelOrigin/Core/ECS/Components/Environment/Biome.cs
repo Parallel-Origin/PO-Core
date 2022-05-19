@@ -1,14 +1,16 @@
 using ParallelOrigin.Core.Base.Classes;
+using ParallelOrigin.Core.ECS.Components.Items;
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {
     
     /// <summary>
     /// A biome
     /// </summary>
-    public struct Biome {
+    public struct Biome : IWeight{
 
         public float weight;
         public byte biomeCode;
+        public float Weight { get => weight; set => weight = value; }
     }
     
     /// <summary>
@@ -48,8 +50,6 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     public struct ForestLayer {
         
         public ushort resolution;
-        public FastNoiseLite noise;
-
-        public NoiseGeocoordinates[,] noiseGeocoordinates;
+        public NoiseGeocoordinates[,] noiseData;
     }
 }

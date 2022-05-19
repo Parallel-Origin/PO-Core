@@ -18,7 +18,6 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     public struct Chunk {
 
         public Grid grid;
-
         public DateTime createdOn;
 
         public ConcurrentHashSet<Entity> contains;  // Required due to fast acess when there many entities inside the chunk
