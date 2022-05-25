@@ -15,7 +15,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     /// A interface for an item which can be passed to the <see cref="WeightTable{T}"/>
     /// </summary>
     public interface IWeight {
-        public float Weight { get; set; }
+        public float Weight { get; }
     }
 
     /// <summary>

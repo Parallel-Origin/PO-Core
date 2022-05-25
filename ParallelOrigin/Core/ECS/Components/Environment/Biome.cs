@@ -1,15 +1,36 @@
 using ParallelOrigin.Core.Base.Classes;
 using ParallelOrigin.Core.ECS.Components.Items;
+using ParallelOriginGameServer.Server.Extensions;
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {
+
+    /// <summary>
+    /// Represents a entity for a biome layer with some conditions like weight and noise for being spawned in. 
+    /// </summary>
+    public struct BiomeEntity : IWeight, INoise{
+
+        public BiomeEntity(string type, float weight, float noise) {
+            this.type = type;
+            this.weight = weight;
+            this.noise = noise;
+        }
+
+        public string type;
+        public float weight;
+        public float noise;
+        
+        public float Weight => weight;
+        public float Noise => noise;
+    }
     
     /// <summary>
     /// A biome
     /// </summary>
     public struct Biome : IWeight{
 
-        public float weight;
         public byte biomeCode;
+        public float weight;
+        
         public float Weight { get => weight; set => weight = value; }
     }
     
@@ -51,5 +72,17 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
         
         public ushort resolution;
         public NoiseGeocoordinates[,] noiseData;
+        public BiomeEntity[] spawnables;
+    }
+
+    /// <summary>
+    /// A component which defines a rock layer
+    /// Basically a noise 2D grid that should represent possible rock spawn points. 
+    /// </summary>
+    public struct RockLayer {
+
+        public ushort resolution;
+        public NoiseGeocoordinates[,] noiseData;
+        public BiomeEntity[] spawnables;
     }
 }

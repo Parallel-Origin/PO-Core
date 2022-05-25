@@ -22,8 +22,8 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
         // The weight for this entity to spawn 
         public float weight;
         public float noiseThreshold;
-        
-        public float Weight { get => weight; set => weight = value; }
+
+        public float Weight => weight;
     }
 
     /// <summary>
