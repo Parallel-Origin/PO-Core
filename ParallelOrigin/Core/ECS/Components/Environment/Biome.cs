@@ -3,24 +3,23 @@ using ParallelOrigin.Core.ECS.Components.Items;
 using ParallelOriginGameServer.Server.Extensions;
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {
-
+    
+    /// <summary>
+    /// The noise condition, wether it should be greater or smaller than the desired value. 
+    /// </summary>
+    public enum NoiseCondition {
+        GREATER, SMALLER
+    }
+    
     /// <summary>
     /// Represents a entity for a biome layer with some conditions like weight and noise for being spawned in. 
     /// </summary>
-    public struct BiomeEntity : IWeight, INoise{
-
-        public BiomeEntity(string type, float weight, float noise) {
-            this.type = type;
-            this.weight = weight;
-            this.noise = noise;
-        }
+    public partial struct BiomeEntity : IWeight{
 
         public string type;
         public float weight;
-        public float noise;
-        
+
         public float Weight => weight;
-        public float Noise => noise;
     }
     
     /// <summary>
@@ -33,21 +32,17 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
         
         public float Weight { get => weight; set => weight = value; }
     }
-    
+
     /// <summary>
     /// A biome which is dominated by european forests mostly
     /// </summary>
-    public struct Woodland{}
+    public struct Woodland{ public BiomeEntity[] spawnables; }
     
     /// <summary>
     /// A biome which is dominated by plains and grass mostly
     /// </summary>
-    public struct Grassland{}
+    public struct Grassland{ public BiomeEntity[] spawnables; }
     
-    /// <summary>
-    /// A biome which is dominated by dry plains and grass mostly... dead trees. 
-    /// </summary>
-    public struct Steppe{}
     
     /// <summary>
     /// An struct which stores a noise value assigned to certain geo-coordinates
@@ -65,6 +60,14 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     }
     
     /// <summary>
+    /// Partial biome entity which adds a forestNoise value to it because of the <see cref="ForestLayer"/>
+    /// </summary>
+    public partial struct BiomeEntity {
+        public NoiseCondition forestCondition;
+        public float forestNoise;
+    }
+    
+    /// <summary>
     /// A component which defines sa forest layer.
     /// Basically a noise 2D grid that should represent possible spawn-points for forests. 
     /// </summary>
@@ -72,9 +75,17 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
         
         public ushort resolution;
         public NoiseGeocoordinates[,] noiseData;
-        public BiomeEntity[] spawnables;
     }
 
+    /// <summary>
+    /// Partial biome entity which adds a rockNoise value to it because of the <see cref="RockLayer"/>
+    /// </summary>
+    public partial struct BiomeEntity {
+        public NoiseCondition rockCondition;
+        public float rockNoise;
+    }
+
+    
     /// <summary>
     /// A component which defines a rock layer
     /// Basically a noise 2D grid that should represent possible rock spawn points. 
@@ -83,6 +94,5 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
 
         public ushort resolution;
         public NoiseGeocoordinates[,] noiseData;
-        public BiomeEntity[] spawnables;
     }
 }
