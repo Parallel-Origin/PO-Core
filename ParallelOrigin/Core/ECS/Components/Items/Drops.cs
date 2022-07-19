@@ -61,7 +61,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
             for(var index = 0; index < weighteds.Length; index++) {
 
                 ref var weighted = ref weighteds[index];
-                if (weighted.Weight <= randomVal) return weighted;
+                if (randomVal < weighted.Weight) return weighted;
                 randomVal -= weighted.Weight;
             }
 
