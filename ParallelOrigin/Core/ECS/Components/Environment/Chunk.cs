@@ -18,7 +18,8 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     public struct Chunk {
 
         public Grid grid;
-        public DateTime createdOn;
+        public DateTime createdOn;     // The date and time when it was created
+        public DateTime mobSpawnednOn;   // The date and time of the last mob spawn 
 
         public ConcurrentHashSet<Entity> contains;  // Required due to fast acess when there many entities inside the chunk
         public NativeList<Entity> loadedBy;
