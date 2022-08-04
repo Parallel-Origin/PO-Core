@@ -123,5 +123,4 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
 
 }
 
-using ParallelOriginGameServer.Server.Extensions;
 #endif
