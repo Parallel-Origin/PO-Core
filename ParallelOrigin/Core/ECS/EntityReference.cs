@@ -94,7 +94,7 @@ namespace ParallelOrigin.Core.ECS {
         public Entity entity;
         public long uniqueID;
 
-        public EntityReference(in Entity entity)  { this.entity = entity; }
+        public EntityReference(in Entity entity)  { this.entity = entity; uniqueID = -1; }
         public EntityReference(in long uniqueID) {
             this.entity = Entity.Null;
             this.uniqueID = uniqueID; 
@@ -141,7 +141,7 @@ namespace ParallelOrigin.Core.ECS {
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
-        public Entity Resolve(ref NativeHashMap<ulong, Entity> mapping) {
+        public Entity Resolve(ref NativeHashMap<long, Entity> mapping) {
 
             if (entity != Entity.Null)
                 return entity;
@@ -154,7 +154,7 @@ namespace ParallelOrigin.Core.ECS {
         }
 
         public void Serialize(NetDataWriter writer) { writer.Put(uniqueID); }
-        public void Deserialize(NetDataReader reader) { uniqueID = reader.GetULong(); }
+        public void Deserialize(NetDataReader reader) { uniqueID = reader.GetLong(); }
     }
     
 #endif

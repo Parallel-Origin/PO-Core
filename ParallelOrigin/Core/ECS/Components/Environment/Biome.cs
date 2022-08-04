@@ -1,7 +1,9 @@
 using System;
 using ParallelOrigin.Core.Base.Classes;
 using ParallelOrigin.Core.ECS.Components.Items;
-using ParallelOriginGameServer.Server.Extensions;
+
+#if SERVER
+
 
 namespace ParallelOrigin.Core.ECS.Components.Environment {
     
@@ -120,3 +122,6 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     }
 
 }
+
+using ParallelOriginGameServer.Server.Extensions;
+#endif
