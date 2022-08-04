@@ -9,7 +9,7 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct ChatMessageCommand : INetSerializable{
         
-        public ulong sender;
+        public long sender;
         public string senderUsername;
             
         public byte channel;
@@ -27,7 +27,7 @@ namespace ParallelOrigin.Core.Network {
 
         public void Deserialize(NetDataReader reader) {
             
-            sender = reader.GetULong();
+            sender = reader.GetLong();
             senderUsername = reader.GetFixedString();
             channel = reader.GetByte();
             message = reader.GetFixedString();

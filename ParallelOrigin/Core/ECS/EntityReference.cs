@@ -24,21 +24,21 @@ namespace ParallelOrigin.Core.ECS {
     public struct EntityReference : INetSerializable, IEquatable<EntityReference> {
 
         public Entity entity;
-        public ulong uniqueID;
+        public long uniqueID;
 
         
-        public EntityReference(Entity entity, ulong id) {
+        public EntityReference(Entity entity, long id) {
             this.entity = entity;
             this.uniqueID = id;
         }
 
         
-        public EntityReference(in Entity entity, ulong id) {
+        public EntityReference(in Entity entity, long id) {
             this.entity = entity;
             this.uniqueID = id;
         }
 
-        public EntityReference(ulong uniqueId) {
+        public EntityReference(long uniqueId) {
             entity = default;
             uniqueID = uniqueId;
         }
@@ -81,7 +81,7 @@ namespace ParallelOrigin.Core.ECS {
         
         public void Serialize(NetDataWriter writer) { writer.Put(uniqueID); }
 
-        public void Deserialize(NetDataReader reader) { uniqueID = reader.GetULong(); }
+        public void Deserialize(NetDataReader reader) { uniqueID = reader.GetLong(); }
     }
     
 #elif CLIENT
@@ -92,14 +92,14 @@ namespace ParallelOrigin.Core.ECS {
     public struct EntityReference : INetSerializable{
 
         public Entity entity;
-        public ulong uniqueID;
+        public long uniqueID;
 
         public EntityReference(in Entity entity)  { this.entity = entity; }
-        public EntityReference(in ulong uniqueID) {
+        public EntityReference(in long uniqueID) {
             this.entity = Entity.Null;
             this.uniqueID = uniqueID; 
         }
-        public EntityReference(in Entity entity, in ulong uniqueID)  {
+        public EntityReference(in Entity entity, in long uniqueID)  {
             this.entity = entity; 
             this.uniqueID = uniqueID;
         }

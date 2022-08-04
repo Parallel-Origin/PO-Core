@@ -20,7 +20,7 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct EntityCommand : INetSerializable {
 
-        public ulong id;
+        public long id;
         public string type; // Only being used if the type does NOT exist on the client 
         public byte opcode;
 
@@ -31,7 +31,7 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            id = reader.GetULong();
+            id = reader.GetLong();
             type = reader.GetFixedString();
             opcode = reader.GetByte();
         }
@@ -286,7 +286,7 @@ namespace ParallelOrigin.Core.Network {
     /// <typeparam name="T"></typeparam>
     public struct ComponentCommand<T> : INetSerializable where T : struct, INetSerializable {
 
-        public ulong id;
+        public long id;
         public T component;
         public byte opcode;
         
@@ -297,7 +297,7 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            id = reader.GetULong();
+            id = reader.GetLong();
             component = reader.Get<T>();
             opcode = reader.GetByte();
         }
