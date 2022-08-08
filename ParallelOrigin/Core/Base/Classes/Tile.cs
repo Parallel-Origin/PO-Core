@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace ParallelOrigin.Core.Base.Classes {
 
@@ -56,10 +57,10 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// </summary>
     public readonly struct Tile {
 
-        public readonly double north;
-        public readonly double south;
-        public readonly double east;
-        public readonly double west;
+        public readonly double north;  // Higher x
+        public readonly double south;  // Lower x
+        public readonly double east;   // Lower Y
+        public readonly double west;   // Higher Y
 
         public readonly Vector2d range;
         public readonly Vector2d middle;
@@ -73,7 +74,14 @@ namespace ParallelOrigin.Core.Base.Classes {
             this.middle = middle;
         }
 
-        public bool Inside(double x, double y){ return x <= north && x >= south && y <= east && y >= west; }
+        /// <summary>
+        /// Checks wether a certain position is within the tile. 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Inside(double x, double y){ return x <= north && x >= south && y >= east && y <= west; }
 
         public override string ToString() { return $"{nameof(north)}: {north}, {nameof(south)}: {south}, {nameof(east)}: {east}, {nameof(west)}: {west}, {nameof(range)}: {range}, {nameof(middle)}: {middle}"; }
     }
