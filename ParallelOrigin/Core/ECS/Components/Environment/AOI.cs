@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Collections.Pooled;
 
 #if SERVER
+using System;
 using System.Drawing;
 using ParallelOrigin.Core.ECS.Components.Reactive;
 using ParallelOriginGameServer.Server.Extensions;
@@ -32,15 +34,19 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     /// <summary>
     /// Marks an entity with a list of entities that lately entered its aoi
     /// </summary>
-    public struct AOIEntered {
-        public HashSet<QuadEntity> entered;
+    public struct AOIEntered : IDisposable{
+        
+        public PooledSet<QuadEntity> entered;  // Pooled to reduce memory usage -> Exists one frame only
+        public void Dispose() => entered.Dispose();
     }
 
     /// <summary>
     /// Marks an entity with a list of entities which lately left its aoi 
     /// </summary>
-    public struct AOILeft {
-        public HashSet<QuadEntity> left;
+    public struct AOILeft : IDisposable{
+        
+        public PooledSet<QuadEntity> left;    // Pooled to reduce memory usage  -> Exists one frame only
+        public void Dispose() => left.Dispose();
     }
     
 #endif

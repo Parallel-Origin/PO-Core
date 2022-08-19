@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 
 #if SERVER
+using System;
+using Collections.Pooled;
 using ParallelOriginGameServer.Server.Extensions;
 #endif
 
@@ -32,15 +34,19 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
     /// <summary>
     /// A struct which marks an entity which received a bunch of newly entered collisions
     /// </summary>
-    public struct CollisionsEntered {
-        public HashSet<QuadEntity> entered;
+    public struct CollisionsEntered : IDisposable{
+        
+        public PooledSet<QuadEntity> entered;
+        public void Dispose() => entered.Dispose();
     }
 
     /// <summary>
     /// A struct which tells an entity which collisions left
     /// </summary>
-    public struct CollisionsLeft {
-        public HashSet<QuadEntity> left;
+    public struct CollisionsLeft : IDisposable{
+        
+        public PooledSet<QuadEntity> left;
+        public void Dispose() => left.Dispose();
     }
 
     
