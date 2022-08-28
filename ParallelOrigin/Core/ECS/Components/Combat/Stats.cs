@@ -10,6 +10,37 @@ using Unity.Collections;
 namespace ParallelOrigin.Core.ECS.Components.Combat {
     
 #if SERVER
+    
+    /// <summary>
+    /// Represents a value which can be modified, stores the base value and the modified one 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public struct Stat<T> {
+
+        public T baseValue;
+        public T value;
+    }
+
+    // The range with which an entity can attack
+    public struct Range {
+        public Stat<float> range;
+    }
+
+    // Attack speed
+    public struct Speed {
+        public Stat<float> speed;
+    }
+
+    // Physical damage & resistence 
+    public struct PhysicalDamage {
+        public Stat<float> damage;
+    }
+
+    // Physical resistence
+    public struct PhysicalResistence {
+        public Stat<float> resistence;
+    }
+
 
      /// <summary>
      ///  A component which stores informations about the health of a entity.
