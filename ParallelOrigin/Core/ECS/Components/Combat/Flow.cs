@@ -11,5 +11,7 @@ public struct Damage {
 
 // Marks an entity that is in combat with another one 
 public struct Attacks {
+
+    public float intervall;
     public HashSet<Entity> entities;
 }
