@@ -53,6 +53,8 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
         public Entity inventory;
     }
     
+    // TODO : Someday just remove those components below and just go with normal ecs events  
+    
     /// <summary>
     /// A component which marks an entity to notify it about newly added items. 
     /// </summary>
