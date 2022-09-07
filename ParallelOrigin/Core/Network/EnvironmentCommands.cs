@@ -38,7 +38,7 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            entity = reader.Get<EntityReference>();
+            entity.Deserialize(reader);
             position = reader.GetVector2d();
         }
     }

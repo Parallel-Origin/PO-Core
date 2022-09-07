@@ -40,7 +40,7 @@ namespace ParallelOrigin.Core.Network {
 
         public void Deserialize(NetDataReader reader) {
             state = (State)reader.GetByte();
-            item = reader.Get<T>();
+            item.Deserialize(reader);
         }
     }
     
@@ -75,7 +75,7 @@ namespace ParallelOrigin.Core.Network {
             Data = new T[Size];
 
             for (var index = 0; index < Size; index++)
-                Data[index] = reader.Get<T>();
+                Data[index].Deserialize(reader);
         }
         
         public ref T this[int index] => ref Data[index];
@@ -115,7 +115,7 @@ namespace ParallelOrigin.Core.Network {
 
         public void Deserialize(NetDataReader reader) {
             
-            identifier = reader.Get<Id>();
+            identifier.Deserialize(reader);
             reader.GetArray(ref items);
         }
         
@@ -179,7 +179,7 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            Character = reader.Get<Character>();
+            Character.Deserialize(reader);
         }
     }
     
@@ -227,8 +227,8 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            clicker = reader.Get<EntityReference>();
-            clicked = reader.Get<EntityReference>();
+            clicker.Deserialize(reader);
+            clicked.Deserialize(reader);
         }
     }
 
@@ -247,7 +247,7 @@ namespace ParallelOrigin.Core.Network {
 
         public void Deserialize(NetDataReader reader) {
 
-            clicker = reader.Get<EntityReference>();
+            clicker.Deserialize(reader);
             position = reader.GetVector2d();
         }
     }

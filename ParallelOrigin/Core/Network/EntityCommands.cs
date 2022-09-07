@@ -3,6 +3,8 @@ using ParallelOrigin.Core.Extensions;
 
 namespace ParallelOrigin.Core.Network {
 
+    // reader.Get<T> is bad since it allocates memory... use T.Deserialize() instead
+    
     /// <summary>
     /// Possible entity op codes
     /// </summary>
@@ -51,8 +53,8 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            command = reader.Get<EntityCommand>();
-            t1Component = reader.Get<T1>();
+            command.Deserialize(reader);
+            t1Component.Deserialize(reader);
         }
     }
 
@@ -73,9 +75,9 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            command = reader.Get<EntityCommand>();
-            t1Component = reader.Get<T1>();
-            t2Component = reader.Get<T2>();
+            command.Deserialize(reader);
+            t1Component.Deserialize(reader);
+            t2Component.Deserialize(reader);
         }
     }
     
@@ -98,10 +100,10 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            command = reader.Get<EntityCommand>();
-            t1Component = reader.Get<T1>();
-            t2Component = reader.Get<T2>();
-            t3Component = reader.Get<T3>();
+            command.Deserialize(reader);
+            t1Component.Deserialize(reader);
+            t2Component.Deserialize(reader);
+            t3Component.Deserialize(reader);
         }
     }
     
@@ -126,11 +128,11 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            command = reader.Get<EntityCommand>();
-            t1Component = reader.Get<T1>();
-            t2Component = reader.Get<T2>();
-            t3Component = reader.Get<T3>();
-            t4Component = reader.Get<T4>();
+            command.Deserialize(reader);
+            t1Component.Deserialize(reader);
+            t2Component.Deserialize(reader);
+            t3Component.Deserialize(reader);
+            t4Component.Deserialize(reader);
         }
     }
     
@@ -157,12 +159,12 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            command = reader.Get<EntityCommand>();
-            t1Component = reader.Get<T1>();
-            t2Component = reader.Get<T2>();
-            t3Component = reader.Get<T3>();
-            t4Component = reader.Get<T4>();
-            t5Component = reader.Get<T5>();
+            command.Deserialize(reader);
+            t1Component.Deserialize(reader);
+            t2Component.Deserialize(reader);
+            t3Component.Deserialize(reader);
+            t4Component.Deserialize(reader);
+            t5Component.Deserialize(reader);
         }
     }
     
@@ -191,13 +193,13 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            command = reader.Get<EntityCommand>();
-            t1Component = reader.Get<T1>();
-            t2Component = reader.Get<T2>();
-            t3Component = reader.Get<T3>();
-            t4Component = reader.Get<T4>();
-            t5Component = reader.Get<T5>();
-            t6Component = reader.Get<T6>();
+            command.Deserialize(reader);
+            t1Component.Deserialize(reader);
+            t2Component.Deserialize(reader);
+            t3Component.Deserialize(reader);
+            t4Component.Deserialize(reader);
+            t5Component.Deserialize(reader);
+            t6Component.Deserialize(reader);
         }
     }
 
@@ -228,14 +230,14 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            command = reader.Get<EntityCommand>();
-            t1Component = reader.Get<T1>();
-            t2Component = reader.Get<T2>();
-            t3Component = reader.Get<T3>();
-            t4Component = reader.Get<T4>();
-            t5Component = reader.Get<T5>();
-            t6Component = reader.Get<T6>();
-            t7Component = reader.Get<T7>();
+            command.Deserialize(reader);
+            t1Component.Deserialize(reader);
+            t2Component.Deserialize(reader);
+            t3Component.Deserialize(reader);
+            t4Component.Deserialize(reader);
+            t5Component.Deserialize(reader);
+            t6Component.Deserialize(reader);
+            t7Component.Deserialize(reader);
         }
     }
     
@@ -268,15 +270,15 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            command = reader.Get<EntityCommand>();
-            t1Component = reader.Get<T1>();
-            t2Component = reader.Get<T2>();
-            t3Component = reader.Get<T3>();
-            t4Component = reader.Get<T4>();
-            t5Component = reader.Get<T5>();
-            t6Component = reader.Get<T6>();
-            t7Component = reader.Get<T7>();
-            t8Component = reader.Get<T8>();
+            command.Deserialize(reader);
+            t1Component.Deserialize(reader);
+            t2Component.Deserialize(reader);
+            t3Component.Deserialize(reader);
+            t4Component.Deserialize(reader);
+            t5Component.Deserialize(reader);
+            t6Component.Deserialize(reader);
+            t7Component.Deserialize(reader);
+            t8Component.Deserialize(reader);
         }
     }
     
@@ -298,7 +300,7 @@ namespace ParallelOrigin.Core.Network {
 
         public void Deserialize(NetDataReader reader) {
             id = reader.GetLong();
-            component = reader.Get<T>();
+            component.Deserialize(reader);
             opcode = reader.GetByte();
         }
     }

@@ -19,7 +19,7 @@ namespace ParallelOrigin.Core.Network {
         }
 
         public void Deserialize(NetDataReader reader) {
-            builder = reader.Get<EntityReference>();
+            builder.Deserialize(reader);
             recipe = reader.GetFixedString();
         }
     }

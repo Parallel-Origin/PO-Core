@@ -100,9 +100,7 @@ namespace ParallelOrigin.Core.Extensions {
             array = array ?? new T[size]; 
             
             for (var index = 0; index < size; index++) {
-
-                var value = reader.Get<T>();
-                array[index] = value;
+                array[index].Deserialize(reader);
             }
         }
         
@@ -129,9 +127,7 @@ namespace ParallelOrigin.Core.Extensions {
             list = list ?? new List<T>(size); 
             
             for (var index = 0; index < size; index++) {
-
-                var value = reader.Get<T>();
-                list.Add(value);
+                list[index].Deserialize(reader);
             }
         }
         

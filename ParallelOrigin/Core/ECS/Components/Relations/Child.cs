@@ -19,7 +19,7 @@ namespace ParallelOrigin.Core.ECS.Components.Relations {
         public EntityReference parent;
         
         public void Serialize(NetDataWriter writer) { writer.Put(parent); }
-        public void Deserialize(NetDataReader reader) { parent = reader.Get<EntityReference>(); }
+        public void Deserialize(NetDataReader reader) { parent.Deserialize(reader); }
     }
     
 #elif CLIENT
@@ -33,7 +33,7 @@ namespace ParallelOrigin.Core.ECS.Components.Relations {
         public EntityReference parent;
 
         public void Serialize(NetDataWriter writer) { writer.Put(parent); }
-        public void Deserialize(NetDataReader reader) { parent = reader.Get<EntityReference>(); }
+        public void Deserialize(NetDataReader reader) {  parent.Deserialize(reader); }
     }
 
 #endif

@@ -33,8 +33,8 @@ namespace ParallelOrigin.Core.ECS.Components {
         }
 
         public void Deserialize(NetDataReader reader) {
-            owner = reader.Get<EntityReference>();
-            target = reader.Get<EntityReference>();
+            owner.Deserialize(reader);
+            target.Deserialize(reader);
         }
     }
       
@@ -58,8 +58,8 @@ namespace ParallelOrigin.Core.ECS.Components {
         }
 
         public void Deserialize(NetDataReader reader) {
-            owner = reader.Get<EntityReference>();
-            target = reader.Get<EntityReference>();
+            owner.Deserialize(reader);
+            target.Deserialize(reader);
         }
     }
         

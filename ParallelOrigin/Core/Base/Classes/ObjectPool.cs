@@ -8,7 +8,7 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// A pool of objects which can be used to pool items for short lived operations. 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static partial class ObjectPool<T> {
+    public static partial class ObjectPool<T> where T : new(){
 
         private static readonly ConcurrentBag<T> _objects = new ConcurrentBag<T>();
 
@@ -21,7 +21,7 @@ namespace ParallelOrigin.Core.Base.Classes {
 
             if (_objects.TryTake(out var item)) return item;
 
-            var newInstance = default(T);
+            var newInstance = new T();
             return newInstance;
         }
 
