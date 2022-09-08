@@ -46,8 +46,8 @@ namespace ParallelOrigin.Core.ECS.Components.UI {
     [BurstCompile]
     public struct Localizations : IComponentData, INetSerializable {
         
-        public UnsafeHashMap<FixedString32Bytes, short> localizations;
-        public UnsafeHashMap<FixedString32Bytes, FixedString32Bytes> uniqueLocalizations;
+        public UnsafeParallelHashMap<FixedString32Bytes, short> localizations;
+        public UnsafeParallelHashMap<FixedString32Bytes, FixedString32Bytes> uniqueLocalizations;
 
         public void Serialize(NetDataWriter writer) {
             NetworkSerializerExtensions.PutDic(writer, localizations);
