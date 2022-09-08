@@ -1,27 +1,38 @@
 using System.Collections.Generic;
-using DefaultEcs;
 using ParallelOrigin.Core.Base.Classes;
+
+#if SERVER
+using DefaultEcs;
 using ParallelOriginGameServer.Server.Persistence;
+#endif
 
-namespace ParallelOriginGameServer.Server.Commands; 
+namespace ParallelOriginGameServer.Server.Commands {
 
-/// <summary>
-/// Possible chunk perations
-/// </summary>
-public enum ChunkOperation : byte{
-    CREATE,
-    LOADED,
-    DELOADED
-}
-
-/// <summary>
-/// A command which represents a chunk event or command which can be reacted to 
-/// </summary>
-public struct ChunkCommand {
-
-    public ChunkOperation operation;
-    public Entity by;
+#if SERVER
     
-    public HashSet<Grid> grids;
-    public HashSet<Chunk> chunks;
+    /// <summary>
+    /// Possible chunk perations
+    /// </summary>
+    public enum ChunkOperation : byte {
+
+        CREATE,
+        LOADED,
+        DELOADED
+
+    }
+
+    /// <summary>
+    /// A command which represents a chunk event or command which can be reacted to 
+    /// </summary>
+    public struct ChunkCommand {
+
+        public ChunkOperation operation;
+        public Entity by;
+
+        public HashSet<Grid> grids;
+        public HashSet<Chunk> chunks;
+
+    }
+
+#endif
 }
