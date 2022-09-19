@@ -17,6 +17,9 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     /// </summary>
     public struct OnClickedVisit{}
     
+    // On clicked, attack the entity which this popup targets. 
+    public struct OnClickedAttack{}
+    
     /// <summary>
     /// A component for an option, once it was pressed the whole popup will be marked for being destroyed
     /// </summary>

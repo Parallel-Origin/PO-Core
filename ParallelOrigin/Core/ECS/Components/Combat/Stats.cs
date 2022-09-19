@@ -19,6 +19,16 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
 
         public T baseValue;
         public T value;
+
+        public Stat(T baseValue) : this() {
+            this.baseValue = baseValue;
+            this.value = baseValue;
+        }
+
+        public Stat(T baseValue, T value) {
+            this.baseValue = baseValue;
+            this.value = value;
+        }
     }
 
     // The range with which an entity can attack
@@ -27,7 +37,7 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
     }
 
     // Attack speed
-    public struct Speed {
+    public struct AttackSpeed {
         public Stat<float> speed;
     }
 
@@ -66,6 +76,9 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
             currentHealth = reader.GetFloat();
         }
      }   
+     
+     // Marks an entity as dead, doesnt mean that its destroyed... its health is just below zero 
+     public struct Dead{}
      
 #elif CLIENT 
     
