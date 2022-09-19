@@ -67,8 +67,8 @@ namespace ParallelOrigin.Core.ECS.Components.Animations {
         
         public byte controllerID;
         
-        public UnsafeHashMap<FixedString32Bytes, byte> overridenAnimationClips;
-        public UnsafeHashMap<FixedString32Bytes, bool> boolParams;
+        public UnsafeParallelHashMap<FixedString32Bytes, byte> overridenAnimationClips;
+        public UnsafeParallelHashMap<FixedString32Bytes, bool> boolParams;
         public UnsafeList<FixedString32Bytes> triggers;
         
         public void Serialize(NetDataWriter writer) { throw new System.NotImplementedException(); }
@@ -86,7 +86,7 @@ namespace ParallelOrigin.Core.ECS.Components.Animations {
     /// </summary>
     [BurstCompile]
     public struct AnimationController : IComponentData {
-        public UnsafeHashMap<FixedString32Bytes, short> animations;
+        public UnsafeParallelHashMap<FixedString32Bytes, short> animations;
     }
 #endif
     

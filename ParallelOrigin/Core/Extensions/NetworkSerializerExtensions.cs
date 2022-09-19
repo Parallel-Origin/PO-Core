@@ -496,7 +496,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void PutDic(this NetDataWriter writer, UnsafeHashMap<FixedString32Bytes, short> dic) {
+        public static void PutDic(this NetDataWriter writer, UnsafeParallelHashMap<FixedString32Bytes, short> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count());
@@ -514,10 +514,10 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32Bytes, short> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeParallelHashMap<FixedString32Bytes, short> dic) {
             
             var size = reader.GetInt();
-            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32Bytes, short>(size, Allocator.Persistent);
+            if(!dic.IsCreated) dic = new UnsafeParallelHashMap<FixedString32Bytes, short>(size, Allocator.Persistent);
             
             for (var index = 0; index < size; index++) {
 
@@ -532,10 +532,10 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32Bytes, byte> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeParallelHashMap<FixedString32Bytes, byte> dic) {
             
             var size = reader.GetInt();
-            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32Bytes, byte>(size, Allocator.Persistent);
+            if(!dic.IsCreated) dic = new UnsafeParallelHashMap<FixedString32Bytes, byte>(size, Allocator.Persistent);
             
             for (var index = 0; index < size; index++) {
 
@@ -550,10 +550,10 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32Bytes, bool> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeParallelHashMap<FixedString32Bytes, bool> dic) {
             
             var size = reader.GetInt();
-            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32Bytes, bool>(size, Allocator.Persistent);
+            if(!dic.IsCreated) dic = new UnsafeParallelHashMap<FixedString32Bytes, bool>(size, Allocator.Persistent);
             
             for (var index = 0; index < size; index++) {
 
@@ -568,7 +568,7 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dic"></param>
-        public static void PutDic(this NetDataWriter writer, UnsafeHashMap<FixedString32Bytes, FixedString32Bytes> dic) {
+        public static void PutDic(this NetDataWriter writer, UnsafeParallelHashMap<FixedString32Bytes, FixedString32Bytes> dic) {
             
             // Write overriden anim clips dic
             writer.Put(dic.Count());
@@ -586,10 +586,10 @@ namespace ParallelOrigin.Core.Extensions {
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="dic"></param>
-        public static void GetDic(this NetDataReader reader, ref UnsafeHashMap<FixedString32Bytes, FixedString32Bytes> dic) {
+        public static void GetDic(this NetDataReader reader, ref UnsafeParallelHashMap<FixedString32Bytes, FixedString32Bytes> dic) {
             
             var size = reader.GetInt();
-            if(!dic.IsCreated) dic = new UnsafeHashMap<FixedString32Bytes, FixedString32Bytes>(size, Allocator.Persistent);
+            if(!dic.IsCreated) dic = new UnsafeParallelHashMap<FixedString32Bytes, FixedString32Bytes>(size, Allocator.Persistent);
             
             for (var index = 0; index < size; index++) {
 

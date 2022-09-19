@@ -141,7 +141,7 @@ namespace ParallelOrigin.Core.ECS {
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
-        public Entity Resolve(ref NativeHashMap<long, Entity> mapping) {
+        public Entity Resolve(ref NativeParallelHashMap<long, Entity> mapping) {
 
             if (entity != Entity.Null)
                 return entity;
