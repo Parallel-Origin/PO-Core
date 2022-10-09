@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System;
 using System.Drawing;
 using Collections.Pooled;
-using ParallelOrigin.Core.ECS.Components.Reactive;
 using ParallelOriginGameServer.Server.Extensions;
 using ParallelOriginGameServer.Server.Systems;
 #endif

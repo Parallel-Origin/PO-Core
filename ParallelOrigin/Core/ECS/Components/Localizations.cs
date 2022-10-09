@@ -10,7 +10,7 @@ using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components.UI {
+namespace ParallelOrigin.Core.ECS.Components {
 
 #if SERVER
     

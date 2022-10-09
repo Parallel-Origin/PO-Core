@@ -29,7 +29,7 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     /// Marks an entity as moving this frame. 
     /// </summary>
     public struct Moving{}
-    
+
 #elif CLIENT
 
     /// <summary>

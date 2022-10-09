@@ -109,35 +109,6 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     }
 
     /// <summary>
-    /// The building recipe, determining what is builded when and where...
-    /// Additional conditions like required items, level or whatever can be extra fields in this struct. 
-    /// </summary>
-    public struct BuildingRecipe : INetSerializable{
-        
-        public BuildSpot spot;
-        public BuildCondition buildCondition;
-        public float duration;
-
-        public BuildingRecipe(BuildSpot spot, BuildCondition buildCondition, float duration) {
-            this.spot = spot;
-            this.buildCondition = buildCondition;
-            this.duration = duration;
-        }
-
-        public void Serialize(NetDataWriter writer) {
-            writer.Put((byte)spot);
-            writer.Put((byte)buildCondition);
-            writer.Put(duration);
-        }
-
-        public void Deserialize(NetDataReader reader) {
-            spot = (BuildSpot)reader.GetByte();
-            buildCondition = (BuildCondition)reader.GetByte();
-            duration = reader.GetFloat();
-        }
-    }
-    
-    /// <summary>
     /// The actual component for a player which defines his building recipes
     /// </summary>
     public struct BuildRecipes : INetSerializable{
@@ -226,35 +197,6 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
             craftables = new UnsafeList<Craftable>(size, Allocator.Persistent);
             for (var index = 0; index < size; index++) 
                 craftables.Add(reader.GetCraftable());
-        }
-    }
-
-    /// <summary>
-    /// The building recipe, determining what is builded when and where...
-    /// Additional conditions like required items, level or whatever can be extra fields in this struct. 
-    /// </summary>
-    public struct BuildingRecipe : IComponentData, INetSerializable{
-        
-        public BuildSpot spot;
-        public BuildCondition buildCondition;
-        public float duration;
-
-        public BuildingRecipe(BuildSpot spot, BuildCondition buildCondition, float duration) {
-            this.spot = spot;
-            this.buildCondition = buildCondition;
-            this.duration = duration;
-        }
-
-        public void Serialize(NetDataWriter writer) {
-            writer.Put((byte)spot);
-            writer.Put((byte)buildCondition);
-            writer.Put(duration);
-        }
-
-        public void Deserialize(NetDataReader reader) {
-            spot = (BuildSpot)reader.GetByte();
-            buildCondition = (BuildCondition)reader.GetByte();
-            duration = reader.GetFloat();
         }
     }
     

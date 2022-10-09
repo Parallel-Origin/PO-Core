@@ -14,25 +14,7 @@ using DefaultEcs;
 namespace ParallelOrigin.Core.ECS.Components.Items {
     
 #if SERVER
-    
-    /// <summary>
-    ///     A component attachable to a entity which contains variables to get represented as a item.
-    /// </summary>
-    public struct Item : INetSerializable{
 
-        public uint amount;
-        public bool stackable;
-        
-        public void Serialize(NetDataWriter writer) { 
-            writer.Put(amount); 
-            writer.Put(stackable); 
-        }
-        public void Deserialize(NetDataReader reader) { 
-            amount = reader.GetUInt();
-            stackable = reader.GetBool();
-        }
-    }
-    
     /// <summary>
     ///  This class represents the local player inventory.
     ///  It is a <see cref="IBufferElementData" /> because it has no predefined size and therefore cannot be a <see cref="IComponentData" />
@@ -105,25 +87,6 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     [BurstCompile]
     public struct RemovedFromInventory : IComponentData {
         public UnsafeList<Entity> removed;
-    }
-    
-        /// <summary>
-    ///     A component attachable to a entity which contains variables to get represented as a item.
-    /// </summary>
-    [BurstCompile]
-    public struct Item : IComponentData, INetSerializable {
-
-        public uint amount;
-        public bool stackable;
-        
-        public void Serialize(NetDataWriter writer) { 
-            writer.Put(amount); 
-            writer.Put(stackable); 
-        }
-        public void Deserialize(NetDataReader reader) { 
-            amount = reader.GetUInt();
-            stackable = reader.GetBool();
-        }
     }
 #endif
 }

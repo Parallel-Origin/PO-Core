@@ -1,10 +1,38 @@
+using System.Collections.Generic;
+using ParallelOrigin.Core.Base.Classes;
+
 #if SERVER
 using DefaultEcs;
+using ParallelOriginGameServer.Server.Persistence;
 #endif
 
-namespace ParallelOriginGameServer.Server.Commands {
+namespace ParallelOrigin.Core.ECS.Components {
 
 #if SERVER
+    
+    /// <summary>
+    /// Possible chunk perations
+    /// </summary>
+    public enum ChunkOperation : byte {
+
+        CREATE,
+        LOADED,
+        DELOADED
+
+    }
+
+    /// <summary>
+    /// A command which represents a chunk event or command which can be reacted to 
+    /// </summary>
+    public struct ChunkCommand {
+
+        public ChunkOperation operation;
+        public Entity by;
+
+        public HashSet<Grid> grids;
+        public HashSet<ParallelOriginGameServer.Server.Persistence.Chunk> chunks;
+
+    }
     
     /// <summary>
     /// Possible inventory perations
@@ -34,5 +62,15 @@ namespace ParallelOriginGameServer.Server.Commands {
         }
     }
     
+    /// <summary>
+    /// A command which should spawn in a popup with certain data. 
+    /// </summary>
+    public struct PopUpCommand {
+        
+        public string type;
+        public Entity owner;
+        public Entity target;
+    }
+
 #endif
 }

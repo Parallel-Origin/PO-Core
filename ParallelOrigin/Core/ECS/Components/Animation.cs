@@ -14,7 +14,7 @@ using ParallelOrigin.Core.Extensions;
 using ParallelOriginGameServer.Server.Network;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components.Animations { 
+namespace ParallelOrigin.Core.ECS.Components { 
     
 #if SERVER
 

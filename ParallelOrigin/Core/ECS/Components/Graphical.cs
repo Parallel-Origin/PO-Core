@@ -5,7 +5,7 @@ using Unity.Entities;
 using Unity.Collections;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components.Graphical {
+namespace ParallelOrigin.Core.ECS.Components {
     
 #if SERVER
 
@@ -35,6 +35,27 @@ namespace ParallelOrigin.Core.ECS.Components.Graphical {
         }
     }
     
+    /// <summary>
+    /// Represents a reference to a sprite, icon or logo for a entity.
+    /// </summary>
+    
+    public struct Sprite : INetSerializable{
+                
+        /// <summary>
+        /// The ID of a mesh from the internal database we wanna reference for this entity
+        /// </summary>
+        public short id;
+
+        public void Serialize(NetDataWriter writer) { writer.Put(id); }
+        public void Deserialize(NetDataReader reader) { id = reader.GetShort(); }
+    }
+
+    
+    /// <summary>
+    /// A struct which marks an entity as invisible to deactivate its rendering. 
+    /// </summary>
+    public struct Invisible {}
+    
 #elif CLIENT 
     
     /// <summary>
@@ -62,5 +83,27 @@ namespace ParallelOrigin.Core.ECS.Components.Graphical {
             instantiate = reader.GetBool();
         }
     }
+    
+
+    /// <summary>
+    /// Represents a reference to a sprite, icon or logo for a entity.
+    /// </summary>
+    [BurstCompile]
+    public struct Sprite : IComponentData, INetSerializable {
+                
+        /// <summary>
+        ///  The ID of a mesh from the internal database we wanna reference for this entity
+        /// </summary>
+        public short id;
+        
+        public void Serialize(NetDataWriter writer) { writer.Put(id); }
+        public void Deserialize(NetDataReader reader) { id = reader.GetShort(); }
+    }
+        
+   /// <summary>
+    /// A struct which marks an entity as invisible to deactivate its rendering. 
+    /// </summary>
+    [BurstCompatible]
+    public struct Invisible : IComponentData{}
 #endif
 }

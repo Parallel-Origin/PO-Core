@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using LiteNetLib.Utils;
 
 #if CLIENT
@@ -64,6 +65,7 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
          ///     Returns true if the entity is dead
          /// </summary>
          /// <returns></returns>
+         [MethodImpl(MethodImplOptions.AggressiveInlining)]
          public bool IsDead() { return currentHealth <= 0; }
 
         public void Serialize(NetDataWriter writer) {

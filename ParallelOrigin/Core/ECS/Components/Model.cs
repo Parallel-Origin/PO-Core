@@ -1,4 +1,4 @@
-namespace ParallelOrigin.Core.ECS.Components.Database {
+namespace ParallelOrigin.Core.ECS.Components {
     
     /// <summary>
     /// An component which stores the database model of an entity

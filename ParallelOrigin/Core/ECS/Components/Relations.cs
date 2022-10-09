@@ -8,7 +8,7 @@ using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components.Relations {
+namespace ParallelOrigin.Core.ECS.Components {
 
 #if SERVER
     
@@ -23,6 +23,17 @@ namespace ParallelOrigin.Core.ECS.Components.Relations {
         public void Deserialize(NetDataReader reader) { reader.GetList(ref children); }
     }    
     
+    /// <summary>
+    /// Represents a child which has a "Parent-Child" Relation to its parent
+    /// </summary>
+    public struct Child : INetSerializable{
+        
+        public EntityReference parent;
+        
+        public void Serialize(NetDataWriter writer) { writer.Put(parent); }
+        public void Deserialize(NetDataReader reader) { parent.Deserialize(reader); }
+    }
+    
 #elif CLIENT
 
     /// <summary>
@@ -36,6 +47,18 @@ namespace ParallelOrigin.Core.ECS.Components.Relations {
 
         public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, ref children); }
         public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref children); }
+    }
+    
+            /// <summary>
+    ///     Represents a child which has a "Parent-Child" Relation to its parent
+    /// </summary>
+    [BurstCompile]
+    public struct Child : IComponentData, INetSerializable {
+            
+        public EntityReference parent;
+
+        public void Serialize(NetDataWriter writer) { writer.Put(parent); }
+        public void Deserialize(NetDataReader reader) {  parent.Deserialize(reader); }
     }
     
 #endif
