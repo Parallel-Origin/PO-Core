@@ -12,6 +12,7 @@ using DefaultEcs;
 using LiteNetLib;
 using System.Collections.Generic;
 using System.Drawing;
+using ConcurrentCollections;
 using LiteNetLib.Utils;
 using ParallelOriginGameServer.Server.Persistence;
 #endif

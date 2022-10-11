@@ -29,12 +29,12 @@ namespace ParallelOrigin.Core.ECS.Components {
     ///  Gets removed after the frame.
     /// </summary>
     public struct Created{ }
-
+    
     /// <summary>
-    /// Marks an entity as active and alive. 
+    /// Represents an inactive entity, does not mean that this entity is dead.
     /// </summary>
-    public struct Active{ }
-     
+    public struct Inactive{ }
+
     /// <summary>
     /// Marks an entity as a prefab. Should not take place ingame. 
     /// </summary>
