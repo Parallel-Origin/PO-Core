@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ParallelOrigin.Core.Base.Interfaces;
 using ParallelOrigin.Core.Base.Interfaces.Prototype;
-using ParallelOriginGameServer;
 
 namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
 

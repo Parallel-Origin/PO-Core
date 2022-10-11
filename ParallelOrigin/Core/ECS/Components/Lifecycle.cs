@@ -1,9 +1,11 @@
 using System;
-using DefaultEcs;
+
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
+#elif SERVER
+using DefaultEcs;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components {
