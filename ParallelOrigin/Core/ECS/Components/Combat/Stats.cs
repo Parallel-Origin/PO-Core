@@ -78,9 +78,7 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
             currentHealth = reader.GetFloat();
         }
      }   
-     
-     // Marks an entity as dead, doesnt mean that its destroyed... its health is just below zero 
-     public struct Dead{}
+    
      
 #elif CLIENT 
     

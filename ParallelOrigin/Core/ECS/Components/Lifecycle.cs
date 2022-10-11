@@ -26,12 +26,12 @@ namespace ParallelOrigin.Core.ECS.Components {
     ///  Marks a <see cref="Entity" /> as "created" during this frame...
     ///  Gets removed after the frame.
     /// </summary>
-    public struct Created  { }
+    public struct Created{ }
 
     /// <summary>
     /// Marks an entity as active and alive. 
     /// </summary>
-    public struct Active { }
+    public struct Active{ }
      
     /// <summary>
     /// Marks an entity as a prefab. Should not take place ingame. 
@@ -56,18 +56,18 @@ namespace ParallelOrigin.Core.ECS.Components {
     ///     Destroys a <see cref="Entity" /> at the end of the current frame.
     /// </summary>
         
-    public struct Destroy  { }
+    public struct Destroy{ }
     
     /// <summary>
     ///     Marks a <see cref="Entity" /> as destroyed for the lifecycle...
     /// </summary>
         
-    public struct Destroyed  { }
+    public struct Destroyed{ }
     
     /// <summary>
     /// Marks an entity as loged in
     /// </summary>
-    public struct LogedIn {}
+    public struct LogedIn{}
     
     /// <summary>
     /// Marks an entity as loged out

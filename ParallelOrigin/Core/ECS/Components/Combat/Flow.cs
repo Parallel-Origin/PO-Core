@@ -34,6 +34,17 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
 
     }
     
+    // Marks an entity as dead, doesnt mean that its destroyed... its health is just below zero 
+    public struct Dead{}
+
+    /// <summary>
+    /// Entities marked with that component will be respawned
+    /// </summary>
+    public struct OnDeathRespawn {
+        public float timeInMs;
+        public float intervall;
+    }
+    
 #endif
 
 }
