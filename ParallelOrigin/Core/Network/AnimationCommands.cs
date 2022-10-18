@@ -23,15 +23,33 @@ namespace ParallelOrigin.Core.Network {
     }
 
     /// <summary>
+    /// Represents a animation trigger. 
+    /// </summary>
+    public struct Trigger : INetSerializable {
+
+        public string triggerName;
+
+        public void Serialize(NetDataWriter writer) { writer.PutFixedString(triggerName, (ushort)triggerName.Length); }
+        public void Deserialize(NetDataReader reader) { triggerName = reader.GetFixedString(); }
+    }
+
+    /// <summary>
     /// A simple struct representing a animation command representing a list of changed animation states.
     /// Just because we cant use a alias to hide this generic shit. 
     /// </summary>
     public struct AnimationCommand : INetSerializable{
         
-        public BatchCommand<CollectionItem<BoolParams>> animationChanges;
-        
-        public void Serialize(NetDataWriter writer) { writer.Put(animationChanges); }
-        public void Deserialize(NetDataReader reader) { animationChanges.Deserialize(reader); }
+        public BatchCommand<CollectionItem<BoolParams>> changedBoolParams;
+        public BatchCommand<CollectionItem<Trigger>> triggers;
 
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(changedBoolParams); 
+            writer.Put(triggers);
+        }
+
+        public void Deserialize(NetDataReader reader) {
+            changedBoolParams.Deserialize(reader); 
+            triggers.Deserialize(reader);
+        }
     }
 }

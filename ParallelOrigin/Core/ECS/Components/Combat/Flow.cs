@@ -31,7 +31,6 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
 
         public float intervall;
         public HashSet<Entity> entities;
-
     }
     
     // Marks an entity as dead, doesnt mean that its destroyed... its health is just below zero 
