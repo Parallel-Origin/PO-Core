@@ -50,12 +50,6 @@ namespace ParallelOrigin.Core.ECS.Components {
         public void Deserialize(NetDataReader reader) { id = reader.GetShort(); }
     }
 
-    
-    /// <summary>
-    /// A struct which marks an entity as invisible to deactivate its rendering. 
-    /// </summary>
-    public struct Invisible {}
-    
 #elif CLIENT 
     
     /// <summary>

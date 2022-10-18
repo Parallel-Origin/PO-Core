@@ -25,6 +25,16 @@ namespace ParallelOrigin.Core.ECS.Components {
 #if SERVER
 
     /// <summary>
+    /// Marks an entity as loged in
+    /// </summary>
+    public struct LogedIn{}
+    
+    /// <summary>
+    /// Marks an entity as loged out
+    /// </summary>
+    public struct LogedOut {}
+    
+    /// <summary>
     ///  Marks a <see cref="Entity" /> as "created" during this frame...
     ///  Gets removed after the frame.
     /// </summary>
@@ -65,17 +75,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
         
     public struct Destroyed{ }
-    
-    /// <summary>
-    /// Marks an entity as loged in
-    /// </summary>
-    public struct LogedIn{}
-    
-    /// <summary>
-    /// Marks an entity as loged out
-    /// </summary>
-    public struct LogedOut {}
-     
+
 #elif CLIENT 
     
     /// <summary>

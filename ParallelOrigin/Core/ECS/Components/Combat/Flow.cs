@@ -27,14 +27,11 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
     }
 
     // Marks an entity that is in combat with another one 
-    public struct Attacks {
+    public struct InCombat {
 
         public float intervall;
         public HashSet<Entity> entities;
     }
-    
-    // Marks an entity as dead, doesnt mean that its destroyed... its health is just below zero 
-    public struct Dead{}
 
     /// <summary>
     /// Entities marked with that component will be respawned
@@ -43,6 +40,16 @@ namespace ParallelOrigin.Core.ECS.Components.Combat {
         public float timeInMs;
         public float intervall;
     }
+    
+    /// <summary>
+    /// Marks an entity as attacking. 
+    /// </summary>
+    public struct Attacks{}
+    
+    /// <summary>
+    /// Marks an entity as dead, doesnt mean that its destroyed... its health is just below zero 
+    /// </summary>
+    public struct Dead{}
     
 #endif
 

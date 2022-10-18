@@ -29,6 +29,16 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     /// Marks an entity as moving this frame. 
     /// </summary>
     public struct Moving{}
+    
+    /// <summary>
+    /// Marks an entity as dirty for network, gets consumed by the network to send the changes to users. 
+    /// </summary>
+    public struct DirtyNetworkTransform { }
+    
+    /// <summary>
+    /// Marks an entity as dirty for updating its health in the network. 
+    /// </summary>
+    public struct DirtyNetworkHealth{}
 
 #elif CLIENT
 

@@ -41,16 +41,7 @@ namespace ParallelOrigin.Core.ECS.Components.Environment {
         
         public DateTime refreshedOn;
     }
-
-    /// <summary>
-    /// A struct which marks an spawner to spawn in forests
-    /// </summary>
-    public struct ForestSpawner { }
     
-    /// <summary>
-    /// A struct marking a spawner to spawn in various mobs 
-    /// </summary>
-    public struct MobSpawner{}
 
 #endif
 }
