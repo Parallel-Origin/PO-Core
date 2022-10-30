@@ -20,15 +20,15 @@ namespace ParallelOrigin.Core.Network {
     }
 
     /// <summary>
-    /// A item which its network state.
+    /// A item with a certain state attached. Usefull for lists or other collections that probably need to synchronize.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public struct CollectionItem<T> : INetSerializable where T : struct, INetSerializable {
+    public struct Statefull<T> : INetSerializable where T : struct, INetSerializable {
 
         public State state;
         public T item;
 
-        public CollectionItem(State state, T item) {
+        public Statefull(State state, T item) {
             this.state = state;
             this.item = item;
         }
@@ -100,11 +100,11 @@ namespace ParallelOrigin.Core.Network {
     public struct CollectionCommand<Id,T,I> : INetSerializable where Id : struct,INetSerializable where T : struct,INetSerializable where I : struct,INetSerializable{
 
         public Id identifier;
-        public CollectionItem<I>[] items;
+        public Statefull<I>[] items;
 
         public CollectionCommand(ref Id identifier, int capacity) : this() {
             this.identifier = identifier;
-            items = new CollectionItem<I>[capacity];
+            items = new Statefull<I>[capacity];
         }
 
         public void Serialize(NetDataWriter writer) {
@@ -119,8 +119,8 @@ namespace ParallelOrigin.Core.Network {
             reader.GetArray(ref items);
         }
         
-        public ref CollectionItem<I> this[int index] => ref items[index];
-        public I this[State state, int index] { set => items[index] = new CollectionItem<I>(state, value); }
+        public ref Statefull<I> this[int index] => ref items[index];
+        public I this[State state, int index] { set => items[index] = new Statefull<I>(state, value); }
     }
     
     

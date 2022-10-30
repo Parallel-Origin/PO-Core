@@ -1,4 +1,5 @@
 using LiteNetLib.Utils;
+using ParallelOrigin.Core.ECS.Components;
 using ParallelOrigin.Core.Extensions;
 
 namespace ParallelOrigin.Core.Network {
@@ -37,10 +38,11 @@ namespace ParallelOrigin.Core.Network {
     /// A simple struct representing a animation command representing a list of changed animation states.
     /// Just because we cant use a alias to hide this generic shit. 
     /// </summary>
-    public struct AnimationCommand : INetSerializable{
-        
-        public BatchCommand<CollectionItem<BoolParams>> changedBoolParams;
-        public BatchCommand<CollectionItem<Trigger>> triggers;
+    public struct AnimationCommand : INetSerializable {
+
+        public EntityCommand command;
+        public Statefull<BoolParams> changedBoolParams;
+        public Trigger triggers;
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(changedBoolParams); 
