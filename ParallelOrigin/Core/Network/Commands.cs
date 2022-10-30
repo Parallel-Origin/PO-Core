@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using LiteNetLib.Utils;
@@ -18,20 +19,19 @@ public enum State : byte
     REMOVED
 }
 
-/// <summary>
-///     A item which its network state.
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public struct CollectionItem<T> : INetSerializable where T : struct, INetSerializable
-{
-    public State state;
-    public T item;
+    /// <summary>
+    /// A item with a certain state attached. Usefull for lists or other collections that probably need to synchronize.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public struct Statefull<T> : INetSerializable where T : struct, INetSerializable {
 
-    public CollectionItem(State state, T item)
-    {
-        this.state = state;
-        this.item = item;
-    }
+        public State state;
+        public T item;
+
+        public Statefull(State state, T item) {
+            this.state = state;
+            this.item = item;
+        }
 
     public void Serialize(NetDataWriter writer)
     {
@@ -97,21 +97,20 @@ public struct BatchCommand<T> : INetSerializable, IEnumerable<T> where T : struc
     }
 }
 
-/// <summary>
-///     A command which is used to add or remove items from a certain list.
-/// </summary>
-/// <typeparam name="I"></typeparam>
-/// <typeparam name="T"></typeparam>
-public struct CollectionCommand<Id, T, I> : INetSerializable where Id : struct, INetSerializable where T : struct, INetSerializable where I : struct, INetSerializable
-{
-    public Id identifier;
-    public CollectionItem<I>[] items;
+    /// <summary>
+    /// A command which is used to add or remove items from a certain list. 
+    /// </summary>
+    /// <typeparam name="I"></typeparam>
+    /// <typeparam name="T"></typeparam>
+    public struct CollectionCommand<Id,T,I> : INetSerializable where Id : struct,INetSerializable where T : struct,INetSerializable where I : struct,INetSerializable{
 
-    public CollectionCommand(ref Id identifier, int capacity) : this()
-    {
-        this.identifier = identifier;
-        items = new CollectionItem<I>[capacity];
-    }
+        public Id identifier;
+        public Statefull<I>[] items;
+
+        public CollectionCommand(ref Id identifier, int capacity) : this() {
+            this.identifier = identifier;
+            items = new Statefull<I>[capacity];
+        }
 
     public void Serialize(NetDataWriter writer)
     {
@@ -119,17 +118,14 @@ public struct CollectionCommand<Id, T, I> : INetSerializable where Id : struct, 
         writer.PutArray(items);
     }
 
-    public void Deserialize(NetDataReader reader)
-    {
-        identifier.Deserialize(reader);
-        reader.GetArray(ref items);
-    }
-
-    public ref CollectionItem<I> this[int index] => ref items[index];
-
-    public I this[State state, int index]
-    {
-        set => items[index] = new CollectionItem<I>(state, value);
+        public void Deserialize(NetDataReader reader) {
+            
+            identifier.Deserialize(reader);
+            reader.GetArray(ref items);
+        }
+        
+        public ref Statefull<I> this[int index] => ref items[index];
+        public I this[State state, int index] { set => items[index] = new Statefull<I>(state, value); }
     }
 }
 
