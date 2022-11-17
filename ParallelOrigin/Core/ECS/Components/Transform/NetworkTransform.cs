@@ -1,9 +1,7 @@
-using System.Drawing;
 using System.Numerics;
 using LiteNetLib.Utils;
-using ParallelOrigin.Core.Extensions;
 using ParallelOrigin.Core.Base.Classes;
-
+using ParallelOrigin.Core.Extensions;
 #if CLIENT
 using ParallelOrigin.Core.Base.Classes;
 using Unity.Burst;
@@ -11,50 +9,50 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Quaternion = UnityEngine.Quaternion;
 #elif SERVER
-using System.Drawing;
-using ParallelOrigin.Core.Base.Classes;
-using QuadTrees.QTreePointF;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components.Transform {
-
+namespace ParallelOrigin.Core.ECS.Components.Transform
+{
 #if SERVER
-    
-    
+
+
     /// <summary>
-    ///  A component Class which stores informations about the Geo-Location of a entity
+    ///     A component Class which stores informations about the Geo-Location of a entity
     /// </summary>
-    public struct NetworkTransform : INetSerializable{
-        
+    public struct NetworkTransform : INetSerializable
+    {
         public Vector2d pos;
         public Grid chunk;
 
-        public void Serialize(NetDataWriter writer) {
+        public void Serialize(NetDataWriter writer)
+        {
             writer.Put(ref pos);
         }
 
-        public void Deserialize(NetDataReader reader) {
+        public void Deserialize(NetDataReader reader)
+        {
             pos = reader.GetVector2d();
         }
     }
-    
+
     /// <summary>
-    /// The network representation of the rotation of an entity
-    /// Mainly used for interpolation
+    ///     The network representation of the rotation of an entity
+    ///     Mainly used for interpolation
     /// </summary>
-    public struct NetworkRotation : INetSerializable{
-        
+    public struct NetworkRotation : INetSerializable
+    {
         public Quaternion value;
 
-        public void Serialize(NetDataWriter writer) {
+        public void Serialize(NetDataWriter writer)
+        {
             writer.Put(value.X);
             writer.Put(value.Y);
             writer.Put(value.Z);
             writer.Put(value.W);
         }
 
-        public void Deserialize(NetDataReader reader) {
-
+        public void Deserialize(NetDataReader reader)
+        {
             var x = reader.GetFloat();
             var y = reader.GetFloat();
             var z = reader.GetFloat();
@@ -63,9 +61,8 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
             value = new Quaternion { X = x, Y = y, Z = z, W = w };
         }
     }
-    
+
 #elif CLIENT
-    
     /// <summary>
     ///  A component Class which stores informations about the Geo-Location of a entity
     /// </summary>
@@ -117,6 +114,6 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
             value = new quaternion(x, y, z, w);
         }
     }
-    
+
 #endif
 }

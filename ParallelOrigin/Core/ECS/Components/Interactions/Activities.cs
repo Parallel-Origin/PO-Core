@@ -3,38 +3,39 @@ using DefaultEcs;
 using ParallelOrigin.Core.Base.Classes;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components.Interactions {
-
+namespace ParallelOrigin.Core.ECS.Components.Interactions
+{
 #if SERVER
-    
+
     /// <summary>
-    /// An activity which assign a component <see cref="T"/> to the entity when it reached a certain destination. 
+    ///     An activity which assign a component <see cref="T" /> to the entity when it reached a certain destination.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public struct OnReach<T> {
-
+    public struct OnReach<T>
+    {
         public Vector2d destination;
         public float distance;
         public bool cancelable;
-        
+
         public T component;
     }
-    
+
     /// <summary>
-    /// A component which lets an entity chop a resource entity ( tree ) down. 
+    ///     A component which lets an entity chop a resource entity ( tree ) down.
     /// </summary>
-    public struct Chop {
+    public struct Chop
+    {
         public Entity target;
     }
 
     /// <summary>
-    /// A component which represents a build command for an entity to construct a certain structure.
+    ///     A component which represents a build command for an entity to construct a certain structure.
     /// </summary>
-    public struct Build {
-        
-        public Entity entity;  // The newly spaned structure 
+    public struct Build
+    {
+        public Entity entity; // The newly spaned structure 
         public float duration;
     }
-    
+
 #endif
 }

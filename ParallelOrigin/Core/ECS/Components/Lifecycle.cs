@@ -1,5 +1,3 @@
-using System;
-
 #if CLIENT
 using Unity.Burst;
 using Unity.Entities;
@@ -7,77 +5,92 @@ using Unity.Collections;
 #elif SERVER
 using DefaultEcs;
 #endif
+using System;
 
-namespace ParallelOrigin.Core.ECS.Components {
-    
+namespace ParallelOrigin.Core.ECS.Components
+{
     /// <summary>
-    /// Possible changes to an entity. 
+    ///     Possible changes to an entity.
     /// </summary>
     [Flags]
-    public enum DirtyFlags : byte {
+    public enum DirtyFlags : byte
+    {
         None,
         Transform,
         Health,
         Amount,
         Other
     }
-    
+
 #if SERVER
 
     /// <summary>
-    /// Marks an entity as loged in
+    ///     Marks an entity as loged in
     /// </summary>
-    public struct LogedIn{}
-    
-    /// <summary>
-    /// Marks an entity as loged out
-    /// </summary>
-    public struct LogedOut {}
-    
-    /// <summary>
-    ///  Marks a <see cref="Entity" /> as "created" during this frame...
-    ///  Gets removed after the frame.
-    /// </summary>
-    public struct Created{ }
-    
-    /// <summary>
-    /// Represents an inactive entity, does not mean that this entity is dead.
-    /// </summary>
-    public struct Inactive{ }
+    public struct LogedIn
+    {
+    }
 
     /// <summary>
-    /// Marks an entity as a prefab. Should not take place ingame. 
+    ///     Marks an entity as loged out
     /// </summary>
-    public struct Prefab{}
+    public struct LogedOut
+    {
+    }
 
     /// <summary>
-    /// A Component which is used to check if Entites have been changed, updated or removed
+    ///     Marks a <see cref="Entity" /> as "created" during this frame...
+    ///     Gets removed after the frame.
     /// </summary>
-    public struct Dirty {
+    public struct Created
+    {
+    }
+
+    /// <summary>
+    ///     Represents an inactive entity, does not mean that this entity is dead.
+    /// </summary>
+    public struct Inactive
+    {
+    }
+
+    /// <summary>
+    ///     Marks an entity as a prefab. Should not take place ingame.
+    /// </summary>
+    public struct Prefab
+    {
+    }
+
+    /// <summary>
+    ///     A Component which is used to check if Entites have been changed, updated or removed
+    /// </summary>
+    public struct Dirty
+    {
         public DirtyFlags flags;
-    }    
-    
+    }
+
     /// <summary>
-    ///  A component which marks a <see cref="Entity" /> as getting destroyed during the next few seconds. 
+    ///     A component which marks a <see cref="Entity" /> as getting destroyed during the next few seconds.
     /// </summary>
-    public struct DestroyAfter {
+    public struct DestroyAfter
+    {
         public float seconds;
     }
-    
+
     /// <summary>
     ///     Destroys a <see cref="Entity" /> at the end of the current frame.
     /// </summary>
-        
-    public struct Destroy{ }
-    
+    public struct Destroy
+    {
+    }
+
     /// <summary>
     ///     Marks a <see cref="Entity" /> as destroyed for the lifecycle...
     /// </summary>
-        
-    public struct Destroyed{ }
+    public struct Destroyed
+    {
+    }
 
-#elif CLIENT 
-    
+#elif CLIENT
     /// <summary>
     ///     Marks a <see cref="Entity" /> as "created" during this frame...
     ///     Gets removed after the frame.
@@ -112,6 +125,6 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
     [BurstCompile]
     public struct Destroyed : IComponentData { }
-    
+
 #endif
 }

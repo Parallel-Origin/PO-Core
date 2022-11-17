@@ -2,12 +2,13 @@
 
 using FluentBehaviourTree;
 
-namespace ParallelOrigin.Core.ECS.Components {
-
+namespace ParallelOrigin.Core.ECS.Components
+{
     /// <summary>
-    /// A component which acts as an AI controller to controll the attached entity automaticly 
+    ///     A component which acts as an AI controller to controll the attached entity automaticly
     /// </summary>
-    public struct AIController {
+    public struct AIController
+    {
         public IBehaviourTreeNode behaviourTree;
     }
 }

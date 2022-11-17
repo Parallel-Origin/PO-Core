@@ -1,45 +1,48 @@
 using LiteNetLib.Utils;
-using ParallelOrigin.Core.Extensions;
 using ParallelOrigin.Core.Base.Classes;
 using ParallelOrigin.Core.ECS;
+using ParallelOrigin.Core.Extensions;
 
-namespace ParallelOrigin.Core.Network {
-    
-    /// <summary>
-    /// A packet which updates the clients map to show specific coordinates. 
-    /// </summary>
-    public struct MapCommand : INetSerializable {
+namespace ParallelOrigin.Core.Network;
 
-        public Vector2d position;
-        public byte opCode;
+/// <summary>
+///     A packet which updates the clients map to show specific coordinates.
+/// </summary>
+public struct MapCommand : INetSerializable
+{
+    public Vector2d position;
+    public byte opCode;
 
-        public void Serialize(NetDataWriter writer) {
-            writer.Put(ref position);
-            writer.Put(opCode);
-        }
-
-        public void Deserialize(NetDataReader reader) {
-            position = reader.GetVector2d();
-            opCode = reader.GetByte();
-        }
+    public void Serialize(NetDataWriter writer)
+    {
+        writer.Put(ref position);
+        writer.Put(opCode);
     }
 
-    /// <summary>
-    /// A command which teleports an entity to a certain position.
-    /// </summary>
-    public struct TeleportationCommand : INetSerializable {
+    public void Deserialize(NetDataReader reader)
+    {
+        position = reader.GetVector2d();
+        opCode = reader.GetByte();
+    }
+}
 
-        public EntityReference entity;
-        public Vector2d position;
+/// <summary>
+///     A command which teleports an entity to a certain position.
+/// </summary>
+public struct TeleportationCommand : INetSerializable
+{
+    public EntityReference entity;
+    public Vector2d position;
 
-        public void Serialize(NetDataWriter writer) {
-            writer.Put(entity);
-            writer.Put(ref position);
-        }
+    public void Serialize(NetDataWriter writer)
+    {
+        writer.Put(entity);
+        writer.Put(ref position);
+    }
 
-        public void Deserialize(NetDataReader reader) {
-            entity.Deserialize(reader);
-            position = reader.GetVector2d();
-        }
+    public void Deserialize(NetDataReader reader)
+    {
+        entity.Deserialize(reader);
+        position = reader.GetVector2d();
     }
 }
