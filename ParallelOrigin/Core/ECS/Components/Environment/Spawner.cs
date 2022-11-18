@@ -1,7 +1,7 @@
 using System;
 using ParallelOrigin.Core.ECS.Components.Items;
 
-namespace ParallelOrigin.Core.ECS.Components.Environment;
+namespace ParallelOrigin.Core.ECS.Components.Environment {
 
 #if SERVER
 
@@ -47,3 +47,4 @@ public struct IntervallSpawner
 }
 
 #endif
+}

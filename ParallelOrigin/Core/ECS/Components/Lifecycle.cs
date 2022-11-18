@@ -7,8 +7,7 @@ using DefaultEcs;
 #endif
 using System;
 
-namespace ParallelOrigin.Core.ECS.Components
-{
+namespace ParallelOrigin.Core.ECS.Components {
     /// <summary>
     ///     Possible changes to an entity.
     /// </summary>
@@ -106,7 +105,7 @@ namespace ParallelOrigin.Core.ECS.Components
         public bool preventZeroSize;
     }
     
-        /// <summary>
+    /// <summary>
     ///     A component which marks a <see cref="Entity" /> as getting destroyed during the next few ticks.
     /// </summary>
     [BurstCompile]

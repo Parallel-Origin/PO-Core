@@ -17,17 +17,18 @@ using System;
 using ParallelOrigin.Core.Base.Classes;
 using ParallelOrigin.Core.ECS.Components.Interactions;
 
-namespace ParallelOrigin.Core.ECS.Components;
+namespace ParallelOrigin.Core.ECS.Components {
 
-/// <summary>
-///     Possible <see cref="Account" /> and <see cref="Character" /> genders
-/// </summary>
-public enum Gender : sbyte
-{
-    MALE,
-    FEMALE,
-    DIVERS
-}
+    /// <summary>
+    ///     Possible <see cref="Account" /> and <see cref="Character" /> genders
+    /// </summary>
+    public enum Gender : sbyte {
+
+        MALE,
+        FEMALE,
+        DIVERS
+
+    }
 
 
 #if SERVER
@@ -204,17 +205,17 @@ public struct BuildingRecipe : INetSerializable
     /// </summary>
     [BurstCompile]
     public struct Character : IComponentData, INetSerializable {
-        
+
         public FixedString32Bytes name;
         public FixedString32Bytes password;
         public FixedString32Bytes email;
-        
+
         public void Serialize(NetDataWriter writer) {
 
             var nameCached = name.ToStringCached();
             var passwordCached = password.ToStringCached();
             var emailCached = email.ToStringCached();
-            
+
             writer.Put(nameCached, nameCached.Length);
             writer.Put(passwordCached, passwordCached.Length);
             writer.Put(emailCached, emailCached.Length);
@@ -225,9 +226,10 @@ public struct BuildingRecipe : INetSerializable
             password = reader.GetString(32);
             email = reader.GetString(32);
         }
+
     }
 
-        /// <summary>
+    /// <summary>
     ///     A component attachable to a entity which contains variables to get represented as a item.
     /// </summary>
     [BurstCompile]
@@ -235,41 +237,46 @@ public struct BuildingRecipe : INetSerializable
 
         public uint amount;
         public bool stackable;
-        
-        public void Serialize(NetDataWriter writer) { 
-            writer.Put(amount); 
-            writer.Put(stackable); 
+
+        public void Serialize(NetDataWriter writer) {
+            writer.Put(amount);
+            writer.Put(stackable);
         }
-        public void Deserialize(NetDataReader reader) { 
+
+        public void Deserialize(NetDataReader reader) {
             amount = reader.GetUInt();
             stackable = reader.GetBool();
         }
+
     }
-    
-        /// <summary>
+
+    /// <summary>
     ///  Just a Tag Component which clarifies that the Entity attached is a Resource
     /// </summary>
     [BurstCompile]
     public struct Resource : IComponentData, INetSerializable {
-    
-        public void Serialize(NetDataWriter writer) {  }
-        public void Deserialize(NetDataReader reader) {  }
+
+        public void Serialize(NetDataWriter writer) { }
+        public void Deserialize(NetDataReader reader) { }
+
     }
-    
-        /// <summary>
+
+    /// <summary>
     /// Represents a Strcuture in the Game
     /// </summary>
     public struct Structure : IComponentData {
+
         public long ownerID;
+
     }
-    
-        /// <summary>
+
+    /// <summary>
     /// A component that marks an <see cref="Entity"/> as a mob ingame
     /// </summary>
     [BurstCompile]
-    public struct Mob : IComponentData{ }
-    
-        /// <summary>
+    public struct Mob : IComponentData { }
+
+    /// <summary>
     ///     A component tagging a <see cref="Entity" /> as a popup
     /// </summary>
     [BurstCompile]
@@ -277,7 +284,7 @@ public struct BuildingRecipe : INetSerializable
 
         // May be null...
         public EntityReference owner;
-        
+
         // May be null
         public EntityReference target;
 
@@ -290,20 +297,21 @@ public struct BuildingRecipe : INetSerializable
             owner.Deserialize(reader);
             target.Deserialize(reader);
         }
+
     }
-    
-        /// <summary>
+
+    /// <summary>
     ///     A component for a <see cref="Entity" /> which is a option for a <see cref="Popup" />
     /// </summary>
     [BurstCompile]
     public struct Option : IComponentData { }
-    
-        /// <summary>
+
+    /// <summary>
     /// The building recipe, determining what is builded when and where...
     /// Additional conditions like required items, level or whatever can be extra fields in this struct. 
     /// </summary>
-    public struct BuildingRecipe : IComponentData, INetSerializable{
-        
+    public struct BuildingRecipe : IComponentData, INetSerializable {
+
         public BuildSpot spot;
         public BuildCondition buildCondition;
         public float duration;
@@ -325,5 +333,7 @@ public struct BuildingRecipe : INetSerializable
             buildCondition = (BuildCondition)reader.GetByte();
             duration = reader.GetFloat();
         }
+
     }
 #endif
+}

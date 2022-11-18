@@ -8,7 +8,6 @@ using ParallelOrigin.Core.ECS.Components;
 using ParallelOrigin.Core.Extensions;
 
 namespace ParallelOrigin.Core.Network {
-
     /// <summary>
     ///     Possible states... mostly used for collection stuff
     /// </summary>

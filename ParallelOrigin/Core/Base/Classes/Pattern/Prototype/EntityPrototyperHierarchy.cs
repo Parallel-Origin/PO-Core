@@ -6,8 +6,9 @@ using DefaultEcs;
 using System;
 using ParallelOrigin.Core.Base.Interfaces.Prototype;
 
-namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype
-{
+namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
+
+
 #if CLIENT
     /// <summary>
     ///  A <see cref="IPrototyper{I,T}" /> that is used with artemis odb to clone {@link com.artemis.Entity} by a path using
@@ -19,28 +20,30 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype
         ///     Constructs a Hierarchy with the required methods to identify the path of the hierachy to the registered <see cref="IPrototyper{I,T}" />
         /// </summary>
         public EntityPrototyperHierarchy() : base(path => {
-                
-                unsafe{
-                    
-                    fixed(char *ptr = path) {
 
-                        var current = ptr+path.Length-1;
-                        for (var index = path.Length-1; index >= 0; index--) {
-                            
-                            current--;
-                            if(*current != ':') continue;
-                        
-                            var length = current - ptr;
-                            var splittedPath = new string(ptr, 0, (int)length);
-                            var type = short.Parse(new string(ptr, index, path.Length - index));
+            unsafe {
 
-                            return new ValueTuple<string, short>(splittedPath, type);
-                        }
+                fixed (char* ptr = path) {
+
+                    var current = ptr + path.Length - 1;
+
+                    for (var index = path.Length - 1; index >= 0; index--) {
+
+                        current--;
+                        if (* current != ':') continue;
+
+                        var length = current - ptr;
+                        var splittedPath = new string(ptr, 0, (int)length);
+                        var type = short.Parse(new string(ptr, index, path.Length - index));
+
+                        return new ValueTuple<string, short>(splittedPath, type);
                     }
                 }
+            }
 
-                return default;
-            }) { }
+            return default;
+        }) { }
+
     }
 
 #elif SERVER

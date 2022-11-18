@@ -10,8 +10,7 @@ using System.Collections.Generic;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
 
-namespace ParallelOrigin.Core.ECS.Components.Items
-{
+namespace ParallelOrigin.Core.ECS.Components.Items {
 #if SERVER
 
     /// <summary>

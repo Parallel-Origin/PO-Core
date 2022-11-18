@@ -8,7 +8,7 @@ using ParallelOrigin.Core.Base.Classes;
 #endif
 using LiteNetLib.Utils;
 
-namespace ParallelOrigin.Core.ECS.Components.Transform;
+namespace ParallelOrigin.Core.ECS.Components.Transform {
 
 #if SERVER
 
@@ -59,14 +59,16 @@ public struct DirtyNetworkHealth
     /// </summary>
     [BurstCompile]
     public struct Movement : IComponentData, INetSerializable {
-        
+
         public float speed;
         public Vector2d target;
-        
+
         public void Serialize(NetDataWriter writer) { writer.Put(speed); }
         public void Deserialize(NetDataReader reader) { speed = reader.GetFloat(); }
+
     }
-    
+
     [BurstCompile]
-    public struct Moving : IComponentData{}
+    public struct Moving : IComponentData { }
 #endif
+}

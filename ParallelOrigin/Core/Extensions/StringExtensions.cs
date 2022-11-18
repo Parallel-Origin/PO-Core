@@ -1,27 +1,27 @@
-namespace ParallelOrigin.Core.Extensions;
-
-/// <summary>
-///     A extension for strings...
-/// </summary>
-public static class StringExtensions
-{
+namespace ParallelOrigin.Core.Extensions {
     /// <summary>
-    ///     Creates a simple deterministic hashcode and returns it... is the same on every device.
+    ///     A extension for strings...
     /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
-    public static int GetDeterministicHashCode(this string path)
+    public static class StringExtensions
     {
-        unchecked
+        /// <summary>
+        ///     Creates a simple deterministic hashcode and returns it... is the same on every device.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static int GetDeterministicHashCode(this string path)
         {
-            var hash = 23;
-            for (var index = 0; index < path.Length; index++)
+            unchecked
             {
-                var currentChar = path[index];
-                hash = hash * 31 + currentChar;
-            }
+                var hash = 23;
+                for (var index = 0; index < path.Length; index++)
+                {
+                    var currentChar = path[index];
+                    hash = hash * 31 + currentChar;
+                }
 
-            return hash;
+                return hash;
+            }
         }
     }
 }

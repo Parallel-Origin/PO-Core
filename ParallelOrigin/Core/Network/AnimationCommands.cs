@@ -2,8 +2,7 @@ using LiteNetLib.Utils;
 using ParallelOrigin.Core.ECS;
 using ParallelOrigin.Core.Extensions;
 
-namespace ParallelOrigin.Core.Network{
-
+namespace ParallelOrigin.Core.Network {
     /// <summary>
     /// Represents a bool params for animation controller
     /// </summary>

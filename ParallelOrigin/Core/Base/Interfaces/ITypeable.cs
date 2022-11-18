@@ -1,12 +1,12 @@
-namespace ParallelOrigin.Core.Base.Interfaces;
-
-/// <summary>
-///     This interface provides methods for a entity/class which belongs to a certain type represented by a id.
-/// </summary>
-public interface ITypeable
-{
+namespace ParallelOrigin.Core.Base.Interfaces {
     /// <summary>
-    ///     The Type-ID
+    ///     This interface provides methods for a entity/class which belongs to a certain type represented by a id.
     /// </summary>
-    short TypeID { get; set; }
+    public interface ITypeable
+    {
+        /// <summary>
+        ///     The Type-ID
+        /// </summary>
+        short TypeID { get; set; }
+    }
 }
