@@ -1,4 +1,3 @@
-
 #if CLIENT
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Base.Classes;
@@ -9,39 +8,51 @@ using ParallelOrigin.Core.Base.Classes;
 #endif
 using LiteNetLib.Utils;
 
-namespace ParallelOrigin.Core.ECS.Components.Transform {
+namespace ParallelOrigin.Core.ECS.Components.Transform;
 
 #if SERVER
-    
-    /// <summary>
-    ///  A component which selects a target position which gets processed by a system to move the <see cref="Location" /> to the <see cref="target" />
-    /// </summary>
-    public struct Movement : INetSerializable {
 
-        public float speed;
-        public Vector2d target;
+/// <summary>
+///     A component which selects a target position which gets processed by a system to move the <see cref="Location" /> to the <see cref="target" />
+/// </summary>
+public struct Movement : INetSerializable
+{
+    public float speed;
+    public Vector2d target;
 
-        public void Serialize(NetDataWriter writer) { writer.Put(speed); }
-        public void Deserialize(NetDataReader reader) { speed = reader.GetFloat(); }
+    public void Serialize(NetDataWriter writer)
+    {
+        writer.Put(speed);
     }
-    
-    /// <summary>
-    /// Marks an entity as moving this frame. 
-    /// </summary>
-    public struct Moving{}
-    
-    /// <summary>
-    /// Marks an entity as dirty for network, gets consumed by the network to send the changes to users. 
-    /// </summary>
-    public struct DirtyNetworkTransform { }
-    
-    /// <summary>
-    /// Marks an entity as dirty for updating its health in the network. 
-    /// </summary>
-    public struct DirtyNetworkHealth{}
+
+    public void Deserialize(NetDataReader reader)
+    {
+        speed = reader.GetFloat();
+    }
+}
+
+/// <summary>
+///     Marks an entity as moving this frame.
+/// </summary>
+public struct Moving
+{
+}
+
+/// <summary>
+///     Marks an entity as dirty for network, gets consumed by the network to send the changes to users.
+/// </summary>
+public struct DirtyNetworkTransform
+{
+}
+
+/// <summary>
+///     Marks an entity as dirty for updating its health in the network.
+/// </summary>
+public struct DirtyNetworkHealth
+{
+}
 
 #elif CLIENT
-
     /// <summary>
     /// Marks an entity as moving around in the world.
     /// Normally requires a <see cref="Location"/> and a <see cref="Movement"/>
@@ -58,6 +69,4 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
     
     [BurstCompile]
     public struct Moving : IComponentData{}
-
 #endif
-}

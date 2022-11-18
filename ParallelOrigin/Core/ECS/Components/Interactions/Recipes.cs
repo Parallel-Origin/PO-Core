@@ -1,47 +1,47 @@
-using System;
-using System.Collections.Generic;
 using LiteNetLib.Utils;
-using ParallelOrigin.Core.ECS.Components.Items;
 using ParallelOrigin.Core.Extensions;
-
 #if CLIENT
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components.Interactions {
-    
-    
+namespace ParallelOrigin.Core.ECS.Components.Interactions
+{
     /// <summary>
-    /// Possible build spots
+    ///     Possible build spots
     /// </summary>
-    public enum BuildSpot : byte{
-        SPOT,TILE
+    public enum BuildSpot : byte
+    {
+        SPOT,
+        TILE
     }
 
     /// <summary>
-    /// Possible build conditions before we can place it on the build spot. 
+    ///     Possible build conditions before we can place it on the build spot.
     /// </summary>
-    public enum BuildCondition : byte{
-        NONE, FREE_SPACE
+    public enum BuildCondition : byte
+    {
+        NONE,
+        FREE_SPACE
     }
-    
-    
+
+
 #if SERVER
-    
+
     /// <summary>
-    /// Represents an ingredient.
+    ///     Represents an ingredient.
     /// </summary>
-    public struct Ingredient {
-        
-        public string type;    // The item type... 3:1 is wood for example
-        public byte icon;      // Its icon
+    public struct Ingredient
+    {
+        public string type; // The item type... 3:1 is wood for example
+        public byte icon; // Its icon
         public byte localisation;
         public uint amount;
         public bool consume;
 
-        public Ingredient(string type, byte icon, byte localisation, uint amount, bool consume) {
+        public Ingredient(string type, byte icon, byte localisation, uint amount, bool consume)
+        {
             this.type = type;
             this.icon = icon;
             this.localisation = localisation;
@@ -51,15 +51,16 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     }
 
     /// <summary>
-    /// The craftable result
+    ///     The craftable result
     /// </summary>
-    public struct Craftable {
-
-        public string type;   // The item type... 2:1 is gold for example
+    public struct Craftable
+    {
+        public string type; // The item type... 2:1 is gold for example
         public byte icon;
         public uint amount;
 
-        public Craftable(string type, byte icon, uint amount) {
+        public Craftable(string type, byte icon, uint amount)
+        {
             this.type = type;
             this.icon = icon;
             this.amount = amount;
@@ -67,74 +68,74 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
     }
 
     /// <summary>
-    /// The recipe, containing ingredients and a craftable result. 
+    ///     The recipe, containing ingredients and a craftable result.
     /// </summary>
-    public struct Recipe : INetSerializable{
-        
+    public struct Recipe : INetSerializable
+    {
         public Ingredient[] ingredients;
         public Craftable[] craftables;
 
-        public Recipe(Ingredient[] ingredients, Craftable[] craftables) {
+        public Recipe(Ingredient[] ingredients, Craftable[] craftables)
+        {
             this.ingredients = ingredients;
             this.craftables = craftables;
         }
 
-        public void Serialize(NetDataWriter writer) {
-            
+        public void Serialize(NetDataWriter writer)
+        {
             writer.Put(ingredients.Length);
-            for (var index = 0; index < ingredients.Length; index++) {
-
+            for (var index = 0; index < ingredients.Length; index++)
+            {
                 ref var ingredient = ref ingredients[index];
                 writer.Put(ref ingredient);
             }
-            
-            writer.Put(craftables.Length);
-            for (var index = 0; index < craftables.Length; index++) {
 
+            writer.Put(craftables.Length);
+            for (var index = 0; index < craftables.Length; index++)
+            {
                 ref var craftable = ref craftables[index];
                 writer.Put(ref craftable);
             }
         }
 
-        public void Deserialize(NetDataReader reader) {
-            
+        public void Deserialize(NetDataReader reader)
+        {
             ingredients = new Ingredient[reader.GetInt()];
-            for (var index = 0; index < ingredients.Length; index++) 
+            for (var index = 0; index < ingredients.Length; index++)
                 ingredients[index] = reader.GetIngredient();
-            
+
             craftables = new Craftable[reader.GetInt()];
-            for (var index = 0; index < craftables.Length; index++) 
+            for (var index = 0; index < craftables.Length; index++)
                 craftables[index] = reader.GetCraftable();
         }
     }
 
     /// <summary>
-    /// The actual component for a player which defines his building recipes
+    ///     The actual component for a player which defines his building recipes
     /// </summary>
-    public struct BuildRecipes : INetSerializable{
-
+    public struct BuildRecipes : INetSerializable
+    {
         public string[] recipes;
 
-        public void Serialize(NetDataWriter writer) {
-            
+        public void Serialize(NetDataWriter writer)
+        {
             writer.Put(recipes.Length);
-            for (var index = 0; index < recipes.Length; ++index) {
-
+            for (var index = 0; index < recipes.Length; ++index)
+            {
                 var item = recipes[index];
                 writer.PutFixedString(item, (ushort)item.Length);
             }
         }
 
-        public void Deserialize(NetDataReader reader) {
-
+        public void Deserialize(NetDataReader reader)
+        {
             recipes = new string[reader.GetInt()];
             for (var index = 0; index < recipes.Length; ++index)
                 recipes[index] = reader.GetFixedString();
         }
     }
-    
-#elif CLIENT
 
+#elif CLIENT
     /// <summary>
     /// Represents an ingredient.
     /// </summary>
@@ -210,6 +211,6 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions {
         public void Serialize(NetDataWriter writer) { writer.PutList(ref recipes); }
         public void Deserialize(NetDataReader reader) { reader.GetList(ref recipes); }
     }
-    
+
 #endif
 }

@@ -1,12 +1,9 @@
-
-
-
-using System.Diagnostics.Contracts;
 #if SERVER
 using System;
 using DefaultEcs;
 using LiteNetLib.Utils;
 using ParallelOriginGameServer.Server.Extensions;
+
 #elif CLIENT
 using LiteNetLib.Utils;
 using Unity.Collections;
@@ -14,78 +11,91 @@ using Unity.Entities;
 using Script.Extensions;
 #endif
 
-namespace ParallelOrigin.Core.ECS {
-    
+namespace ParallelOrigin.Core.ECS
+{
 #if SERVER
-    
-    /// <summary>
-    /// Represents an reference between entities, great for networking and automatic resolving of those references. 
-    /// </summary>
-    public struct EntityReference : INetSerializable, IEquatable<EntityReference> {
 
+    /// <summary>
+    ///     Represents an reference between entities, great for networking and automatic resolving of those references.
+    /// </summary>
+    public struct EntityReference : INetSerializable, IEquatable<EntityReference>
+    {
         public Entity entity;
         public long uniqueID;
 
-        
-        public EntityReference(Entity entity, long id) {
+
+        public EntityReference(Entity entity, long id)
+        {
             this.entity = entity;
-            this.uniqueID = id;
+            uniqueID = id;
         }
 
-        
-        public EntityReference(in Entity entity, long id) {
+
+        public EntityReference(in Entity entity, long id)
+        {
             this.entity = entity;
-            this.uniqueID = id;
+            uniqueID = id;
         }
 
-        public EntityReference(long uniqueId) {
+        public EntityReference(long uniqueId)
+        {
             entity = default;
             uniqueID = uniqueId;
         }
-        
+
         /// <summary>
-        /// Resolves the reference by searching an valid entity from the included uniqueID.
-        /// It resolves only once, once an valid entity was found, it gets attached to <see cref="entity"/> and is returned. 
+        ///     Resolves the reference by searching an valid entity from the included uniqueID.
+        ///     It resolves only once, once an valid entity was found, it gets attached to <see cref="entity" /> and is returned.
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
-        public Entity Resolve(ref World world) {
-
+        public Entity Resolve(ref World world)
+        {
             if (entity.IsAlive) return entity;
-            
+
             entity = world.GetById(uniqueID);
             return entity;
         }
-        
+
         /// <summary>
-        /// Resolves the reference by searching an valid entity from the included uniqueID.
-        /// It resolves only once, once an valid entity was found, it gets attached to <see cref="entity"/> and is returned. 
+        ///     Resolves the reference by searching an valid entity from the included uniqueID.
+        ///     It resolves only once, once an valid entity was found, it gets attached to <see cref="entity" /> and is returned.
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
-        public Entity Resolve(World world) {
-
+        public Entity Resolve(World world)
+        {
             if (entity.IsAlive) return entity;
-            
+
             entity = world.GetById(uniqueID);
             return entity;
         }
-        
-        public bool Equals(EntityReference other) {
+
+        public bool Equals(EntityReference other)
+        {
             return entity.Equals(other.entity) && uniqueID == other.uniqueID;
         }
-        
-        public override int GetHashCode() {
-            unchecked { return (entity.GetHashCode() * 397) ^ uniqueID.GetHashCode(); }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (entity.GetHashCode() * 397) ^ uniqueID.GetHashCode();
+            }
         }
-        
-        public void Serialize(NetDataWriter writer) { writer.Put(uniqueID); }
 
-        public void Deserialize(NetDataReader reader) { uniqueID = reader.GetLong(); }
+        public void Serialize(NetDataWriter writer)
+        {
+            writer.Put(uniqueID);
+        }
+
+        public void Deserialize(NetDataReader reader)
+        {
+            uniqueID = reader.GetLong();
+        }
     }
-    
-#elif CLIENT
 
+#elif CLIENT
     /// <summary>
     /// Represents an reference between entities, great for networking and automatic resolving of those references. 
     /// </summary>
@@ -156,6 +166,6 @@ namespace ParallelOrigin.Core.ECS {
         public void Serialize(NetDataWriter writer) { writer.Put(uniqueID); }
         public void Deserialize(NetDataReader reader) { uniqueID = reader.GetLong(); }
     }
-    
+
 #endif
 }

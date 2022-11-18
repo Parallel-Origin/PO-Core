@@ -5,15 +5,15 @@ using Unity.Entities;
 using Unity.Collections;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components {
-    
+namespace ParallelOrigin.Core.ECS.Components
+{
 #if SERVER
 
     /// <summary>
     ///     A component that stores a ID of a particular mesh
     /// </summary>
-    public struct Mesh : INetSerializable{
-        
+    public struct Mesh : INetSerializable
+    {
         /// <summary>
         ///     The ID of a mesh from the internal database we wanna reference for this entity
         /// </summary>
@@ -24,34 +24,41 @@ namespace ParallelOrigin.Core.ECS.Components {
         /// </summary>
         public bool instantiate;
 
-        public void Serialize(NetDataWriter writer) {
+        public void Serialize(NetDataWriter writer)
+        {
             writer.Put(id);
             writer.Put(instantiate);
         }
 
-        public void Deserialize(NetDataReader reader) {
+        public void Deserialize(NetDataReader reader)
+        {
             id = reader.GetShort();
             instantiate = reader.GetBool();
         }
     }
-    
+
     /// <summary>
-    /// Represents a reference to a sprite, icon or logo for a entity.
+    ///     Represents a reference to a sprite, icon or logo for a entity.
     /// </summary>
-    
-    public struct Sprite : INetSerializable{
-                
+    public struct Sprite : INetSerializable
+    {
         /// <summary>
-        /// The ID of a mesh from the internal database we wanna reference for this entity
+        ///     The ID of a mesh from the internal database we wanna reference for this entity
         /// </summary>
         public short id;
 
-        public void Serialize(NetDataWriter writer) { writer.Put(id); }
-        public void Deserialize(NetDataReader reader) { id = reader.GetShort(); }
+        public void Serialize(NetDataWriter writer)
+        {
+            writer.Put(id);
+        }
+
+        public void Deserialize(NetDataReader reader)
+        {
+            id = reader.GetShort();
+        }
     }
 
-#elif CLIENT 
-    
+#elif CLIENT
     /// <summary>
     ///     A component that stores a ID of a particular mesh
     /// </summary>

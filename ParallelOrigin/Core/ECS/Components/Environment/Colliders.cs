@@ -1,54 +1,65 @@
 using System.Collections.Generic;
-
 #if SERVER
 using System;
 using Collections.Pooled;
 using ParallelOriginGameServer.Server.Extensions;
 #endif
 
-namespace ParallelOrigin.Core.ECS.Components.Environment {
-
+namespace ParallelOrigin.Core.ECS.Components.Environment
+{
 #if SERVER
 
     /// <summary>
-    /// Represents a simple 2D box collider.
+    ///     Represents a simple 2D box collider.
     /// </summary>
-    public struct BoxCollider {
+    public struct BoxCollider
+    {
         public float width;
         public float height;
     }
 
     /// <summary>
-    /// An marker entity telling the collision system that this entity is able to receive various collision events as components.
-    /// This basically includes the entity in the collision checking... so it should only be attached to entities which really require collision events of any sort. 
+    ///     An marker entity telling the collision system that this entity is able to receive various collision events as components.
+    ///     This basically includes the entity in the collision checking... so it should only be attached to entities which really require collision events of any sort.
     /// </summary>
-    public struct CollisionReceiver { }
+    public struct CollisionReceiver
+    {
+    }
 
     /// <summary>
-    /// A struct which stores active collisions with a bunch of other entities from this frame.
+    ///     A struct which stores active collisions with a bunch of other entities from this frame.
     /// </summary>
-    public struct Collisions {
+    public struct Collisions
+    {
         public HashSet<QuadEntity> collisions;
     }
 
     /// <summary>
-    /// A struct which marks an entity which received a bunch of newly entered collisions
+    ///     A struct which marks an entity which received a bunch of newly entered collisions
     /// </summary>
-    public struct CollisionsEntered : IDisposable{
-        
+    public struct CollisionsEntered : IDisposable
+    {
         public PooledSet<QuadEntity> entered;
-        public void Dispose() => entered.Dispose();
+
+        public void Dispose()
+        {
+            entered.Dispose();
+        }
     }
 
     /// <summary>
-    /// A struct which tells an entity which collisions left
+    ///     A struct which tells an entity which collisions left
     /// </summary>
-    public struct CollisionsLeft : IDisposable{
-        
+    public struct CollisionsLeft : IDisposable
+    {
         public PooledSet<QuadEntity> left;
-        public void Dispose() => left.Dispose();
+
+        public void Dispose()
+        {
+            left.Dispose();
+        }
     }
 
-    
+
 #endif
 }
