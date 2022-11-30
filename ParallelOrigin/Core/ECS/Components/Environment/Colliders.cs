@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultEcs;
 #if SERVER
 using System;
 using Collections.Pooled;
@@ -29,37 +30,38 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// <summary>
     ///     A struct which stores active collisions with a bunch of other entities from this frame.
     /// </summary>
-    public struct Collisions
+    public readonly struct Collided
     {
-        public HashSet<QuadEntity> collisions;
-    }
+        public readonly Entity _first;
+        public readonly Entity _second;
 
-    /// <summary>
-    ///     A struct which marks an entity which received a bunch of newly entered collisions
-    /// </summary>
-    public struct CollisionsEntered : IDisposable
-    {
-        public PooledSet<QuadEntity> entered;
-
-        public void Dispose()
+        public Collided(Entity first, Entity second)
         {
-            entered.Dispose();
+            _first = first;
+            _second = second;
         }
     }
 
     /// <summary>
-    ///     A struct which tells an entity which collisions left
+    /// A marker for marking an <see cref="Collided"/> entity event as a new one : "Entered". 
     /// </summary>
-    public struct CollisionsLeft : IDisposable
+    public readonly struct EnteredCollision
     {
-        public PooledSet<QuadEntity> left;
-
-        public void Dispose()
-        {
-            left.Dispose();
-        }
     }
-
-
+    
+    /// <summary>
+    /// A marker for marking an <see cref="Collided"/> entity event as a stayed one : "Stayed". 
+    /// </summary>
+    public readonly struct StayedCollision
+    {
+    }
+    
+    /// <summary>
+    /// A marker for marking an <see cref="Collided"/> entity event as left.
+    /// </summary>
+    public readonly struct LeftCollision
+    {
+    }
+    
 #endif
 }
