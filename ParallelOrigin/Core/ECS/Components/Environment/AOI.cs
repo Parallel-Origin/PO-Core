@@ -2,6 +2,7 @@ using System.Collections.Generic;
 #if SERVER
 using System;
 using Collections.Pooled;
+using DefaultEcs;
 using ParallelOriginGameServer.Server.Extensions;
 #endif
 
@@ -10,38 +11,47 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
 #if SERVER
 
     /// <summary>
-    ///     Marks an entity for being able to
+    ///     Marks an entity for being able to take part in AOI events. 
     /// </summary>
     public struct AOI
     {
         public float range;
-        public HashSet<QuadEntity> inAOI;
     }
 
     /// <summary>
-    ///     Marks an entity with a list of entities that lately entered its aoi
+    /// AOI Event
     /// </summary>
-    public struct AOIEntered : IDisposable
+    public readonly struct AOIEvent
     {
-        public PooledSet<QuadEntity> entered; // Pooled to reduce memory usage -> Exists one frame only
+        public readonly Entity first;
+        public readonly Entity second;
 
-        public void Dispose()
+        public AOIEvent(Entity first, Entity second)
         {
-            entered.Dispose();
+            this.first = first;
+            this.second = second;
         }
+    }
+    
+    /// <summary>
+    /// Marks an AOI event to signal that its an Entered AOI event
+    /// </summary>
+    public struct EnteredAOI
+    {
     }
 
     /// <summary>
-    ///     Marks an entity with a list of entities which lately left its aoi
+    /// Marks an AOI event to signal that its an Stayed AOI event
     /// </summary>
-    public struct AOILeft : IDisposable
+    public struct StayedAOI
     {
-        public PooledSet<QuadEntity> left; // Pooled to reduce memory usage  -> Exists one frame only
+    }
 
-        public void Dispose()
-        {
-            left.Dispose();
-        }
+    /// <summary>
+    /// Marks an AOI event to signal that its an left AOI event
+    /// </summary>
+    public struct LeftAOI
+    {
     }
 
 #endif

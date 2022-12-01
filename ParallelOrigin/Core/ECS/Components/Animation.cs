@@ -23,10 +23,19 @@ namespace ParallelOrigin.Core.ECS.Components
     public struct Animation : INetSerializable
     {
         public byte controllerID;
-
+        public IBehaviourTreeNode behaviourTree;
+        
         public Dictionary<string, byte> overridenAnimationClips;
         public TrackedDictionary<string, bool> boolParams; // Because a marker component doesnt make sense here... we will never listen to started or ended animations
         public List<string> triggers;
+
+        public Animation(byte controllerId, IBehaviourTreeNode behaviourTree) : this()
+        {
+            controllerID = controllerId;
+            this.behaviourTree = behaviourTree;
+            triggers = new List<string>(4);
+            boolParams = new TrackedDictionary<string, bool>(4);
+        }
 
         public void Serialize(NetDataWriter writer)
         {
@@ -47,14 +56,6 @@ namespace ParallelOrigin.Core.ECS.Components
             reader.GetDic(ref dic);
             reader.GetList(ref triggers);
         }
-    }
-
-    /// <summary>
-    ///     A component that stores a map of all valid animations in a key value pair of string and id
-    /// </summary>
-    public struct AnimationController
-    {
-        public IBehaviourTreeNode behaviourTree;
     }
 #elif CLIENT
     /// <summary>

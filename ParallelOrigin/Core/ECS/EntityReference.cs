@@ -23,14 +23,12 @@ namespace ParallelOrigin.Core.ECS
         public Entity entity;
         public long uniqueID;
 
-
         public EntityReference(Entity entity, long id)
         {
             this.entity = entity;
             uniqueID = id;
         }
-
-
+        
         public EntityReference(in Entity entity, long id)
         {
             this.entity = entity;
@@ -93,6 +91,8 @@ namespace ParallelOrigin.Core.ECS
         {
             uniqueID = reader.GetLong();
         }
+        
+        public static EntityReference NULL => new(-1);
     }
 
 #elif CLIENT
