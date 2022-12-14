@@ -16,6 +16,15 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     public struct AOI
     {
         public float range;
+
+        public PooledSet<EntityReference> entities = new(512);
+        public PooledSet<EntityReference> entered = new(512);
+        public PooledSet<EntityReference> left = new(512);
+
+        public AOI(float range) : this()
+        {
+            this.range = range;
+        }
     }
 
     /// <summary>
@@ -23,13 +32,13 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public readonly struct AOIEvent
     {
-        public readonly Entity first;
-        public readonly Entity second;
+        public readonly Entity aoiEntity;
+        public readonly PooledSet<EntityReference> entityReferences;
 
-        public AOIEvent(Entity first, Entity second)
+        public AOIEvent(Entity aoiEntity, PooledSet<EntityReference> entityReferences)
         {
-            this.first = first;
-            this.second = second;
+            this.aoiEntity = aoiEntity;
+            this.entityReferences = entityReferences;
         }
     }
     

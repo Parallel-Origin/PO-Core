@@ -29,12 +29,20 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     }
 
     /// <summary>
-    ///     A component which represents a build command for an entity to construct a certain structure.
+    ///     A component which represents a build process. 
     /// </summary>
     public struct Build
     {
-        public Entity entity; // The newly spaned structure 
+        public string type;
+        public Ingredient[] ingredients;
+        
+        public Vector2d position;  // The position
+        public float distance;     // Distance to start building
+        
+        public Entity entity;      // The newly spawned structure, once target was reached 
         public float duration;
+        
+        public bool abortable; 
     }
 
 #endif

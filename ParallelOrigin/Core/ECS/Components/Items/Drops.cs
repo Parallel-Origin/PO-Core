@@ -90,9 +90,17 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     }
 
     /// <summary>
-    ///     Marks an entity as choppable and defines which items it will drop once being harvested.
+    ///     Defines what an entity rewards with as loot after being used. 
     /// </summary>
-    public struct Chopable
+    public struct Loot
+    {
+        public WeightTable<WeightedItem> loot;
+    }
+    
+    /// <summary>
+    ///     Defines what an entity drops upon death. 
+    /// </summary>
+    public struct Drops
     {
         public WeightTable<WeightedItem> drops;
     }

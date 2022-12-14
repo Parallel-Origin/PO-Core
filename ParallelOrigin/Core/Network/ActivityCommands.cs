@@ -3,6 +3,7 @@ using ParallelOrigin.Core.ECS;
 using ParallelOrigin.Core.Extensions;
 
 namespace ParallelOrigin.Core.Network {
+    
     /// <summary>
     ///     A command used to signalise the server to build a certain recipe...
     /// </summary>

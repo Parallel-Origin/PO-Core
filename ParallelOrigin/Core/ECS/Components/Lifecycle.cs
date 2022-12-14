@@ -31,13 +31,6 @@ namespace ParallelOrigin.Core.ECS.Components {
     }
 
     /// <summary>
-    ///     Marks an entity as loged out
-    /// </summary>
-    public struct LogedOut
-    {
-    }
-
-    /// <summary>
     ///     Marks a <see cref="Entity" /> as "created" during this frame...
     ///     Gets removed after the frame.
     /// </summary>
