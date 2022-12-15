@@ -1,4 +1,7 @@
+
+using System;
 #if SERVER
+using System.Collections.Generic;
 using ParallelOriginGameServer.Server.Extensions;
 #endif
 
@@ -21,7 +24,6 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     public class WeightTable<T> where T : IWeight
     {
         private float totalWeight;
-
         public T[] weighteds;
 
         public WeightTable(params T[] weighteds)
@@ -39,14 +41,15 @@ namespace ParallelOrigin.Core.ECS.Components.Items
             for (var index = 0; index < weighteds.Length; index++)
             {
                 ref var weighted = ref weighteds[index];
-                weight += weighted.Weight;
+                weight += Math.Max(0, weighted.Weight);
             }
 
             return weight;
         }
 
         /// <summary>
-        ///     Returns a weighted item based on its weight.
+        ///     Returns one weighted item based on its weight.
+        ///     If theres a item with 0 weight, especially on the beginning, it will always return that one. 
         /// </summary>
         /// <returns></returns>
         public T Get()
@@ -61,11 +64,32 @@ namespace ParallelOrigin.Core.ECS.Components.Items
             for (var index = 0; index < weighteds.Length; index++)
             {
                 ref var weighted = ref weighteds[index];
-                if (randomVal < weighted.Weight) return weighted;
+                if (randomVal <= weighted.Weight) return weighted;
                 randomVal -= weighted.Weight;
             }
 
             return default;
+        }
+        
+        /// <summary>
+        ///     Returns a weighted item based on its weight.
+        /// </summary>
+        /// <returns></returns>
+        public void Get(List<T> items)
+        {
+            // Assign total weight
+            if (totalWeight == 0)
+                totalWeight = TotalWeight();
+
+            var randomVal = RandomExtensions.GetRandom(0, totalWeight);
+
+            // Weight based spawning of the items
+            for (var index = 0; index < weighteds.Length; index++)
+            {
+                ref var weighted = ref weighteds[index];
+                if (randomVal <= weighted.Weight) items.Add(weighted);
+                randomVal -= weighted.Weight;
+            }
         }
     }
 

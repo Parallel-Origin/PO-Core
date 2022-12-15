@@ -1,10 +1,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore.Storage;
 using ParallelOrigin.Core.Base.Interfaces;
 using ParallelOrigin.Core.Base.Interfaces.Prototype;
 
 namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
+
+    /// <summary>
+    /// A delegate which creates an certain object.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public delegate T Creator<out T>();
+    
+    /// <summary>
+    /// A delegate which customizes a certain instance. 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public delegate void Customizer<T>(ref T instance);
+    
+    /// <summary>
+    /// A storeable prototype. 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class Prototype<T>
+    {
+        public T Instance;
+        public Creator<T> Creator;
+        public Customizer<T> Customizer;
+    }
+    
     /// <summary>
     ///     Acts as a storage for cloneable classes which can get registered in order to clone them for instances later on.
     ///     <p>
@@ -15,18 +41,17 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
     /// </summary>
     /// <typeparam name="I">The input type we use to clone</typeparam>
     /// <typeparam name="T">The type we clone</typeparam>
-    public abstract class Prototyper<I, T> : IPrototyper<I, T>, IInitialisationable
+    public abstract class Prototyper<T> : IPrototyper<T>
     {
         public Prototyper()
         {
-            Instances = new Dictionary<I, T>();
-            Creators = new Dictionary<I, Func<T>>();
-            Customizer = new Dictionary<I, Action<T>>();
-
+            _prototypes = Array.Empty<Prototype<T>>();
             Initialize();
         }
 
-        public IDictionary<I, T> Instances { get; set; } // A cache that stores each instance once for lookup purposes
+        private Prototype<T>[] _prototypes; // A cache that stores each instance once for lookup purposes
+        public List<short> Ids { get; }
+        public Prototype<T>[] Prototypes => _prototypes;
 
         public abstract void Initialize();
 
@@ -41,18 +66,18 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="ID">The Type-ID of the entity we use to clone it</param>
         /// <param name="creator">A function which creates the entity we wanna clone</param>
         /// <param name="configurator">A action that gets called after the entity was created for configurating it</param>
-        public void Register(I ID, Func<T> creator, Action<T> configurator)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Register(short ID, Creator<T> creator, Customizer<T> configurator)
         {
-            Creators.Add(ID, creator);
-            if (configurator != null)
-                Customizer.Add(ID, configurator);
+            if(_prototypes.Length <= ID)
+                Array.Resize(ref _prototypes, ID+1);
 
-            // Create an instance and add it to the cache for lookups later on
-            if (Instances.ContainsKey(ID)) return;
-
-            var instanced = Clone(ID);
-            Instances[ID] = instanced;
-            AfterInstanced(ID, instanced);
+            var instanced = creator();
+            configurator(ref instanced);
+            
+            _prototypes[ID] = new Prototype<T>{ Instance = instanced, Creator = creator, Customizer = configurator};
+            Ids.Add(ID);
+            AfterInstanced(ID, ref instanced);
         }
 
         /// <summary>
@@ -60,9 +85,10 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T Get(I id)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public T Get(short id)
         {
-            return Instances.TryGetValue(id, out var instance) ? instance : default;
+            return _prototypes[id] != null ? _prototypes[id].Instance : default;
         }
 
         /// <summary>
@@ -70,14 +96,16 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// </summary>
         /// <param name="ID">The Type-ID of the instance we want to clone</param>
         /// <returns></returns>
-        public T Clone(I ID)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public T Clone(short ID)
         {
             try
             {
                 // Constructing entity and configurating it shortly after
-                var instance = Creators[ID]();
-                if (Customizer.TryGetValue(ID, out var customizer)) customizer(instance);
-                AfterClone(ID, instance);
+                var prototype = _prototypes[ID];
+                var instance = prototype.Creator();
+                prototype.Customizer?.Invoke(ref instance);
+                AfterClone(ID, ref instance);
 
                 return instance;
             }
@@ -92,7 +120,8 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// </summary>
         /// <param name="typeID">The type id of the cloned instance</param>
         /// <param name="clonedInstance">The cloned instance</param>
-        public virtual void AfterInstanced(I typeID, T clonedInstance)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public virtual void AfterInstanced(short typeID, ref T clonedInstance)
         {
         }
 
@@ -101,12 +130,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// </summary>
         /// <param name="typeID">Its typeID</param>
         /// <param name="clonedInstance">The already cloned instance we can modify</param>
-        public virtual void AfterClone(I typeID, T clonedInstance)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public virtual void AfterClone(short typeID, ref T clonedInstance)
         {
         }
-
-        public I[] Ids => Instances.Keys.ToArray();
-        public IDictionary<I, Func<T>> Creators { get; set; } // Stores all suppliers for creating instances of the types
-        public IDictionary<I, Action<T>> Customizer { get; set; } // Gets called after creating a certain instance for configuration
     }
 }
