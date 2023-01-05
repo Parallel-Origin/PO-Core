@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using DefaultEcs;
+
 #if SERVER
 using System;
 using Collections.Pooled;
 using ParallelOriginGameServer.Server.Extensions;
+using DefaultEcs;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components.Environment
