@@ -33,18 +33,14 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
     
     /// <summary>
     ///     Acts as a storage for cloneable classes which can get registered in order to clone them for instances later on.
-    ///     <p>
-    ///         Attention, because of the bad support of deep cloning in java and the incompatibility with lambdas this prototyper wont clone registered classes.
-    ///         <p>
-    ///             Instead we register a lambda callback for creating a new instance of that object each time we "clone" a object.
-    ///             @see <a href="https://de.wikipedia.org/wiki/Prototyp_(Entwurfsmuster)">Prototype Pattern</a>
+    ///     <a href="https://de.wikipedia.org/wiki/Prototyp_(Entwurfsmuster)">Prototype Pattern</a>
     /// </summary>
-    /// <typeparam name="I">The input type we use to clone</typeparam>
-    /// <typeparam name="T">The type we clone</typeparam>
+    /// <typeparam name="T">The type we clone.</typeparam>
     public abstract class Prototyper<T> : IPrototyper<T>
     {
         public Prototyper()
         {
+            Ids = new List<short>();
             _prototypes = Array.Empty<Prototype<T>>();
             Initialize();
         }

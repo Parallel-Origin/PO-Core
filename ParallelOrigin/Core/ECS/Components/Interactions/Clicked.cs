@@ -48,6 +48,11 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     public struct OnClickedAttack
     {
     }
+    
+    // On clicked, pickup the references item
+    public struct OnClickedPickup
+    {
+    }
 
     /// <summary>
     ///     A component for an option, once it was pressed the whole popup will be marked for being destroyed

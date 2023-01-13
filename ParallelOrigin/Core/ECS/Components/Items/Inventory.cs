@@ -43,6 +43,15 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     public struct InInventory
     {
         public Entity inventory;
+        public string dropType;
+    }
+    
+    /// <summary>
+    ///     Item which is on the ground.
+    /// </summary>
+    public struct OnGround
+    {
+        public string pickupType;
     }
 
     // TODO : Someday just remove those components below and just go with normal ecs events  

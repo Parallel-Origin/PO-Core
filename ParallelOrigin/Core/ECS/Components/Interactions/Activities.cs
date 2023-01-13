@@ -6,20 +6,7 @@ using ParallelOrigin.Core.Base.Classes;
 namespace ParallelOrigin.Core.ECS.Components.Interactions
 {
 #if SERVER
-
-    /// <summary>
-    ///     An activity which assign a component <see cref="T" /> to the entity when it reached a certain destination.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public struct OnReach<T>
-    {
-        public Vector2d destination;
-        public float distance;
-        public bool cancelable;
-
-        public T component;
-    }
-
+    
     /// <summary>
     ///     A component which lets an entity chop a resource entity ( tree ) down.
     /// </summary>
@@ -43,6 +30,15 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
         public float duration;
         
         public bool abortable; 
+    }
+
+    /// <summary>
+    ///     A component which makes an entity pickup an target item on collision. 
+    /// </summary>
+    public struct Pickup
+    {
+        public Entity target;
+        public uint amount;
     }
 
 #endif
