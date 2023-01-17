@@ -24,4 +24,26 @@ namespace ParallelOrigin.Core.Network {
             recipe = reader.GetFixedString();
         }
     }
+    
+    /// <summary>
+    ///     A command used to send a pickup request for an item with an amount to the server.
+    ///     References the popup from which this command resulted. 
+    /// </summary>
+    public struct PickupCommand : INetSerializable
+    {
+        public EntityReference popup;
+        public uint amount;
+
+        public void Serialize(NetDataWriter writer)
+        {
+            writer.Put(popup);
+            writer.Put(amount);
+        }
+
+        public void Deserialize(NetDataReader reader)
+        {
+            popup.Deserialize(reader);
+            amount = reader.GetUInt();
+        }
+    }
 }
