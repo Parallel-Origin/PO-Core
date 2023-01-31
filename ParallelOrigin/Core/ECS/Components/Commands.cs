@@ -69,6 +69,13 @@ namespace ParallelOrigin.Core.ECS.Components
         public string type;
         public Entity owner;
         public Entity target;
+
+        public PopUpCommand(string type, Entity owner, Entity target)
+        {
+            this.type = type;
+            this.owner = owner;
+            this.target = target;
+        }
     }
 
 #endif
