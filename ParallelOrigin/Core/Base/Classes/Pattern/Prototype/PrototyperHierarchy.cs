@@ -9,9 +9,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
     /// <summary>
     ///     A class that manages multiple {@link IPrototyper} and inserts them into a hierarchy in order to clone their objects by a certain path or id.
     /// </summary>
-    /// <typeparam name="PATH">The path-type... mostly a string.</typeparam>
-    /// <typeparam name="T">The input we take to clone a object from the <see cref="IPrototyper{I,T}" /></typeparam>
-    /// <typeparam name="O">The output we await from the <see cref="IPrototyper{I,T}" /></typeparam>
+    /// <typeparam name="TO">The type.</typeparam>
     public class PrototyperHierarchy<TO>
     {
   
@@ -22,10 +20,6 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <summary>
         ///     Constructs a Hierarchy with the required methods to identify the path of the hierachy to the registered <see cref="IPrototyper{I,T}" />
         /// </summary>
-        /// <param name="pathCombiner">A callback that is used to combine two paths to one.</param>
-        /// <param name="pathExtender">A callback that is used to extend a path to a new layer.</param>
-        /// <param name="pathDissembler">A callback that is used to disemble a path into its various layers</param>
-        /// <param name="pathToInput">A callback that is used to convert a layer from the path into the input for cloning a object.</param>
         public PrototyperHierarchy() { }
 
         /// <summary>
@@ -84,9 +78,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         public TO Clone(string path)
         {
             var prototype = instances[path];
-            var instance = prototype.Creator();
-            prototype.Customizer?.Invoke(ref instance);
-            return instance;
+            return prototype.Prototyper.Clone(prototype.Id);
         }
 
         /// <summary>
@@ -99,9 +91,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         public TO Clone(int path)
         {
             var prototype = instancesByHash[path];
-            var instance = prototype.Creator();
-            prototype.Customizer?.Invoke(ref instance);
-            return instance;
+            return prototype.Prototyper.Clone(prototype.Id);;
         }
 
         /// <summary>

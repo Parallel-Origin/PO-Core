@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Microsoft.EntityFrameworkCore.Storage;
 using ParallelOrigin.Core.Base.Interfaces;
 using ParallelOrigin.Core.Base.Interfaces.Prototype;
 
@@ -26,7 +25,10 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
     /// <typeparam name="T"></typeparam>
     public class Prototype<T>
     {
+        public short Id;
         public T Instance;
+
+        public Prototyper<T> Prototyper;
         public Creator<T> Creator;
         public Customizer<T> Customizer;
     }
@@ -71,7 +73,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
             var instanced = creator();
             configurator(ref instanced);
             
-            _prototypes[ID] = new Prototype<T>{ Instance = instanced, Creator = creator, Customizer = configurator};
+            _prototypes[ID] = new Prototype<T>{ Id = ID, Instance = instanced, Prototyper = this, Creator = creator, Customizer = configurator};
             Ids.Add(ID);
             AfterInstanced(ID, ref instanced);
         }
