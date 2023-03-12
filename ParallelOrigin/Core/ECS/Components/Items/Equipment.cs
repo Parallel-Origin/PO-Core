@@ -25,10 +25,10 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public struct Equipment
     {
-        public EntityReference helmet;
-        public EntityReference armor;
-        public EntityReference weapon;
-        public EntityReference boots;
+        public EntityLink helmet;
+        public EntityLink armor;
+        public EntityLink weapon;
+        public EntityLink boots;
     }
 
     /// <summary>

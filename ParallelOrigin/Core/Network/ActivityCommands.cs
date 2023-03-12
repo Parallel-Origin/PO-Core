@@ -9,7 +9,7 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct BuildCommand : INetSerializable
     {
-        public EntityReference builder;
+        public EntityLink builder;
         public string recipe;
 
         public void Serialize(NetDataWriter writer)
@@ -31,7 +31,7 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct PickupCommand : INetSerializable
     {
-        public EntityReference popup;
+        public EntityLink popup;
         public uint amount;
 
         public void Serialize(NetDataWriter writer)

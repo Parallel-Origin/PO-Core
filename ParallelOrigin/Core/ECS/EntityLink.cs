@@ -1,6 +1,8 @@
+
 #if SERVER
+using Arch.Core;
+using Arch.Core.Extensions;
 using System;
-using DefaultEcs;
 using LiteNetLib.Utils;
 using ParallelOriginGameServer.Server.Extensions;
 
@@ -18,24 +20,24 @@ namespace ParallelOrigin.Core.ECS
     /// <summary>
     ///     Represents an reference between entities, great for networking and automatic resolving of those references.
     /// </summary>
-    public struct EntityReference : INetSerializable, IEquatable<EntityReference>
+    public struct EntityLink : INetSerializable, IEquatable<EntityLink>
     {
         public Entity entity;
         public long uniqueID;
 
-        public EntityReference(Entity entity, long id)
+        public EntityLink(Entity entity, long id)
         {
             this.entity = entity;
             uniqueID = id;
         }
         
-        public EntityReference(in Entity entity, long id)
+        public EntityLink(in Entity entity, long id)
         {
             this.entity = entity;
             uniqueID = id;
         }
 
-        public EntityReference(long uniqueId)
+        public EntityLink(long uniqueId)
         {
             entity = default;
             uniqueID = uniqueId;
@@ -49,7 +51,7 @@ namespace ParallelOrigin.Core.ECS
         /// <returns></returns>
         public Entity Resolve(ref World world)
         {
-            if (entity.IsAlive) return entity;
+            if (entity.IsAlive()) return entity;
 
             entity = world.GetById(uniqueID);
             return entity;
@@ -63,13 +65,13 @@ namespace ParallelOrigin.Core.ECS
         /// <returns></returns>
         public Entity Resolve(World world)
         {
-            if (entity.IsAlive) return entity;
+            if (entity.IsAlive()) return entity;
 
             entity = world.GetById(uniqueID);
             return entity;
         }
 
-        public bool Equals(EntityReference other)
+        public bool Equals(EntityLink other)
         {
             return entity.Equals(other.entity) && uniqueID == other.uniqueID;
         }
@@ -92,7 +94,7 @@ namespace ParallelOrigin.Core.ECS
             uniqueID = reader.GetLong();
         }
         
-        public static EntityReference NULL => new(-1);
+        public static EntityLink NULL => new(-1);
     }
 
 #elif CLIENT

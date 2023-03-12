@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using ParallelOrigin.Core.Base.Classes;
 #if SERVER
-using DefaultEcs;
+using Arch.Core;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components

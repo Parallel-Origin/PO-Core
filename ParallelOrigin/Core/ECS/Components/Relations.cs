@@ -17,7 +17,7 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct Parent : INetSerializable
     {
-        public List<EntityReference> children;
+        public List<EntityLink> children;
 
         public void Serialize(NetDataWriter writer)
         {
@@ -35,7 +35,7 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct Child : INetSerializable
     {
-        public EntityReference parent;
+        public EntityLink parent;
 
         public void Serialize(NetDataWriter writer)
         {

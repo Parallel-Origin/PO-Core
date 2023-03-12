@@ -1,5 +1,6 @@
+
 #if SERVER
-using DefaultEcs;
+using Arch.Core;
 using ParallelOrigin.Core.Base.Classes;
 #endif
 

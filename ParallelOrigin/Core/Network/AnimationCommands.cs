@@ -9,20 +9,20 @@ namespace ParallelOrigin.Core.Network {
     public struct AnimationParamCommand : INetSerializable 
     {
 
-        public EntityReference entityReference;
+        public EntityLink entityLink;
         public string boolName;
         public bool activated;
 
         public void Serialize(NetDataWriter writer) 
         {
-            writer.Put(entityReference);
+            writer.Put(entityLink);
             writer.PutFixedString(boolName, (ushort)boolName.Length);
             writer.Put(activated);
         }
 
         public void Deserialize(NetDataReader reader) 
         {
-            entityReference.Deserialize(reader);
+            entityLink.Deserialize(reader);
             boolName = reader.GetFixedString();
             activated = reader.GetBool();
         }
@@ -34,18 +34,18 @@ namespace ParallelOrigin.Core.Network {
     public struct AnimationTriggerCommand : INetSerializable 
     {
 
-        public EntityReference entityReference;
+        public EntityLink entityLink;
         public string triggerName;
 
         public void Serialize(NetDataWriter writer) 
         {
-            writer.Put(entityReference);
+            writer.Put(entityLink);
             writer.PutFixedString(triggerName, (ushort)triggerName.Length);
         }
 
         public void Deserialize(NetDataReader reader) 
         {
-            entityReference.Deserialize(reader);
+            entityLink.Deserialize(reader);
             triggerName = reader.GetFixedString();
         }
     }

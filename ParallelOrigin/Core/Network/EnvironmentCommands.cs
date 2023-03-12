@@ -30,7 +30,7 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct TeleportationCommand : INetSerializable
     {
-        public EntityReference entity;
+        public EntityLink entity;
         public Vector2d position;
 
         public void Serialize(NetDataWriter writer)

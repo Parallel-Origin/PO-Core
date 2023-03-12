@@ -220,8 +220,8 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct ClickCommand : INetSerializable {
 
-        public EntityReference clicker;
-        public EntityReference clicked;
+        public EntityLink clicker;
+        public EntityLink clicked;
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(clicker);
@@ -240,7 +240,7 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct DoubleClickCommand : INetSerializable {
 
-        public EntityReference clicker;
+        public EntityLink clicker;
         public Vector2d position;
 
         public void Serialize(NetDataWriter writer) {

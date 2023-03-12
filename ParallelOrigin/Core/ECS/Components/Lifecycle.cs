@@ -3,7 +3,7 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
 #elif SERVER
-using DefaultEcs;
+using Arch.Core;
 #endif
 using System;
 
@@ -52,6 +52,22 @@ namespace ParallelOrigin.Core.ECS.Components {
     {
     }
 
+    /// <summary>
+    ///     Wraps an component to enable/disable it.
+    /// </summary>
+    /// <typeparam name="T">The component.</typeparam>
+    public struct Toggle<T>
+    {
+        public T component;
+        public bool enabled;
+
+        public Toggle(T component, bool enabled)
+        {
+            this.component = component;
+            this.enabled = enabled;
+        }
+    }
+    
     /// <summary>
     ///     A Component which is used to check if Entites have been changed, updated or removed
     /// </summary>

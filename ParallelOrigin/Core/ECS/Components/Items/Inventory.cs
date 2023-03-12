@@ -4,7 +4,7 @@ using Unity.Entities;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 #elif SERVER
-using DefaultEcs;
+using Arch.Core;
 #endif
 using System.Collections.Generic;
 using LiteNetLib.Utils;
@@ -19,11 +19,11 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     /// </summary>
     public struct Inventory : INetSerializable
     {
-        public List<EntityReference> items;
+        public List<EntityLink> items;
 
         public Inventory(int size)
         {
-            items = new List<EntityReference>(size);
+            items = new List<EntityLink>(size);
         }
 
         public void Serialize(NetDataWriter writer)

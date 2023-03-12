@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 #if SERVER
 using System;
+using Arch.Core;
 using Collections.Pooled;
-using DefaultEcs;
 using ParallelOriginGameServer.Server.Extensions;
 #endif
 
@@ -17,9 +17,9 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     {
         public float range;
 
-        public PooledSet<EntityReference> entities = new(512);
-        public PooledSet<EntityReference> entered = new(512);
-        public PooledSet<EntityReference> left = new(512);
+        public PooledSet<EntityLink> entities = new(512);
+        public PooledSet<EntityLink> entered = new(512);
+        public PooledSet<EntityLink> left = new(512);
 
         public AOI(float range) : this()
         {
@@ -33,9 +33,9 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     public readonly struct AOIEvent
     {
         public readonly Entity aoiEntity;
-        public readonly PooledSet<EntityReference> entityReferences;
+        public readonly PooledSet<EntityLink> entityReferences;
 
-        public AOIEvent(Entity aoiEntity, PooledSet<EntityReference> entityReferences)
+        public AOIEvent(Entity aoiEntity, PooledSet<EntityLink> entityReferences)
         {
             this.aoiEntity = aoiEntity;
             this.entityReferences = entityReferences;

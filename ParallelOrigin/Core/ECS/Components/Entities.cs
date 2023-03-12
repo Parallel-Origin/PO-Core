@@ -5,7 +5,7 @@ using Unity.Collections;
 using Script.Extensions;
 using LiteNetLib.Utils;
 #elif SERVER
-using DefaultEcs;
+using Arch.Core;
 using LiteNetLib;
 using System.Collections.Generic;
 using System.Drawing;
@@ -123,7 +123,7 @@ public struct Resource : INetSerializable
 public struct Structure
 {
     public Color color;
-    public EntityReference owner;
+    public EntityLink owner;
 }
 
 /// <summary>
@@ -139,10 +139,10 @@ public struct Mob
 public struct Popup : INetSerializable
 {
     // May be null...
-    public EntityReference owner;
+    public EntityLink owner;
 
     // May be null
-    public EntityReference target;
+    public EntityLink target;
 
     // The option types its gonna have
     public List<string> options;

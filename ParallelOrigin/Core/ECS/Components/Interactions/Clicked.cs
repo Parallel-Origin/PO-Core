@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 #if SERVER
-using DefaultEcs;
-
+using Arch.Core;
 #elif CLIENT
 using Unity.Entities;
 #endif

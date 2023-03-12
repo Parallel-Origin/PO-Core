@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using Collections.Pooled;
 using ParallelOriginGameServer.Server.Extensions;
-using DefaultEcs;
+using Arch.Core;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components.Environment
