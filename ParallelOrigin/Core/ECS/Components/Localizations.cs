@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Arch.LowLevel;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
+using ParallelOriginGameServer.Server.ThirdParty;
 #if CLIENT
 using Unity.Burst;
 using Unity.Collections;
@@ -17,19 +19,19 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct Localizations : INetSerializable
     {
-        public Dictionary<string, short> localizations;
-        public Dictionary<string, string> uniqueLocalizations;
+        public Handle<Dictionary<string, short>> localizations;
+        public Handle<Dictionary<string, string>> uniqueLocalizations;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.PutDic(localizations);
-            writer.PutDic(uniqueLocalizations);
+            writer.PutDic(localizations.Get());
+            writer.PutDic(uniqueLocalizations.Get());
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            reader.GetDic(ref localizations);
-            reader.GetDic(ref uniqueLocalizations);
+            //reader.GetDic(ref localizations);
+            //reader.GetDic(ref uniqueLocalizations);
         }
     }
 

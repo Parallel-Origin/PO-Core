@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Arch.LowLevel;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Base.Classes;
 using ParallelOrigin.Core.ECS.Components.Interactions;
@@ -101,7 +103,20 @@ namespace ParallelOrigin.Core.Extensions
 
             for (var index = 0; index < size; index++) array[index].Deserialize(reader);
         }
+        
 
+        /// <summary>
+        ///     Deserializes an list of string
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="dic"></param>
+        public static void GetList<T>(this NetDataReader reader, ref UnsafeList<T> list) where T : unmanaged, INetSerializable
+        {
+            var size = reader.GetInt();
+            list.EnsureCapacity(size);
+            for (var index = 0; index < size; index++) list[index].Deserialize(reader);
+        }
+        
         /// <summary>
         ///     Serializes a string list
         /// </summary>

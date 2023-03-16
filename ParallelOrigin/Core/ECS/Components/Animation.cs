@@ -12,6 +12,8 @@ using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
 using ParallelOriginGameServer.Server.Network;
 #endif
+using Arch.LowLevel;
+using ParallelOriginGameServer.Server.ThirdParty;
 
 namespace ParallelOrigin.Core.ECS.Components
 {
@@ -25,36 +27,28 @@ namespace ParallelOrigin.Core.ECS.Components
         public byte controllerID;
         public IBehaviourTreeNode behaviourTree;
         
-        public Dictionary<string, byte> overridenAnimationClips;
-        public TrackedDictionary<string, bool> boolParams; // Because a marker component doesnt make sense here... we will never listen to started or ended animations
-        public List<string> triggers;
+        public Handle<Dictionary<string, byte>> overridenAnimationClips;
+        public Handle<TrackedDictionary<string, bool>> boolParams; // Because a marker component doesnt make sense here... we will never listen to started or ended animations
+        public Handle<List<string>> triggers;
 
         public Animation(byte controllerId, IBehaviourTreeNode behaviourTree) : this()
         {
             controllerID = controllerId;
             this.behaviourTree = behaviourTree;
-            triggers = new List<string>(4);
-            boolParams = new TrackedDictionary<string, bool>(4);
+            triggers = new List<string>(4).ToHandle();
+            boolParams = new TrackedDictionary<string, bool>(4).ToHandle();
         }
 
         public void Serialize(NetDataWriter writer)
         {
             writer.Put(controllerID);
-            writer.PutDic(overridenAnimationClips);
-            writer.PutDic(boolParams);
-            writer.PutList(triggers);
+            writer.PutDic(overridenAnimationClips.Get());
+            writer.PutDic(boolParams.Get());
+            writer.PutList(triggers.Get());
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            // Required because ref doesnt work otherwhise below 
-            boolParams = new TrackedDictionary<string, bool>(4);
-            var dic = boolParams.Dictionary;
-
-            controllerID = reader.GetByte();
-            reader.GetDic(ref overridenAnimationClips);
-            reader.GetDic(ref dic);
-            reader.GetList(ref triggers);
         }
     }
 #elif CLIENT

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Arch.LowLevel;
+using ParallelOriginGameServer.Server.ThirdParty;
 #if SERVER
 using System;
 using Arch.Core;
@@ -17,13 +19,16 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     {
         public float range;
 
-        public PooledSet<EntityLink> entities = new(512);
-        public PooledSet<EntityLink> entered = new(512);
-        public PooledSet<EntityLink> left = new(512);
+        public Handle<PooledSet<EntityLink>> entities;
+        public Handle<PooledSet<EntityLink>> entered;
+        public Handle<PooledSet<EntityLink>> left;
 
         public AOI(float range) : this()
         {
             this.range = range;
+            entities = new PooledSet<EntityLink>(512).ToHandle();
+            entered = new PooledSet<EntityLink>(512).ToHandle();
+            left = new PooledSet<EntityLink>(512).ToHandle();
         }
     }
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Arch.LowLevel;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
 #if CLIENT
@@ -17,7 +18,12 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct Parent : INetSerializable
     {
-        public List<EntityLink> children;
+        public UnsafeList<EntityLink> children;
+
+        public Parent(int capacity)
+        {
+            children = new UnsafeList<EntityLink>(capacity);
+        }
 
         public void Serialize(NetDataWriter writer)
         {

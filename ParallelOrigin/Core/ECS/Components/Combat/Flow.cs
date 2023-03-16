@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 #if SERVER
 using Arch.Core;
+using Arch.LowLevel;
+using ParallelOriginGameServer.Server.ThirdParty;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components.Combat
@@ -29,7 +31,13 @@ namespace ParallelOrigin.Core.ECS.Components.Combat
     public struct InCombat
     {
         public float intervall;
-        public HashSet<Entity> entities;
+        public Handle<HashSet<Entity>> entities;
+
+        public InCombat(int capacity)
+        {
+            intervall = 0;
+            entities = new HashSet<Entity>(capacity).ToHandle();
+        }
     }
 
     /// <summary>

@@ -5,10 +5,13 @@ using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 #elif SERVER
 using Arch.Core;
+using ParallelOrigin.Core.Base.Classes;
 #endif
 using System.Collections.Generic;
+using Arch.LowLevel;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
+using ParallelOriginGameServer.Server.ThirdParty;
 
 namespace ParallelOrigin.Core.ECS.Components.Items {
 #if SERVER
@@ -19,11 +22,11 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     /// </summary>
     public struct Inventory : INetSerializable
     {
-        public List<EntityLink> items;
+        public UnsafeList<EntityLink> items;
 
-        public Inventory(int size)
+        public Inventory(int capacity)
         {
-            items = new List<EntityLink>(size);
+            items = new UnsafeList<EntityLink>(capacity);
         }
 
         public void Serialize(NetDataWriter writer)

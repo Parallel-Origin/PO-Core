@@ -9,13 +9,16 @@ using Arch.Core;
 using LiteNetLib;
 using System.Collections.Generic;
 using System.Drawing;
+using Arch.LowLevel;
 using ConcurrentCollections;
 using LiteNetLib.Utils;
 using ParallelOriginGameServer.Server.Persistence;
 #endif
 using System;
+using System.Runtime.InteropServices;
 using ParallelOrigin.Core.Base.Classes;
 using ParallelOrigin.Core.ECS.Components.Interactions;
+using ParallelOriginGameServer.Server.ThirdParty;
 
 namespace ParallelOrigin.Core.ECS.Components {
 
@@ -45,14 +48,11 @@ public struct Command
 /// </summary>
 public struct Character : INetSerializable
 {
-    public NetPeer peer;
+    public Handle<NetPeer> peer;
 
     public string name;
     public string email;
     public string password;
-
-    public Gender gender;
-    public Color color;
 
     public void Serialize(NetDataWriter writer)
     {
@@ -122,7 +122,6 @@ public struct Resource : INetSerializable
 /// </summary>
 public struct Structure
 {
-    public Color color;
     public EntityLink owner;
 }
 
@@ -145,7 +144,14 @@ public struct Popup : INetSerializable
     public EntityLink target;
 
     // The option types its gonna have
-    public List<string> options;
+    public Handle<List<string>> options;
+
+    public Popup(params string[] options)
+    {
+        owner = EntityLink.NULL;
+        target = EntityLink.NULL;
+        this.options = new List<string>(options).ToHandle();
+    }
 
     public void Serialize(NetDataWriter writer)
     {

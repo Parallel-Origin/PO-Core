@@ -2,6 +2,7 @@
 using System;
 #if SERVER
 using System.Collections.Generic;
+using Arch.LowLevel;
 using ParallelOriginGameServer.Server.Extensions;
 #endif
 
@@ -118,7 +119,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public struct Loot
     {
-        public WeightTable<WeightedItem> loot;
+        public Handle<WeightTable<WeightedItem>> loot;
     }
     
     /// <summary>
@@ -126,7 +127,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public struct Drops
     {
-        public WeightTable<WeightedItem> drops;
+        public Handle<WeightTable<WeightedItem>> drops;
     }
 #endif
 }
