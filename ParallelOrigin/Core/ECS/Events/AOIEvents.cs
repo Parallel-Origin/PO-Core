@@ -1,3 +1,4 @@
+#if SERVER
 using Arch.Core;
 using Collections.Pooled;
 
@@ -47,3 +48,5 @@ public struct AOILeftEvent
         this.entities = entities;
     }
 }
+
+#endif

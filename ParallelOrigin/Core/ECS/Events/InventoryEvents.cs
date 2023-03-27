@@ -1,3 +1,4 @@
+#if SERVER
 using Arch.Core;
 
 namespace ParallelOrigin.Core.ECS.Events;
@@ -46,3 +47,5 @@ public struct ItemRemovedEvent
         Item = item;
     }
 }
+
+#endif

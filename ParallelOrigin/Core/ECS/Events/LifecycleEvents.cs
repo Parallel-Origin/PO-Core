@@ -1,3 +1,4 @@
+#if SERVER
 using Arch.Core;
 
 namespace ParallelOrigin.Core.ECS.Events;
@@ -11,3 +12,4 @@ public struct LogoutEvent
 {
     public Entity Entity;
 }
+#endif
