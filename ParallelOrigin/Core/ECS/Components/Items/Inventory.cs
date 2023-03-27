@@ -6,12 +6,12 @@ using Unity.Collections.LowLevel.Unsafe;
 #elif SERVER
 using Arch.Core;
 using ParallelOrigin.Core.Base.Classes;
-#endif
+using ParallelOriginGameServer.Server.ThirdParty;
 using System.Collections.Generic;
 using Arch.LowLevel;
+#endif
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
-using ParallelOriginGameServer.Server.ThirdParty;
 
 namespace ParallelOrigin.Core.ECS.Components.Items {
 #if SERVER
@@ -66,7 +66,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     [BurstCompile]
     public struct Inventory : IComponentData, INetSerializable{
         
-        public UnsafeList<EntityReference> items;
+        public UnsafeList<EntityLink> items;
         
         public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, ref items); }
         public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref items); }

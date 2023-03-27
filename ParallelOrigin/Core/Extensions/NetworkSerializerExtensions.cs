@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Arch.LowLevel;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Base.Classes;
 using ParallelOrigin.Core.ECS.Components.Interactions;
@@ -10,7 +8,8 @@ using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Script.Extensions;
 #elif SERVER
-
+using System.Runtime.InteropServices;
+using Arch.LowLevel;
 #endif
 
 namespace ParallelOrigin.Core.Extensions
@@ -104,7 +103,7 @@ namespace ParallelOrigin.Core.Extensions
             for (var index = 0; index < size; index++) array[index].Deserialize(reader);
         }
         
-
+#if SERVER
         /// <summary>
         ///     Deserializes an list of string
         /// </summary>
@@ -116,6 +115,7 @@ namespace ParallelOrigin.Core.Extensions
             list.EnsureCapacity(size);
             for (var index = 0; index < size; index++) list[index].Deserialize(reader);
         }
+#endif
         
         /// <summary>
         ///     Serializes a string list

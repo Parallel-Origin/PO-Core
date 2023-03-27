@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Arch.LowLevel;
-using ParallelOriginGameServer.Server.ThirdParty;
 #if SERVER
 using System;
 using Arch.Core;
 using Collections.Pooled;
 using ParallelOriginGameServer.Server.Extensions;
+using Arch.LowLevel;
+using ParallelOriginGameServer.Server.ThirdParty;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components.Environment

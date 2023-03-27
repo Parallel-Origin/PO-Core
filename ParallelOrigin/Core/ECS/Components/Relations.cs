@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using Arch.LowLevel;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
 #if CLIENT
 using Unity.Burst;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
+#elif SERVER
+using Arch.LowLevel;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components
@@ -62,7 +63,7 @@ namespace ParallelOrigin.Core.ECS.Components
     [BurstCompile]
     public struct Parent : IComponentData, INetSerializable{
             
-        public UnsafeList<EntityReference> children;
+        public UnsafeList<EntityLink> children;
 
         public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, ref children); }
         public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref children); }
@@ -74,7 +75,7 @@ namespace ParallelOrigin.Core.ECS.Components
     [BurstCompile]
     public struct Child : IComponentData, INetSerializable {
             
-        public EntityReference parent;
+        public EntityLink parent;
 
         public void Serialize(NetDataWriter writer) { writer.Put(parent); }
         public void Deserialize(NetDataReader reader) {  parent.Deserialize(reader); }

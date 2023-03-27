@@ -1,13 +1,14 @@
 using System.Collections.Generic;
-using Arch.LowLevel;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
-using ParallelOriginGameServer.Server.ThirdParty;
 #if CLIENT
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
+#elif SERVER
+using ParallelOriginGameServer.Server.ThirdParty;
+using Arch.LowLevel;
 #endif
 
 namespace ParallelOrigin.Core.ECS.Components

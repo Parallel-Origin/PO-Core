@@ -5,15 +5,16 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
+
 #elif SERVER
 using System.Collections.Generic;
 using FluentBehaviourTree;
 using LiteNetLib.Utils;
 using ParallelOrigin.Core.Extensions;
 using ParallelOriginGameServer.Server.Network;
-#endif
 using Arch.LowLevel;
 using ParallelOriginGameServer.Server.ThirdParty;
+#endif
 
 namespace ParallelOrigin.Core.ECS.Components
 {

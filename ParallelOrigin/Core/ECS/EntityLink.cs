@@ -101,17 +101,17 @@ namespace ParallelOrigin.Core.ECS
     /// <summary>
     /// Represents an reference between entities, great for networking and automatic resolving of those references. 
     /// </summary>
-    public struct EntityReference : INetSerializable{
+    public struct EntityLink : INetSerializable{
 
         public Entity entity;
         public long uniqueID;
 
-        public EntityReference(in Entity entity)  { this.entity = entity; uniqueID = -1; }
-        public EntityReference(in long uniqueID) {
+        public EntityLink(in Entity entity)  { this.entity = entity; uniqueID = -1; }
+        public EntityLink(in long uniqueID) {
             this.entity = Entity.Null;
             this.uniqueID = uniqueID; 
         }
-        public EntityReference(in Entity entity, in long uniqueID)  {
+        public EntityLink(in Entity entity, in long uniqueID)  {
             this.entity = entity; 
             this.uniqueID = uniqueID;
         }

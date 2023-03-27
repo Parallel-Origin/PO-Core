@@ -13,12 +13,13 @@ using Arch.LowLevel;
 using ConcurrentCollections;
 using LiteNetLib.Utils;
 using ParallelOriginGameServer.Server.Persistence;
+using ParallelOriginGameServer.Server.ThirdParty;
 #endif
 using System;
 using System.Runtime.InteropServices;
 using ParallelOrigin.Core.Base.Classes;
 using ParallelOrigin.Core.ECS.Components.Interactions;
-using ParallelOriginGameServer.Server.ThirdParty;
+
 
 namespace ParallelOrigin.Core.ECS.Components {
 
@@ -304,10 +305,10 @@ public struct BuildingRecipe : INetSerializable
     public struct Popup : IComponentData, INetSerializable {
 
         // May be null...
-        public EntityReference owner;
+        public EntityLink owner;
 
         // May be null
-        public EntityReference target;
+        public EntityLink target;
 
         public void Serialize(NetDataWriter writer) {
             writer.Put(owner);

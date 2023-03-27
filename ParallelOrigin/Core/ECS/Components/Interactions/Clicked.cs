@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Arch.LowLevel;
-using ParallelOriginGameServer.Server.ThirdParty;
 #if SERVER
 using Arch.Core;
-#elif CLIENT
-using Unity.Entities;
-#endif
+using Arch.LowLevel;
+using ParallelOriginGameServer.Server.ThirdParty;
 
 namespace ParallelOrigin.Core.ECS.Components.Interactions
 {
@@ -67,3 +64,5 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     {
     }
 }
+
+#endif
