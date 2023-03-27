@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using ParallelOrigin.Core.Base.Classes.Pattern.Prototype;
 

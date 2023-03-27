@@ -56,47 +56,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     {
         public string pickupType;
     }
-
-    // TODO : Someday just remove those components below and just go with normal ecs events  
-
-    /// <summary>
-    ///     A component which marks an entity to notify it about newly added items.
-    /// </summary>
-    public struct AddedToInventory
-    {
-        public List<Entity> added;
-
-        public AddedToInventory(int size)
-        {
-            added = new List<Entity>(size);
-        }
-    }
-
-    /// <summary>
-    ///     A component which marks an entity to notify it about newly added items.
-    /// </summary>
-    public struct UpdatedInInventory
-    {
-        public List<Entity> updated;
-
-        public UpdatedInInventory(int size)
-        {
-            updated = new List<Entity>(size);
-        }
-    }
-
-    /// <summary>
-    ///     A component which marks an entity to notifty it about newly removed items.
-    /// </summary>
-    public struct RemovedFromInventory
-    {
-        public List<Entity> removed;
-
-        public RemovedFromInventory(int size)
-        {
-            removed = new List<Entity>(size);
-        }
-    }
+    
 
 #elif CLIENT
     /// <summary>

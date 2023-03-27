@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Arch.LowLevel;
+using ParallelOriginGameServer.Server.ThirdParty;
 #if SERVER
 using Arch.Core;
 #elif CLIENT
@@ -13,11 +15,16 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Clicked : IDisposable
     {
-        public ISet<Entity> clickers;
+        public Handle<HashSet<Entity>> clickers;
+
+        public Clicked(int capacity)
+        {
+            clickers = new HashSet<Entity>(capacity).ToHandle();
+        }
 
         public void Dispose()
         {
-            clickers.Clear();
+            clickers.Remove();
         }
     }
 

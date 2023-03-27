@@ -28,25 +28,33 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     }
 
     /// <summary>
-    ///     A struct which stores active collisions with a bunch of other entities from this frame.
+    /// A marker for marking an <see cref="CollidedEvent"/> entity event as a new one : "Entered". 
     /// </summary>
-    public readonly struct CollidedEvent
+    public readonly struct EnteredCollision
     {
         public readonly Entity _first;
         public readonly Entity _second;
 
-        public CollidedEvent(Entity first, Entity second)
+        public EnteredCollision(Entity first, Entity second)
         {
             _first = first;
             _second = second;
         }
     }
-
+    
     /// <summary>
-    /// A marker for marking an <see cref="CollidedEvent"/> entity event as a new one : "Entered". 
+    /// A marker for marking an <see cref="CollidedEvent"/> entity event as a stayed one : "Stayed". 
     /// </summary>
-    public readonly struct EnteredCollision
+    public readonly struct Collision
     {
+        public readonly Entity _first;
+        public readonly Entity _second;
+
+        public Collision(Entity first, Entity second)
+        {
+            _first = first;
+            _second = second;
+        }
     }
     
     /// <summary>
@@ -54,6 +62,14 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public readonly struct StayedCollision
     {
+        public readonly Entity _first;
+        public readonly Entity _second;
+
+        public StayedCollision(Entity first, Entity second)
+        {
+            _first = first;
+            _second = second;
+        }
     }
     
     /// <summary>
@@ -61,6 +77,14 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public readonly struct LeftCollision
     {
+        public readonly Entity _first;
+        public readonly Entity _second;
+
+        public LeftCollision(Entity first, Entity second)
+        {
+            _first = first;
+            _second = second;
+        }
     }
     
 #endif

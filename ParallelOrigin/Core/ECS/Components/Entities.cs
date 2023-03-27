@@ -93,14 +93,29 @@ public struct Item : INetSerializable
 /// <summary>
 ///     Represents an chunk entity in the game.
 /// </summary>
-public struct Chunk
+public struct Chunk : IDisposable
 {
     public Grid grid;
     public DateTime createdOn; // The date and time when it was created
     public DateTime refreshedOn; // The date and time of the last mob spawn 
 
-    public ConcurrentHashSet<Entity> contains; // Required due to fast acess when there many entities inside the chunk
-    public NativeList<Entity> loadedBy;
+    public Handle<HashSet<Entity>> contains; // Required due to fast acess when there many entities inside the chunk
+    public UnsafeList<Entity> loadedBy;
+
+    public Chunk(Grid grid)
+    {
+        this.grid = grid;
+        createdOn = DateTime.Now;
+        refreshedOn = DateTime.Now;
+        contains = new HashSet<Entity>(126).ToHandle();
+        loadedBy = new UnsafeList<Entity>(4);
+    }
+
+    public void Dispose()
+    {
+        contains.Remove();
+        loadedBy.Dispose();
+    }
 }
 
 /// <summary>

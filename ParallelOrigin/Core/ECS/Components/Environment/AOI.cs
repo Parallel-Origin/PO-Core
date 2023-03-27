@@ -32,41 +32,5 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
         }
     }
 
-    /// <summary>
-    /// AOI Event
-    /// </summary>
-    public readonly struct AOIEvent
-    {
-        public readonly Entity aoiEntity;
-        public readonly PooledSet<EntityLink> entityReferences;
-
-        public AOIEvent(Entity aoiEntity, PooledSet<EntityLink> entityReferences)
-        {
-            this.aoiEntity = aoiEntity;
-            this.entityReferences = entityReferences;
-        }
-    }
-    
-    /// <summary>
-    /// Marks an AOI event to signal that its an Entered AOI event
-    /// </summary>
-    public struct EnteredAOI
-    {
-    }
-
-    /// <summary>
-    /// Marks an AOI event to signal that its an Stayed AOI event
-    /// </summary>
-    public struct StayedAOI
-    {
-    }
-
-    /// <summary>
-    /// Marks an AOI event to signal that its an left AOI event
-    /// </summary>
-    public struct LeftAOI
-    {
-    }
-
 #endif
 }
