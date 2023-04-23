@@ -11,8 +11,8 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public struct ChunkLoader
     {
-        public Grid current;
-        public Grid previous;
+        public Grid Current;
+        public Grid Previous;
     }
 
 #endif

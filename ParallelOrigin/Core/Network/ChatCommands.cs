@@ -8,29 +8,29 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct ChatMessageCommand : INetSerializable
     {
-        public long sender;
-        public string senderUsername;
+        public long Sender;
+        public string SenderUsername;
 
-        public byte channel;
-        public string message;
-        public DateTime date;
+        public byte Channel;
+        public string Message;
+        public DateTime Date;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(sender);
-            writer.PutFixedString(senderUsername, (ushort)senderUsername.Length);
-            writer.Put(channel);
-            writer.PutFixedString(message, (ushort)message.Length);
-            writer.Put(date.Ticks);
+            writer.Put(Sender);
+            writer.PutFixedString(SenderUsername, (ushort)SenderUsername.Length);
+            writer.Put(Channel);
+            writer.PutFixedString(Message, (ushort)Message.Length);
+            writer.Put(Date.Ticks);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            sender = reader.GetLong();
-            senderUsername = reader.GetFixedString();
-            channel = reader.GetByte();
-            message = reader.GetFixedString();
-            date = new DateTime(reader.GetLong());
+            Sender = reader.GetLong();
+            SenderUsername = reader.GetFixedString();
+            Channel = reader.GetByte();
+            Message = reader.GetFixedString();
+            Date = new DateTime(reader.GetLong());
         }
     }
 }

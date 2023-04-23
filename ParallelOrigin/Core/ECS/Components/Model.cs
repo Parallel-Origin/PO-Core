@@ -4,7 +4,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
     public struct Model
     {
-        public object model;
+        public object ModelDTO;
     }
 
     /// <summary>

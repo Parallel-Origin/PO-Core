@@ -3,16 +3,16 @@ namespace ParallelOrigin.Core.Base.Classes {
     ///     A generic vec2
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TT"></typeparam>
-    public struct Vector2<T, TT>
+    /// <typeparam name="Tt"></typeparam>
+    public struct Vector2<T, Tt>
     {
-        public T x;
-        public TT y;
+        public T X;
+        public Tt Y;
 
-        public Vector2(T x, TT y)
+        public Vector2(T x, Tt y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
     }
 }

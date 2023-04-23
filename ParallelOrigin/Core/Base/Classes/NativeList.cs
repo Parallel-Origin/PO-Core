@@ -8,81 +8,81 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// <typeparam name="T"></typeparam>
     public struct NativeList<T> : IList<T>
     {
-        private readonly List<T> list;
-        private readonly object locker;
+        private readonly List<T> _list;
+        private readonly object _locker;
 
         public NativeList(int capacity)
         {
-            list = new List<T>(capacity);
-            locker = ((ICollection)list).SyncRoot;
+            _list = new List<T>(capacity);
+            _locker = ((ICollection)_list).SyncRoot;
         }
 
         public int Count
         {
             get
             {
-                lock (locker)
+                lock (_locker)
                 {
-                    return list.Count;
+                    return _list.Count;
                 }
             }
         }
 
-        public bool IsReadOnly => ((ICollection<T>)list).IsReadOnly;
+        public bool IsReadOnly => ((ICollection<T>)_list).IsReadOnly;
 
         public void Add(T item)
         {
-            lock (locker)
+            lock (_locker)
             {
-                list.Add(item);
+                _list.Add(item);
             }
         }
 
         public void Clear()
         {
-            lock (locker)
+            lock (_locker)
             {
-                list.Clear();
+                _list.Clear();
             }
         }
 
         public bool Contains(T item)
         {
-            lock (locker)
+            lock (_locker)
             {
-                return list.Contains(item);
+                return _list.Contains(item);
             }
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            lock (locker)
+            lock (_locker)
             {
-                list.CopyTo(array, arrayIndex);
+                _list.CopyTo(array, arrayIndex);
             }
         }
 
         public bool Remove(T item)
         {
-            lock (locker)
+            lock (_locker)
             {
-                return list.Remove(item);
+                return _list.Remove(item);
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            lock (locker)
+            lock (_locker)
             {
-                return list.GetEnumerator();
+                return _list.GetEnumerator();
             }
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            lock (locker)
+            lock (_locker)
             {
-                return ((IEnumerable<T>)list).GetEnumerator();
+                return ((IEnumerable<T>)_list).GetEnumerator();
             }
         }
 
@@ -90,41 +90,41 @@ namespace ParallelOrigin.Core.Base.Classes {
         {
             get
             {
-                lock (locker)
+                lock (_locker)
                 {
-                    return list[index];
+                    return _list[index];
                 }
             }
             set
             {
-                lock (locker)
+                lock (_locker)
                 {
-                    list[index] = value;
+                    _list[index] = value;
                 }
             }
         }
 
         public int IndexOf(T item)
         {
-            lock (locker)
+            lock (_locker)
             {
-                return list.IndexOf(item);
+                return _list.IndexOf(item);
             }
         }
 
         public void Insert(int index, T item)
         {
-            lock (locker)
+            lock (_locker)
             {
-                list.Insert(index, item);
+                _list.Insert(index, item);
             }
         }
 
         public void RemoveAt(int index)
         {
-            lock (locker)
+            lock (_locker)
             {
-                list.RemoveAt(index);
+                _list.RemoveAt(index);
             }
         }
     }

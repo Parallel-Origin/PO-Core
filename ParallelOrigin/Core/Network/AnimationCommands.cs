@@ -9,22 +9,22 @@ namespace ParallelOrigin.Core.Network {
     public struct AnimationParamCommand : INetSerializable 
     {
 
-        public EntityLink entityLink;
-        public string boolName;
-        public bool activated;
+        public EntityLink EntityLink;
+        public string BoolName;
+        public bool Activated;
 
         public void Serialize(NetDataWriter writer) 
         {
-            writer.Put(entityLink);
-            writer.PutFixedString(boolName, (ushort)boolName.Length);
-            writer.Put(activated);
+            writer.Put(EntityLink);
+            writer.PutFixedString(BoolName, (ushort)BoolName.Length);
+            writer.Put(Activated);
         }
 
         public void Deserialize(NetDataReader reader) 
         {
-            entityLink.Deserialize(reader);
-            boolName = reader.GetFixedString();
-            activated = reader.GetBool();
+            EntityLink.Deserialize(reader);
+            BoolName = reader.GetFixedString();
+            Activated = reader.GetBool();
         }
     }
 
@@ -34,19 +34,19 @@ namespace ParallelOrigin.Core.Network {
     public struct AnimationTriggerCommand : INetSerializable 
     {
 
-        public EntityLink entityLink;
-        public string triggerName;
+        public EntityLink EntityLink;
+        public string TriggerName;
 
         public void Serialize(NetDataWriter writer) 
         {
-            writer.Put(entityLink);
-            writer.PutFixedString(triggerName, (ushort)triggerName.Length);
+            writer.Put(EntityLink);
+            writer.PutFixedString(TriggerName, (ushort)TriggerName.Length);
         }
 
         public void Deserialize(NetDataReader reader) 
         {
-            entityLink.Deserialize(reader);
-            triggerName = reader.GetFixedString();
+            EntityLink.Deserialize(reader);
+            TriggerName = reader.GetFixedString();
         }
     }
 }

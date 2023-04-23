@@ -8,7 +8,7 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// <typeparam name="T"></typeparam>
     public static class ObjectPool<T> where T : new()
     {
-        private static readonly ConcurrentBag<T> _objects = new();
+        private static readonly ConcurrentBag<T> Objects = new();
 
         /// <summary>
         ///     Gets an object from the pool or creates a new one
@@ -17,7 +17,7 @@ namespace ParallelOrigin.Core.Base.Classes {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Get()
         {
-            if (_objects.TryTake(out var item)) return item;
+            if (Objects.TryTake(out var item)) return item;
 
             var newInstance = new T();
             return newInstance;
@@ -30,7 +30,7 @@ namespace ParallelOrigin.Core.Base.Classes {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Return(T item)
         {
-            _objects.Add(item);
+            Objects.Add(item);
         }
     }
 }

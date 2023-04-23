@@ -21,17 +21,17 @@ namespace ParallelOrigin.Core.ECS.Components.Transform
     /// </summary>
     public struct NetworkTransform : INetSerializable
     {
-        public Vector2d pos;
-        public Grid chunk;
+        public Vector2d Pos;
+        public Grid Chunk;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(ref pos);
+            writer.Put(ref Pos);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            pos = reader.GetVector2d();
+            Pos = reader.GetVector2d();
         }
     }
 
@@ -41,14 +41,14 @@ namespace ParallelOrigin.Core.ECS.Components.Transform
     /// </summary>
     public struct NetworkRotation : INetSerializable
     {
-        public Quaternion value;
+        public Quaternion Value;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(value.X);
-            writer.Put(value.Y);
-            writer.Put(value.Z);
-            writer.Put(value.W);
+            writer.Put(Value.X);
+            writer.Put(Value.Y);
+            writer.Put(Value.Z);
+            writer.Put(Value.W);
         }
 
         public void Deserialize(NetDataReader reader)
@@ -58,7 +58,7 @@ namespace ParallelOrigin.Core.ECS.Components.Transform
             var z = reader.GetFloat();
             var w = reader.GetFloat();
 
-            value = new Quaternion { X = x, Y = y, Z = z, W = w };
+            Value = new Quaternion { X = x, Y = y, Z = z, W = w };
         }
     }
 

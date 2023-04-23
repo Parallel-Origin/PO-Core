@@ -9,19 +9,19 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct BuildCommand : INetSerializable
     {
-        public EntityLink builder;
-        public string recipe;
+        public EntityLink Builder;
+        public string Recipe;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(builder);
-            writer.PutFixedString(recipe, (ushort)recipe.Length);
+            writer.Put(Builder);
+            writer.PutFixedString(Recipe, (ushort)Recipe.Length);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            builder.Deserialize(reader);
-            recipe = reader.GetFixedString();
+            Builder.Deserialize(reader);
+            Recipe = reader.GetFixedString();
         }
     }
     
@@ -31,19 +31,19 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct PickupCommand : INetSerializable
     {
-        public EntityLink popup;
-        public uint amount;
+        public EntityLink Popup;
+        public uint Amount;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(popup);
-            writer.Put(amount);
+            writer.Put(Popup);
+            writer.Put(Amount);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            popup.Deserialize(reader);
-            amount = reader.GetUInt();
+            Popup.Deserialize(reader);
+            Amount = reader.GetUInt();
         }
     }
 }

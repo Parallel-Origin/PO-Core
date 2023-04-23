@@ -61,21 +61,21 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         ///     Registers the Type to the prototyper for being "cloned" later on by its ID
         ///     Provides several callbacks to determine how this entity should get customized after cloning
         /// </summary>
-        /// <param name="ID">The Type-ID of the entity we use to clone it</param>
+        /// <param name="id">The Type-ID of the entity we use to clone it</param>
         /// <param name="creator">A function which creates the entity we wanna clone</param>
         /// <param name="configurator">A action that gets called after the entity was created for configurating it</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Register(short ID, Creator<T> creator, Customizer<T> configurator)
+        public void Register(short id, Creator<T> creator, Customizer<T> configurator)
         {
-            if(_prototypes.Length <= ID)
-                Array.Resize(ref _prototypes, ID+1);
+            if(_prototypes.Length <= id)
+                Array.Resize(ref _prototypes, id+1);
 
             var instanced = creator();
             configurator(ref instanced);
             
-            _prototypes[ID] = new Prototype<T>{ Id = ID, Instance = instanced, Prototyper = this, Creator = creator, Customizer = configurator};
-            Ids.Add(ID);
-            AfterInstanced(ID, ref instanced);
+            _prototypes[id] = new Prototype<T>{ Id = id, Instance = instanced, Prototyper = this, Creator = creator, Customizer = configurator};
+            Ids.Add(id);
+            AfterInstanced(id, ref instanced);
         }
 
         /// <summary>
@@ -92,44 +92,44 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <summary>
         ///     Spawn and initializes a object of a certain class reference by its id.
         /// </summary>
-        /// <param name="ID">The Type-ID of the instance we want to clone</param>
+        /// <param name="id">The Type-ID of the instance we want to clone</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T Clone(short ID)
+        public T Clone(short id)
         {
             try
             {
                 // Constructing entity and configurating it shortly after
-                var prototype = _prototypes[ID];
+                var prototype = _prototypes[id];
                 var instance = prototype.Creator();
                 prototype.Customizer?.Invoke(ref instance);
-                AfterClone(ID, ref instance);
+                AfterClone(id, ref instance);
 
                 return instance;
             }
             catch (Exception)
             {
-                throw new IndexOutOfRangeException("An exception happened while trying to clone [" + ID + "] or it does not exist yet in [" + this + "]");
+                throw new IndexOutOfRangeException("An exception happened while trying to clone [" + id + "] or it does not exist yet in [" + this + "]");
             }
         }
 
         /// <summary>
         ///     Gets called once the registering completed in order to cache each registered instance once for later lookup purposes.
         /// </summary>
-        /// <param name="typeID">The type id of the cloned instance</param>
+        /// <param name="typeId">The type id of the cloned instance</param>
         /// <param name="clonedInstance">The cloned instance</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public virtual void AfterInstanced(short typeID, ref T clonedInstance)
+        public virtual void AfterInstanced(short typeId, ref T clonedInstance)
         {
         }
 
         /// <summary>
         ///     Gets called once the cloning was finished in order to execute logic on the cloned instance.
         /// </summary>
-        /// <param name="typeID">Its typeID</param>
+        /// <param name="typeId">Its typeID</param>
         /// <param name="clonedInstance">The already cloned instance we can modify</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public virtual void AfterClone(short typeID, ref T clonedInstance)
+        public virtual void AfterClone(short typeId, ref T clonedInstance)
         {
         }
     }

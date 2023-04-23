@@ -20,7 +20,7 @@ namespace ParallelOrigin.Core.Extensions
         public static EntityLink Find(this IEnumerable<EntityLink> references, ref Entity entity)
         {
             foreach (var reference in references)
-                if (reference.entity.IsAlive() && reference.entity.Equals(entity))
+                if (reference.Entity.IsAlive() && reference.Entity.Equals(entity))
                     return reference;
 
             return default;

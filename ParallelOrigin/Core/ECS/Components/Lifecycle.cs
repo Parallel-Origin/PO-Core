@@ -58,13 +58,18 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// <typeparam name="T">The component.</typeparam>
     public struct Toggle<T>
     {
-        public T component;
-        public bool enabled;
+        public T Component;
+        public bool Enabled;
 
         public Toggle(T component, bool enabled)
         {
-            this.component = component;
-            this.enabled = enabled;
+            this.Component = component;
+            this.Enabled = enabled;
+        }
+
+        public Toggle(bool enabled)
+        {
+            Enabled = enabled;
         }
     }
     
@@ -73,7 +78,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
     public struct Dirty
     {
-        public DirtyFlags flags;
+        public DirtyFlags Flags;
     }
 
     /// <summary>
@@ -81,7 +86,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
     public struct DestroyAfter
     {
-        public float seconds;
+        public float Seconds;
     }
 
     /// <summary>

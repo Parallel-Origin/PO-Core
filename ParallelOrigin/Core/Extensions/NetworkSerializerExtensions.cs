@@ -53,8 +53,8 @@ namespace ParallelOrigin.Core.Extensions
         /// <param name="vector2d"></param>
         public static void Put(this NetDataWriter writer, ref Vector2d vector2d)
         {
-            writer.Put((float)vector2d.x);
-            writer.Put((float)vector2d.y);
+            writer.Put((float)vector2d.X);
+            writer.Put((float)vector2d.Y);
         }
 
 
@@ -68,7 +68,7 @@ namespace ParallelOrigin.Core.Extensions
             var x = reader.GetFloat();
             var y = reader.GetFloat();
 
-            return new Vector2d { x = x, y = y };
+            return new Vector2d { X = x, Y = y };
         }
 
         /// <summary>
@@ -330,11 +330,11 @@ namespace ParallelOrigin.Core.Extensions
         public static void Put(this NetDataWriter writer, ref Ingredient ingredient)
         {
             // Write ingredients
-            writer.PutFixedString(ingredient.type, (ushort)ingredient.type.Length);
-            writer.Put(ingredient.icon);
-            writer.Put(ingredient.localisation);
-            writer.Put(ingredient.amount);
-            writer.Put(ingredient.consume);
+            writer.PutFixedString(ingredient.Type, (ushort)ingredient.Type.Length);
+            writer.Put(ingredient.Icon);
+            writer.Put(ingredient.Localisation);
+            writer.Put(ingredient.Amount);
+            writer.Put(ingredient.Consume);
         }
 
 
@@ -347,11 +347,11 @@ namespace ParallelOrigin.Core.Extensions
         {
             return new Ingredient
             {
-                type = reader.GetFixedString(),
-                icon = reader.GetByte(),
-                localisation = reader.GetByte(),
-                amount = reader.GetUInt(),
-                consume = reader.GetBool()
+                Type = reader.GetFixedString(),
+                Icon = reader.GetByte(),
+                Localisation = reader.GetByte(),
+                Amount = reader.GetUInt(),
+                Consume = reader.GetBool()
             };
         }
 
@@ -363,9 +363,9 @@ namespace ParallelOrigin.Core.Extensions
         public static void Put(this NetDataWriter writer, ref Craftable craftable)
         {
             // Write craftables
-            writer.PutFixedString(craftable.type, (ushort)craftable.type.Length);
-            writer.Put(craftable.icon);
-            writer.Put(craftable.amount);
+            writer.PutFixedString(craftable.Type, (ushort)craftable.Type.Length);
+            writer.Put(craftable.Icon);
+            writer.Put(craftable.Amount);
         }
 
         /// <summary>
@@ -377,9 +377,9 @@ namespace ParallelOrigin.Core.Extensions
         {
             return new Craftable
             {
-                type = reader.GetFixedString(),
-                icon = reader.GetByte(),
-                amount = reader.GetUInt()
+                Type = reader.GetFixedString(),
+                Icon = reader.GetByte(),
+                Amount = reader.GetUInt()
             };
         }
 

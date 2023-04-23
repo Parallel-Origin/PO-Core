@@ -9,19 +9,19 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct MapCommand : INetSerializable
     {
-        public Vector2d position;
-        public byte opCode;
+        public Vector2d Position;
+        public byte OpCode;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(ref position);
-            writer.Put(opCode);
+            writer.Put(ref Position);
+            writer.Put(OpCode);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            position = reader.GetVector2d();
-            opCode = reader.GetByte();
+            Position = reader.GetVector2d();
+            OpCode = reader.GetByte();
         }
     }
 
@@ -30,19 +30,19 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct TeleportationCommand : INetSerializable
     {
-        public EntityLink entity;
-        public Vector2d position;
+        public EntityLink Entity;
+        public Vector2d Position;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(entity);
-            writer.Put(ref position);
+            writer.Put(Entity);
+            writer.Put(ref Position);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            entity.Deserialize(reader);
-            position = reader.GetVector2d();
+            Entity.Deserialize(reader);
+            Position = reader.GetVector2d();
         }
     }
 }

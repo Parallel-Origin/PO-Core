@@ -24,12 +24,12 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public class WeightTable<T> where T : IWeight
     {
-        private float totalWeight;
-        public T[] weighteds;
+        private float _totalWeight;
+        public T[] Weighteds;
 
         public WeightTable(params T[] weighteds)
         {
-            this.weighteds = weighteds;
+            this.Weighteds = weighteds;
         }
 
         /// <summary>
@@ -39,9 +39,9 @@ namespace ParallelOrigin.Core.ECS.Components.Items
         public float TotalWeight()
         {
             var weight = 0f;
-            for (var index = 0; index < weighteds.Length; index++)
+            for (var index = 0; index < Weighteds.Length; index++)
             {
-                ref var weighted = ref weighteds[index];
+                ref var weighted = ref Weighteds[index];
                 weight += Math.Max(0, weighted.Weight);
             }
 
@@ -56,15 +56,15 @@ namespace ParallelOrigin.Core.ECS.Components.Items
         public T Get()
         {
             // Assign total weight
-            if (totalWeight == 0)
-                totalWeight = TotalWeight();
+            if (_totalWeight == 0)
+                _totalWeight = TotalWeight();
 
-            var randomVal = RandomExtensions.GetRandom(0, totalWeight);
+            var randomVal = RandomExtensions.GetRandom(0, _totalWeight);
 
             // Weight based spawning of the items
-            for (var index = 0; index < weighteds.Length; index++)
+            for (var index = 0; index < Weighteds.Length; index++)
             {
-                ref var weighted = ref weighteds[index];
+                ref var weighted = ref Weighteds[index];
                 if (randomVal <= weighted.Weight) return weighted;
                 randomVal -= weighted.Weight;
             }
@@ -79,15 +79,15 @@ namespace ParallelOrigin.Core.ECS.Components.Items
         public void Get(List<T> items)
         {
             // Assign total weight
-            if (totalWeight == 0)
-                totalWeight = TotalWeight();
+            if (_totalWeight == 0)
+                _totalWeight = TotalWeight();
 
-            var randomVal = RandomExtensions.GetRandom(0, totalWeight);
+            var randomVal = RandomExtensions.GetRandom(0, _totalWeight);
 
             // Weight based spawning of the items
-            for (var index = 0; index < weighteds.Length; index++)
+            for (var index = 0; index < Weighteds.Length; index++)
             {
-                ref var weighted = ref weighteds[index];
+                ref var weighted = ref Weighteds[index];
                 if (randomVal <= weighted.Weight) items.Add(weighted);
                 randomVal -= weighted.Weight;
             }
@@ -99,7 +99,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public struct WeightedEntity : IWeight
     {
-        public string type;
+        public string Type;
         public float Weight { get; set; }
     }
 
@@ -108,8 +108,8 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public struct WeightedItem : IWeight
     {
-        public uint amount;
-        public string type;
+        public uint Amount;
+        public string Type;
 
         public float Weight { get; set; }
     }
@@ -119,7 +119,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public struct Loot
     {
-        public Handle<WeightTable<WeightedItem>> loot;
+        public Handle<WeightTable<WeightedItem>> LootHandle;
     }
     
     /// <summary>
@@ -127,7 +127,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public struct Drops
     {
-        public Handle<WeightTable<WeightedItem>> drops;
+        public Handle<WeightTable<WeightedItem>> DropsHandle;
     }
 #endif
 }

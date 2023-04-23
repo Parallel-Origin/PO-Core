@@ -12,16 +12,16 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Clicked : IDisposable
     {
-        public Handle<HashSet<Entity>> clickers;
+        public Handle<HashSet<Entity>> Clickers;
 
         public Clicked(int capacity)
         {
-            clickers = new HashSet<Entity>(capacity).ToHandle();
+            Clickers = new HashSet<Entity>(capacity).ToHandle();
         }
 
         public void Dispose()
         {
-            clickers.Remove();
+            Clickers.Get().Clear();
         }
     }
 
@@ -30,7 +30,7 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct OnClickedSpawnPopUp
     {
-        public string type;
+        public string Type;
     }
 
     /// <summary>

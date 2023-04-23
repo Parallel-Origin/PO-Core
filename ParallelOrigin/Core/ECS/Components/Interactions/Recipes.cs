@@ -34,19 +34,19 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Ingredient
     {
-        public string type; // The item type... 3:1 is wood for example
-        public byte icon; // Its icon
-        public byte localisation;
-        public uint amount;
-        public bool consume;
+        public string Type; // The item type... 3:1 is wood for example
+        public byte Icon; // Its icon
+        public byte Localisation;
+        public uint Amount;
+        public bool Consume;
 
         public Ingredient(string type, byte icon, byte localisation, uint amount, bool consume)
         {
-            this.type = type;
-            this.icon = icon;
-            this.localisation = localisation;
-            this.amount = amount;
-            this.consume = consume;
+            this.Type = type;
+            this.Icon = icon;
+            this.Localisation = localisation;
+            this.Amount = amount;
+            this.Consume = consume;
         }
     }
 
@@ -55,15 +55,15 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Craftable
     {
-        public string type; // The item type... 2:1 is gold for example
-        public byte icon;
-        public uint amount;
+        public string Type; // The item type... 2:1 is gold for example
+        public byte Icon;
+        public uint Amount;
 
         public Craftable(string type, byte icon, uint amount)
         {
-            this.type = type;
-            this.icon = icon;
-            this.amount = amount;
+            this.Type = type;
+            this.Icon = icon;
+            this.Amount = amount;
         }
     }
 
@@ -72,41 +72,41 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Recipe : INetSerializable
     {
-        public Ingredient[] ingredients;
-        public Craftable[] craftables;
+        public Ingredient[] Ingredients;
+        public Craftable[] Craftables;
 
         public Recipe(Ingredient[] ingredients, Craftable[] craftables)
         {
-            this.ingredients = ingredients;
-            this.craftables = craftables;
+            this.Ingredients = ingredients;
+            this.Craftables = craftables;
         }
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(ingredients.Length);
-            for (var index = 0; index < ingredients.Length; index++)
+            writer.Put(Ingredients.Length);
+            for (var index = 0; index < Ingredients.Length; index++)
             {
-                ref var ingredient = ref ingredients[index];
+                ref var ingredient = ref Ingredients[index];
                 writer.Put(ref ingredient);
             }
 
-            writer.Put(craftables.Length);
-            for (var index = 0; index < craftables.Length; index++)
+            writer.Put(Craftables.Length);
+            for (var index = 0; index < Craftables.Length; index++)
             {
-                ref var craftable = ref craftables[index];
+                ref var craftable = ref Craftables[index];
                 writer.Put(ref craftable);
             }
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            ingredients = new Ingredient[reader.GetInt()];
-            for (var index = 0; index < ingredients.Length; index++)
-                ingredients[index] = reader.GetIngredient();
+            Ingredients = new Ingredient[reader.GetInt()];
+            for (var index = 0; index < Ingredients.Length; index++)
+                Ingredients[index] = reader.GetIngredient();
 
-            craftables = new Craftable[reader.GetInt()];
-            for (var index = 0; index < craftables.Length; index++)
-                craftables[index] = reader.GetCraftable();
+            Craftables = new Craftable[reader.GetInt()];
+            for (var index = 0; index < Craftables.Length; index++)
+                Craftables[index] = reader.GetCraftable();
         }
     }
 
@@ -115,23 +115,23 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct BuildRecipes : INetSerializable
     {
-        public string[] recipes;
+        public string[] Recipes;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(recipes.Length);
-            for (var index = 0; index < recipes.Length; ++index)
+            writer.Put(Recipes.Length);
+            for (var index = 0; index < Recipes.Length; ++index)
             {
-                var item = recipes[index];
+                var item = Recipes[index];
                 writer.PutFixedString(item, (ushort)item.Length);
             }
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            recipes = new string[reader.GetInt()];
-            for (var index = 0; index < recipes.Length; ++index)
-                recipes[index] = reader.GetFixedString();
+            Recipes = new string[reader.GetInt()];
+            for (var index = 0; index < Recipes.Length; ++index)
+                Recipes[index] = reader.GetFixedString();
         }
     }
 

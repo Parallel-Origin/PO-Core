@@ -8,13 +8,13 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
     /// <summary>
     ///     A class that manages multiple {@link IPrototyper} and inserts them into a hierarchy in order to clone their objects by a certain path or id.
     /// </summary>
-    /// <typeparam name="TO">The type.</typeparam>
-    public class PrototyperHierarchy<TO>
+    /// <typeparam name="To">The type.</typeparam>
+    public class PrototyperHierarchy<To>
     {
   
-        internal IDictionary<string, Prototype<TO>> instances = new Dictionary<string, Prototype<TO>>();
-        internal IDictionary<int, Prototype<TO>> instancesByHash = new Dictionary<int, Prototype<TO>>();
-        internal IDictionary<string, IPrototyper<TO>> prototypeHierarchy = new Dictionary<string, IPrototyper<TO>>();
+        internal IDictionary<string, Prototype<To>> Instances = new Dictionary<string, Prototype<To>>();
+        internal IDictionary<int, Prototype<To>> InstancesByHash = new Dictionary<int, Prototype<To>>();
+        internal IDictionary<string, IPrototyper<To>> PrototypeHierarchy = new Dictionary<string, IPrototyper<To>>();
 
         /// <summary>
         ///     Constructs a Hierarchy with the required methods to identify the path of the hierachy to the registered <see cref="IPrototyper{I,T}" />
@@ -27,9 +27,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path"></param>
         /// <param name="prototyper"></param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Register(string path, IPrototyper<TO> prototyper)
+        public void Register(string path, IPrototyper<To> prototyper)
         {
-            prototypeHierarchy[path] = prototyper;
+            PrototypeHierarchy[path] = prototyper;
 
             // Link every single path to each registered prototyper instance to a map for quick acess
             var ids = prototyper.Ids;
@@ -40,8 +40,8 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
                 var hash = clonePath.GetDeterministicHashCode();
 
                 var prototype = prototyper.Prototypes[id];
-                instances[clonePath] = prototype;
-                instancesByHash[hash] = prototype;
+                Instances[clonePath] = prototype;
+                InstancesByHash[hash] = prototype;
             }
         }
 
@@ -53,7 +53,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Has(string path)
         {
-            return instances.ContainsKey(path);
+            return Instances.ContainsKey(path);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Has(int path)
         {
-            return instancesByHash.ContainsKey(path);
+            return InstancesByHash.ContainsKey(path);
         }
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
         /// <returns>The cloned entity from the prototyper</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TO Clone(string path)
+        public To Clone(string path)
         {
-            var prototype = instances[path];
+            var prototype = Instances[path];
             return prototype.Prototyper.Clone(prototype.Id);
         }
 
@@ -87,9 +87,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
         /// <returns>The cloned entity from the prototyper</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TO Clone(int path)
+        public To Clone(int path)
         {
-            var prototype = instancesByHash[path];
+            var prototype = InstancesByHash[path];
             return prototype.Prototyper.Clone(prototype.Id);;
         }
 
@@ -100,9 +100,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
         /// <returns>The cloned entity from the prototyper</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TO Get(string path)
+        public To Get(string path)
         {
-            return instances[path].Instance;
+            return Instances[path].Instance;
         }
 
         /// <summary>
@@ -112,9 +112,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Prototype {
         /// <param name="path">The path of the prototyper we wanna acess, last path is the typeID of the entity we wanna clone.</param>
         /// <returns>The cloned entity from the prototyper</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TO Get(int path)
+        public To Get(int path)
         {
-            return instancesByHash[path].Instance;
+            return InstancesByHash[path].Instance;
         }
     }
 }

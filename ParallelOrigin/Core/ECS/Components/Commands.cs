@@ -23,11 +23,11 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct ChunkCommand
     {
-        public ChunkOperation operation;
-        public Entity by;
+        public ChunkOperation Operation;
+        public Entity By;
 
-        public HashSet<Grid> grids;
-        public HashSet<ParallelOriginGameServer.Server.Persistence.Chunk> chunks;
+        public HashSet<Grid> Grids;
+        public HashSet<ParallelOriginGameServer.Server.Persistence.Chunk> Chunks;
     }
 
     /// <summary>
@@ -46,18 +46,18 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct InventoryCommand
     {
-        public string type;
-        public uint amount;
+        public string Type;
+        public uint Amount;
 
-        public Entity inventory;
-        public InventoryOperation opCode;
+        public Entity Inventory;
+        public InventoryOperation OpCode;
 
         public InventoryCommand(string type, uint amount, in Entity inventory, InventoryOperation operation) : this()
         {
-            this.type = type;
-            this.amount = amount;
-            this.inventory = inventory;
-            opCode = operation;
+            this.Type = type;
+            this.Amount = amount;
+            this.Inventory = inventory;
+            OpCode = operation;
         }
     }
 
@@ -66,15 +66,15 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct PopUpCommand
     {
-        public string type;
-        public Entity owner;
-        public Entity target;
+        public string Type;
+        public Entity Owner;
+        public Entity Target;
 
         public PopUpCommand(string type, Entity owner, Entity target)
         {
-            this.type = type;
-            this.owner = owner;
-            this.target = target;
+            this.Type = type;
+            this.Owner = owner;
+            this.Target = target;
         }
     }
 

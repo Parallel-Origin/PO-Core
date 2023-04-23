@@ -22,79 +22,87 @@ namespace ParallelOrigin.Core.ECS
     /// </summary>
     public struct EntityLink : INetSerializable, IEquatable<EntityLink>
     {
-        public Entity entity;
-        public long uniqueID;
+        
+        /// <summary>
+        ///     A null <see cref="EntityLink"/>.
+        /// </summary>
+        public static EntityLink Null => new(-1);
+        
+        /// <summary>
+        ///     The underlaying <see cref="EntityReference"/> being cached.
+        /// </summary>
+        public EntityReference Entity;
+        
+        /// <summary>
+        ///     The unique entity id which we resolve to cache the <see cref="Entity"/> later.
+        /// </summary>
+        public long UniqueId;
 
         public EntityLink(Entity entity, long id)
         {
-            this.entity = entity;
-            uniqueID = id;
-        }
-        
-        public EntityLink(in Entity entity, long id)
-        {
-            this.entity = entity;
-            uniqueID = id;
+            this.Entity = entity.Reference();
+            UniqueId = id;
         }
 
         public EntityLink(long uniqueId)
         {
-            entity = default;
-            uniqueID = uniqueId;
+            Entity = default;
+            UniqueId = uniqueId;
         }
 
         /// <summary>
         ///     Resolves the reference by searching an valid entity from the included uniqueID.
-        ///     It resolves only once, once an valid entity was found, it gets attached to <see cref="entity" /> and is returned.
+        ///     It resolves only once, once an valid entity was found, it gets attached to <see cref="Entity" /> and is returned.
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
         public Entity Resolve(ref World world)
         {
-            if (entity.IsAlive()) return entity;
+            if (Entity.IsAlive()) return Entity;
 
-            entity = world.GetById(uniqueID);
-            return entity;
+            Entity = world.GetById(UniqueId).Reference();
+            return Entity;
         }
 
         /// <summary>
         ///     Resolves the reference by searching an valid entity from the included uniqueID.
-        ///     It resolves only once, once an valid entity was found, it gets attached to <see cref="entity" /> and is returned.
+        ///     It resolves only once, once an valid entity was found, it gets attached to <see cref="Entity" /> and is returned.
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
         public Entity Resolve(World world)
         {
-            if (entity.IsAlive()) return entity;
+            if (Entity.IsAlive()) return Entity;
 
-            entity = world.GetById(uniqueID);
-            return entity;
+            Entity = world.GetById(UniqueId).Reference();
+            return Entity;
         }
 
+        public void Serialize(NetDataWriter writer)
+        {
+            writer.Put(UniqueId);
+        }
+
+        public void Deserialize(NetDataReader reader)
+        {
+            Entity = EntityReference.Null;
+            UniqueId = reader.GetLong();
+        }
+        
         public bool Equals(EntityLink other)
         {
-            return entity.Equals(other.entity) && uniqueID == other.uniqueID;
+            return Entity.Equals(other.Entity) && UniqueId == other.UniqueId;
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (entity.GetHashCode() * 397) ^ uniqueID.GetHashCode();
+                return (Entity.GetHashCode() * 397) ^ UniqueId.GetHashCode();
             }
         }
-
-        public void Serialize(NetDataWriter writer)
-        {
-            writer.Put(uniqueID);
-        }
-
-        public void Deserialize(NetDataReader reader)
-        {
-            uniqueID = reader.GetLong();
-        }
         
-        public static EntityLink NULL => new(-1);
+        public static explicit operator Entity(EntityLink entityReference) => entityReference.Entity;
     }
 
 #elif CLIENT

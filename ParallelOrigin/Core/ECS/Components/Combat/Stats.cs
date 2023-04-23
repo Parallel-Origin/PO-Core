@@ -17,44 +17,44 @@ namespace ParallelOrigin.Core.ECS.Components.Combat
     /// <typeparam name="T"></typeparam>
     public struct Stat<T>
     {
-        public T baseValue;
-        public T value;
+        public T BaseValue;
+        public T Value;
 
         public Stat(T baseValue) : this()
         {
-            this.baseValue = baseValue;
-            value = baseValue;
+            this.BaseValue = baseValue;
+            Value = baseValue;
         }
 
         public Stat(T baseValue, T value)
         {
-            this.baseValue = baseValue;
-            this.value = value;
+            this.BaseValue = baseValue;
+            this.Value = value;
         }
     }
 
     // The range with which an entity can attack
     public struct Range
     {
-        public Stat<float> range;
+        public Stat<float> Value;
     }
 
     // Attack speed
     public struct AttackSpeed
     {
-        public Stat<float> speed;
+        public Stat<float> Value;
     }
 
     // Physical damage & resistence 
     public struct PhysicalDamage
     {
-        public Stat<float> damage;
+        public Stat<float> Value;
     }
 
     // Physical resistence
     public struct PhysicalResistence
     {
-        public Stat<float> resistence;
+        public Stat<float> Value;
     }
 
 
@@ -63,8 +63,8 @@ namespace ParallelOrigin.Core.ECS.Components.Combat
     /// </summary>
     public struct Health : INetSerializable
     {
-        public float maxHealth;
-        public float currentHealth;
+        public float MaxHealth;
+        public float CurrentHealth;
 
         /// <summary>
         ///     Returns true if the entity is dead
@@ -73,19 +73,19 @@ namespace ParallelOrigin.Core.ECS.Components.Combat
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsDead()
         {
-            return currentHealth <= 0;
+            return CurrentHealth <= 0;
         }
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(maxHealth);
-            writer.Put(currentHealth);
+            writer.Put(MaxHealth);
+            writer.Put(CurrentHealth);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            maxHealth = reader.GetFloat();
-            currentHealth = reader.GetFloat();
+            MaxHealth = reader.GetFloat();
+            CurrentHealth = reader.GetFloat();
         }
     }
 

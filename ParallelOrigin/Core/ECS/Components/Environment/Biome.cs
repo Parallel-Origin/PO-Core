@@ -21,14 +21,8 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public struct Biome : IWeight
     {
-        public byte biomeCode;
-        public float weight;
-
-        public float Weight
-        {
-            get => weight;
-            set => weight = value;
-        }
+        public byte BiomeCode;
+        public float Weight { get; init; }
     }
 
     /// <summary>
@@ -36,9 +30,9 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public struct Woodland
     {
-        public byte resolution;
-        public BiomeEntity[] spawnableResources;
-        public BiomeEntity[] spawmableMobs;
+        public byte Resolution;
+        public BiomeEntity[] SpawnableResources;
+        public BiomeEntity[] SpawmableMobs;
     }
 
     /// <summary>
@@ -46,9 +40,9 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public struct Grassland
     {
-        public byte resolution;
-        public BiomeEntity[] spawnableResources;
-        public BiomeEntity[] spawmableMobs;
+        public byte Resolution;
+        public BiomeEntity[] SpawnableResources;
+        public BiomeEntity[] SpawmableMobs;
     }
 
     /// <summary>
@@ -57,7 +51,7 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public struct ForestLayer
     {
-        public NoiseGeocoordinates[,] noiseData;
+        public NoiseGeocoordinates[,] NoiseData;
     }
 
     /// <summary>
@@ -66,7 +60,7 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public struct RockLayer
     {
-        public NoiseGeocoordinates[,] noiseData;
+        public NoiseGeocoordinates[,] NoiseData;
     }
 
     /// <summary>
@@ -75,13 +69,13 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public readonly struct NoiseGeocoordinates
     {
-        public readonly Vector2d geocoordinates;
-        public readonly float noise;
+        public readonly Vector2d Geocoordinates;
+        public readonly float Noise;
 
         public NoiseGeocoordinates(Vector2d geocoordinates, float noise)
         {
-            this.geocoordinates = geocoordinates;
-            this.noise = noise;
+            this.Geocoordinates = geocoordinates;
+            this.Noise = noise;
         }
     }
 
@@ -94,10 +88,8 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public partial struct BiomeEntity : IWeight
     {
-        public string type;
-        public float weight;
-
-        public float Weight => weight;
+        public string Type;
+        public float Weight { get; init; }
     }
 
     /// <summary>
@@ -105,8 +97,8 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public partial struct BiomeEntity
     {
-        public NoiseCondition forestCondition;
-        public float forestNoise;
+        public NoiseCondition ForestCondition;
+        public float ForestNoise;
     }
 
     /// <summary>
@@ -114,8 +106,8 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public partial struct BiomeEntity
     {
-        public NoiseCondition rockCondition;
-        public float rockNoise;
+        public NoiseCondition RockCondition;
+        public float RockNoise;
     }
 
     /// <summary>
@@ -124,12 +116,12 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     public partial struct BiomeEntity
     {
         // If the entity is allowed to spawn in packs ( groups ), mostly for mob spawning
-        public bool pack;
-        public byte packSizeMin;
-        public byte packSizeMax;
+        public bool Pack;
+        public byte PackSizeMin;
+        public byte PackSizeMax;
 
         // The times when this entity is allowed to spawn, always timespans
-        public ValueTuple<TimeSpan, TimeSpan>[] times;
+        public ValueTuple<TimeSpan, TimeSpan>[] Times;
     }
 }
 

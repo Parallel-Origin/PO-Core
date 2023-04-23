@@ -11,9 +11,9 @@ namespace ParallelOrigin.Core.Base.Classes
     [Serializable]
     public struct Vector2d
     {
-        public const double kEpsilon = 1E-05d;
-        public double x;
-        public double y;
+        public const double KEpsilon = 1E-05d;
+        public double X;
+        public double Y;
         
         public double this[int index]
         {
@@ -22,9 +22,9 @@ namespace ParallelOrigin.Core.Base.Classes
                 switch (index)
                 {
                     case 0:
-                        return x;
+                        return X;
                     case 1:
-                        return y;
+                        return Y;
                     default:
                         throw new IndexOutOfRangeException("Invalid Vector2d index!");
                 }
@@ -34,10 +34,10 @@ namespace ParallelOrigin.Core.Base.Classes
                 switch (index)
                 {
                     case 0:
-                        x = value;
+                        X = value;
                         break;
                     case 1:
-                        y = value;
+                        Y = value;
                         break;
                     default:
                         throw new IndexOutOfRangeException("Invalid Vector2d index!");
@@ -45,63 +45,61 @@ namespace ParallelOrigin.Core.Base.Classes
             }
         }
         
-        public Vector2d normalized
+        public Vector2d Normalized
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                var vector2d = new Vector2d(x, y);
+                var vector2d = new Vector2d(X, Y);
                 vector2d.Normalize();
                 return vector2d;
             }
         }
 
-        public double magnitude => Math.Sqrt(x * x + y * y);
+        public double Magnitude => Math.Sqrt(X * X + Y * Y);
+        
+        public static Vector2d Zero => new Vector2d(0.0d, 0.0d);
 
-        public double sqrMagnitude => x * x + y * y;
+        public static Vector2d One => new Vector2d(1d, 1d);
 
-        public static Vector2d zero => new Vector2d(0.0d, 0.0d);
+        public static Vector2d Up => new Vector2d(0.0d, 1d);
 
-        public static Vector2d one => new Vector2d(1d, 1d);
-
-        public static Vector2d up => new Vector2d(0.0d, 1d);
-
-        public static Vector2d right => new Vector2d(1d, 0.0d);
+        public static Vector2d Right => new Vector2d(1d, 0.0d);
 
         public Vector2d(double x, double y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
 
         public static Vector2d operator +(Vector2d a, Vector2d b)
         {
-            return new Vector2d(a.x + b.x, a.y + b.y);
+            return new Vector2d(a.X + b.X, a.Y + b.Y);
         }
 
         public static Vector2d operator -(Vector2d a, Vector2d b)
         {
-            return new Vector2d(a.x - b.x, a.y - b.y);
+            return new Vector2d(a.X - b.X, a.Y - b.Y);
         }
 
         public static Vector2d operator -(Vector2d a)
         {
-            return new Vector2d(-a.x, -a.y);
+            return new Vector2d(-a.X, -a.Y);
         }
 
         public static Vector2d operator *(Vector2d a, double d)
         {
-            return new Vector2d(a.x * d, a.y * d);
+            return new Vector2d(a.X * d, a.Y * d);
         }
 
         public static Vector2d operator *(float d, Vector2d a)
         {
-            return new Vector2d(a.x * d, a.y * d);
+            return new Vector2d(a.X * d, a.Y * d);
         }
 
         public static Vector2d operator /(Vector2d a, double d)
         {
-            return new Vector2d(a.x / d, a.y / d);
+            return new Vector2d(a.X / d, a.Y / d);
         }
 
         public static bool operator ==(Vector2d lhs, Vector2d rhs)
@@ -132,24 +130,24 @@ namespace ParallelOrigin.Core.Base.Classes
 #endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(double new_x, double new_y)
+        public void Set(double newX, double newY)
         {
-            x = new_x;
-            y = new_y;
+            X = newX;
+            Y = newY;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2d Lerp(Vector2d from, Vector2d to, double t)
         {
             t = t;
-            return new Vector2d(from.x + (to.x - from.x) * t, from.y + (to.y - from.y) * t);
+            return new Vector2d(from.X + (to.X - from.X) * t, from.Y + (to.Y - from.Y) * t);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2d MoveTowards(Vector2d current, Vector2d target, double maxDistanceDelta)
         {
             var vector2 = target - current;
-            var magnitude = vector2.magnitude;
+            var magnitude = vector2.Magnitude;
             if (magnitude <= maxDistanceDelta || magnitude == 0.0d)
                 return target;
             return current + vector2 / magnitude * maxDistanceDelta;
@@ -158,34 +156,34 @@ namespace ParallelOrigin.Core.Base.Classes
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2d Scale(Vector2d a, Vector2d b)
         {
-            return new Vector2d(a.x * b.x, a.y * b.y);
+            return new Vector2d(a.X * b.X, a.Y * b.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Scale(Vector2d scale)
         {
-            x *= scale.x;
-            y *= scale.y;
+            X *= scale.X;
+            Y *= scale.Y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Normalize()
         {
-            var magnitude = this.magnitude;
+            var magnitude = this.Magnitude;
             if (magnitude > 9.99999974737875E-06)
                 this = this / magnitude;
             else
-                this = zero;
+                this = Zero;
         }
 
         public override string ToString()
         {
-            return string.Format(NumberFormatInfo.InvariantInfo, "{0:F5},{1:F5}", y, x);
+            return string.Format(NumberFormatInfo.InvariantInfo, "{0:F5},{1:F5}", Y, X);
         }
 
         public override int GetHashCode()
         {
-            return x.GetHashCode() ^ (y.GetHashCode() << 2);
+            return X.GetHashCode() ^ (Y.GetHashCode() << 2);
         }
 
         public override bool Equals(object other)
@@ -193,22 +191,22 @@ namespace ParallelOrigin.Core.Base.Classes
             if (!(other is Vector2d))
                 return false;
             var vector2d = (Vector2d)other;
-            if (x.Equals(vector2d.x))
-                return y.Equals(vector2d.y);
+            if (X.Equals(vector2d.X))
+                return Y.Equals(vector2d.Y);
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Dot(Vector2d lhs, Vector2d rhs)
         {
-            return lhs.x * rhs.x + lhs.y * rhs.y;
+            return lhs.X * rhs.X + lhs.Y * rhs.Y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Angle(Vector2d from, Vector2d to)
         {
 #if SERVER
-            return Math.Acos(Math.Clamp(Dot(from.normalized, to.normalized), -1d, 1d)) * 57.29578d;
+            return Math.Acos(Math.Clamp(Dot(from.Normalized, to.Normalized), -1d, 1d)) * 57.29578d;
 #else
             return Mathd.Acos(Mathd.Clamp(Vector2d.Dot(from.normalized, to.normalized), -1d, 1d)) * 57.29578d;
 #endif
@@ -217,47 +215,41 @@ namespace ParallelOrigin.Core.Base.Classes
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Distance(Vector2d a, Vector2d b)
         {
-            return (a - b).magnitude;
+            return (a - b).Magnitude;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2d ClampMagnitude(Vector2d vector, double maxLength)
         {
-            if (vector.sqrMagnitude > maxLength * maxLength)
-                return vector.normalized * maxLength;
+            if (SqrMagnitude(vector) > maxLength * maxLength)
+                return vector.Normalized * maxLength;
             return vector;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double SqrMagnitude(Vector2d a)
         {
-            return a.x * a.x + a.y * a.y;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double SqrMagnitude()
-        {
-            return x * x + y * y;
+            return a.X * a.X + a.Y * a.Y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2d Min(Vector2d lhs, Vector2d rhs)
         {
-            return new Vector2d(Math.Min(lhs.x, rhs.x), Math.Min(lhs.y, rhs.y));
+            return new Vector2d(Math.Min(lhs.X, rhs.X), Math.Min(lhs.Y, rhs.Y));
             
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2d Max(Vector2d lhs, Vector2d rhs)
         {
-            return new Vector2d(Math.Max(lhs.x, rhs.x), Math.Max(lhs.y, rhs.y));
+            return new Vector2d(Math.Max(lhs.X, rhs.X), Math.Max(lhs.Y, rhs.Y));
         }
 
         public double[] ToArray()
         {
             double[] array =
             {
-                x,
-                y
+                X,
+                Y
             };
 
             return array;
@@ -279,7 +271,7 @@ namespace ParallelOrigin.Core.Base.Classes
         public static bool MoveTowards(this ref Vector2d current, ref Vector2d target, in float maxDistanceDelta)
         {
             var vector2 = target - current;
-            var magnitude = vector2.magnitude;
+            var magnitude = vector2.Magnitude;
 
             if (magnitude <= maxDistanceDelta || magnitude == 0.0d) return false;
 

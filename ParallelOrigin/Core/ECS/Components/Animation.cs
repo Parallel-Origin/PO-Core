@@ -25,27 +25,27 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct Animation : INetSerializable
     {
-        public byte controllerID;
-        public IBehaviourTreeNode behaviourTree;
+        public byte ControllerId;
+        public IBehaviourTreeNode BehaviourTree;
         
-        public Handle<Dictionary<string, byte>> overridenAnimationClips;
-        public Handle<TrackedDictionary<string, bool>> boolParams; // Because a marker component doesnt make sense here... we will never listen to started or ended animations
-        public Handle<List<string>> triggers;
+        public Handle<Dictionary<string, byte>> OverridenAnimationClips;
+        public Handle<TrackedDictionary<string, bool>> BoolParams; // Because a marker component doesnt make sense here... we will never listen to started or ended animations
+        public Handle<List<string>> Triggers;
 
         public Animation(byte controllerId, IBehaviourTreeNode behaviourTree) : this()
         {
-            controllerID = controllerId;
-            this.behaviourTree = behaviourTree;
-            triggers = new List<string>(4).ToHandle();
-            boolParams = new TrackedDictionary<string, bool>(4).ToHandle();
+            ControllerId = controllerId;
+            this.BehaviourTree = behaviourTree;
+            Triggers = new List<string>(4).ToHandle();
+            BoolParams = new TrackedDictionary<string, bool>(4).ToHandle();
         }
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(controllerID);
-            writer.PutDic(overridenAnimationClips.Get());
-            writer.PutDic(boolParams.Get());
-            writer.PutList(triggers.Get());
+            writer.Put(ControllerId);
+            writer.PutDic(OverridenAnimationClips.Get());
+            writer.PutDic(BoolParams.Get());
+            writer.PutList(Triggers.Get());
         }
 
         public void Deserialize(NetDataReader reader)

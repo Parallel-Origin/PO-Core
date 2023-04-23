@@ -25,22 +25,22 @@ namespace ParallelOrigin.Core.Network {
     /// <typeparam name="T"></typeparam>
     public struct Statefull<T> : INetSerializable where T : struct, INetSerializable {
 
-        public State state;
-        public T item;
+        public State State;
+        public T Item;
 
         public Statefull(State state, T item) {
-            this.state = state;
-            this.item = item;
+            this.State = state;
+            this.Item = item;
         }
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put((byte)state);
-            writer.Put(item);
+            writer.Put((byte)State);
+            writer.Put(Item);
         }
 
         public void Deserialize(NetDataReader reader) {
-            state = (State)reader.GetByte();
-            item.Deserialize(reader);
+            State = (State)reader.GetByte();
+            Item.Deserialize(reader);
         }
 
     }
@@ -97,29 +97,29 @@ namespace ParallelOrigin.Core.Network {
     /// <typeparam name="T"></typeparam>
     public struct CollectionCommand<Id, T, I> : INetSerializable where Id : struct, INetSerializable where T : struct, INetSerializable where I : struct, INetSerializable {
 
-        public Id identifier;
-        public Statefull<I>[] items;
+        public Id Identifier;
+        public Statefull<I>[] Items;
 
         public CollectionCommand(ref Id identifier, int capacity) : this() {
-            this.identifier = identifier;
-            items = new Statefull<I>[capacity];
+            this.Identifier = identifier;
+            Items = new Statefull<I>[capacity];
         }
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(identifier);
-            writer.PutArray(items);
+            writer.Put(Identifier);
+            writer.PutArray(Items);
         }
 
         public void Deserialize(NetDataReader reader) {
 
-            identifier.Deserialize(reader);
-            reader.GetArray(ref items);
+            Identifier.Deserialize(reader);
+            reader.GetArray(ref Items);
         }
 
-        public ref Statefull<I> this[int index] => ref items[index];
+        public ref Statefull<I> this[int index] => ref Items[index];
 
         public I this[State state, int index] {
-            set => items[index] = new Statefull<I>(state, value);
+            set => Items[index] = new Statefull<I>(state, value);
         }
 
     }
@@ -220,17 +220,17 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct ClickCommand : INetSerializable {
 
-        public EntityLink clicker;
-        public EntityLink clicked;
+        public EntityLink Clicker;
+        public EntityLink Clicked;
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(clicker);
-            writer.Put(clicked);
+            writer.Put(Clicker);
+            writer.Put(Clicked);
         }
 
         public void Deserialize(NetDataReader reader) {
-            clicker.Deserialize(reader);
-            clicked.Deserialize(reader);
+            Clicker.Deserialize(reader);
+            Clicked.Deserialize(reader);
         }
 
     }
@@ -240,17 +240,17 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct DoubleClickCommand : INetSerializable {
 
-        public EntityLink clicker;
-        public Vector2d position;
+        public EntityLink Clicker;
+        public Vector2d Position;
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(clicker);
-            writer.Put(ref position);
+            writer.Put(Clicker);
+            writer.Put(ref Position);
         }
 
         public void Deserialize(NetDataReader reader) {
-            clicker.Deserialize(reader);
-            position = reader.GetVector2d();
+            Clicker.Deserialize(reader);
+            Position = reader.GetVector2d();
         }
 
     }

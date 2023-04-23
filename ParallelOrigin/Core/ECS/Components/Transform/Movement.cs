@@ -13,21 +13,21 @@ namespace ParallelOrigin.Core.ECS.Components.Transform {
 #if SERVER
 
 /// <summary>
-///     A component which selects a target position which gets processed by a system to move the <see cref="Location" /> to the <see cref="target" />
+///     A component which selects a target position which gets processed by a system to move the <see cref="Location" /> to the <see cref="Target" />
 /// </summary>
 public struct Movement : INetSerializable
 {
-    public float speed;
-    public Vector2d target;
+    public float Speed;
+    public Vector2d Target;
 
     public void Serialize(NetDataWriter writer)
     {
-        writer.Put(speed);
+        writer.Put(Speed);
     }
 
     public void Deserialize(NetDataReader reader)
     {
-        speed = reader.GetFloat();
+        Speed = reader.GetFloat();
     }
 }
 

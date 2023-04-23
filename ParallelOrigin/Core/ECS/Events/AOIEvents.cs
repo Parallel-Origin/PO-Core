@@ -7,45 +7,45 @@ namespace ParallelOrigin.Core.ECS.Events;
 /// <summary>
 /// Marks an AOI event to signal that its an Entered AOI event
 /// </summary>
-public readonly struct AOIEnteredEvent
+public readonly struct AoiEnteredEvent
 {
-    public readonly Entity entity;
-    public readonly PooledSet<EntityLink> entities;
+    public readonly Entity Entity;
+    public readonly PooledSet<EntityLink> Entities;
 
-    public AOIEnteredEvent(Entity entity, PooledSet<EntityLink> entities)
+    public AoiEnteredEvent(Entity entity, PooledSet<EntityLink> entities)
     {
-        this.entity = entity;
-        this.entities = entities;
+        this.Entity = entity;
+        this.Entities = entities;
     }
 }
 
 /// <summary>
 /// Marks an AOI event to signal that its an Stayed AOI event
 /// </summary>
-public struct AOIStayedEvent
+public struct AoiStayedEvent
 {
-    public readonly Entity entity;
-    public readonly PooledSet<EntityLink> entities;
+    public readonly Entity Entity;
+    public readonly PooledSet<EntityLink> Entities;
 
-    public AOIStayedEvent(Entity entity, PooledSet<EntityLink> entities)
+    public AoiStayedEvent(Entity entity, PooledSet<EntityLink> entities)
     {
-        this.entity = entity;
-        this.entities = entities;
+        this.Entity = entity;
+        this.Entities = entities;
     }
 }
 
 /// <summary>
 /// Marks an AOI event to signal that its an left AOI event
 /// </summary>
-public struct AOILeftEvent
+public struct AoiLeftEvent
 {
-    public readonly Entity entity;
-    public readonly PooledSet<EntityLink> entities;
+    public readonly Entity Entity;
+    public readonly PooledSet<EntityLink> Entities;
 
-    public AOILeftEvent(Entity entity, PooledSet<EntityLink> entities)
+    public AoiLeftEvent(Entity entity, PooledSet<EntityLink> entities)
     {
-        this.entity = entity;
-        this.entities = entities;
+        this.Entity = entity;
+        this.Entities = entities;
     }
 }
 

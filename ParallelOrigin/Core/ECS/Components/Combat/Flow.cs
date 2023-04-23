@@ -14,29 +14,29 @@ namespace ParallelOrigin.Core.ECS.Components.Combat
     /// </summary>
     public struct Heal
     {
-        public Entity receiver;
-        public float value;
+        public Entity Receiver;
+        public float Value;
     }
 
     // Marker to mark an entity as damage dealing 
     public struct Damage
     {
-        public Entity sender;
-        public Entity receiver;
+        public Entity Sender;
+        public Entity Receiver;
 
-        public bool killed; // If the damage actually killed the entity 
+        public bool Killed; // If the damage actually killed the entity 
     }
 
     // Marks an entity that is in combat with another one 
     public struct InCombat
     {
-        public float intervall;
-        public Handle<HashSet<Entity>> entities;
+        public float Intervall;
+        public Handle<HashSet<Entity>> Entities;
 
         public InCombat(int capacity)
         {
-            intervall = 0;
-            entities = new HashSet<Entity>(capacity).ToHandle();
+            Intervall = 0;
+            Entities = new HashSet<Entity>(capacity).ToHandle();
         }
     }
 
@@ -45,8 +45,8 @@ namespace ParallelOrigin.Core.ECS.Components.Combat
     /// </summary>
     public struct OnDeathRespawn
     {
-        public float timeInMs;
-        public float intervall;
+        public float TimeInMs;
+        public float Intervall;
     }
 
     /// <summary>

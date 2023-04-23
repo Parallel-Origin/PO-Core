@@ -16,8 +16,8 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public struct BoxCollider
     {
-        public float width;
-        public float height;
+        public float Width;
+        public float Height;
     }
 
     /// <summary>
@@ -32,13 +32,13 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public readonly struct EnteredCollision
     {
-        public readonly Entity _first;
-        public readonly Entity _second;
+        public readonly Entity First;
+        public readonly Entity Second;
 
         public EnteredCollision(Entity first, Entity second)
         {
-            _first = first;
-            _second = second;
+            First = first;
+            Second = second;
         }
     }
     
@@ -47,13 +47,13 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public readonly struct Collision
     {
-        public readonly Entity _first;
-        public readonly Entity _second;
+        public readonly Entity First;
+        public readonly Entity Second;
 
         public Collision(Entity first, Entity second)
         {
-            _first = first;
-            _second = second;
+            First = first;
+            Second = second;
         }
     }
     
@@ -62,13 +62,13 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public readonly struct StayedCollision
     {
-        public readonly Entity _first;
-        public readonly Entity _second;
+        public readonly Entity First;
+        public readonly Entity Second;
 
         public StayedCollision(Entity first, Entity second)
         {
-            _first = first;
-            _second = second;
+            First = first;
+            Second = second;
         }
     }
     
@@ -77,13 +77,13 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// </summary>
     public readonly struct LeftCollision
     {
-        public readonly Entity _first;
-        public readonly Entity _second;
+        public readonly Entity First;
+        public readonly Entity Second;
 
         public LeftCollision(Entity first, Entity second)
         {
-            _first = first;
-            _second = second;
+            First = first;
+            Second = second;
         }
     }
     

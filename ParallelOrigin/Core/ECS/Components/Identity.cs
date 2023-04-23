@@ -16,22 +16,22 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct Identity : INetSerializable
     {
-        public long id;
-        public string tag;
-        public string type;
+        public long Id;
+        public string Tag;
+        public string Type;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(id);
-            writer.Put(tag, tag.Length);
-            writer.Put(type, type.Length);
+            writer.Put(Id);
+            writer.Put(Tag, Tag.Length);
+            writer.Put(Type, Type.Length);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            id = reader.GetLong();
-            tag = reader.GetString(32);
-            type = reader.GetString(32);
+            Id = reader.GetLong();
+            Tag = reader.GetString(32);
+            Type = reader.GetString(32);
         }
     }
 

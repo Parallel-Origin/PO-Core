@@ -7,13 +7,13 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// </summary>
     public readonly struct Grid : IEquatable<Grid>
     {
-        public readonly ushort x;
-        public readonly ushort y;
+        public readonly ushort X;
+        public readonly ushort Y;
 
         public Grid(ushort x, ushort y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
 
         public static bool operator ==(in Grid obj1, in Grid obj2)
@@ -28,7 +28,7 @@ namespace ParallelOrigin.Core.Base.Classes {
 
         public bool Equals(Grid other)
         {
-            return x == other.x && y == other.y;
+            return X == other.X && Y == other.Y;
         }
 
         public override bool Equals(object obj)
@@ -42,15 +42,15 @@ namespace ParallelOrigin.Core.Base.Classes {
             {
                 // Javas way of calculating hashes
                 var hash = 17;
-                hash = hash * 31 + x;
-                hash = hash * 31 + y;
+                hash = hash * 31 + X;
+                hash = hash * 31 + Y;
                 return hash;
             }
         }
 
         public override string ToString()
         {
-            return $"{nameof(x)}: {x}, {nameof(y)}: {y}";
+            return $"{nameof(X)}: {X}, {nameof(Y)}: {Y}";
         }
 
         public static Grid Zero => new(0, 0);
@@ -61,22 +61,22 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// </summary>
     public readonly struct Tile
     {
-        public readonly double north; // Higher x
-        public readonly double south; // Lower x
-        public readonly double east; // Lower Y
-        public readonly double west; // Higher Y
+        public readonly double North; // Higher x
+        public readonly double South; // Lower x
+        public readonly double East; // Lower Y
+        public readonly double West; // Higher Y
 
-        public readonly Vector2d range;
-        public readonly Vector2d middle;
+        public readonly Vector2d Range;
+        public readonly Vector2d Middle;
 
         public Tile(double north, double south, double east, double west, Vector2d range, Vector2d middle)
         {
-            this.north = north;
-            this.south = south;
-            this.east = east;
-            this.west = west;
-            this.range = range;
-            this.middle = middle;
+            this.North = north;
+            this.South = south;
+            this.East = east;
+            this.West = west;
+            this.Range = range;
+            this.Middle = middle;
         }
 
         /// <summary>
@@ -88,12 +88,12 @@ namespace ParallelOrigin.Core.Base.Classes {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Inside(double x, double y)
         {
-            return x <= north && x >= south && y >= east && y <= west;
+            return x <= North && x >= South && y >= East && y <= West;
         }
 
         public override string ToString()
         {
-            return $"{nameof(north)}: {north}, {nameof(south)}: {south}, {nameof(east)}: {east}, {nameof(west)}: {west}, {nameof(range)}: {range}, {nameof(middle)}: {middle}";
+            return $"{nameof(North)}: {North}, {nameof(South)}: {South}, {nameof(East)}: {East}, {nameof(West)}: {West}, {nameof(Range)}: {Range}, {nameof(Middle)}: {Middle}";
         }
     }
 }

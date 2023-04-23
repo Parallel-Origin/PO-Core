@@ -10,8 +10,8 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Registers {
     /// </summary>
     public class ServiceLocator
     {
-        private static readonly IDictionary<Type, object> services = new ConcurrentDictionary<Type, object>();
-        private static readonly IDictionary<Type, List<Action<object>>> await = new ConcurrentDictionary<Type, List<Action<object>>>();
+        private static readonly IDictionary<Type, object> Services = new ConcurrentDictionary<Type, object>();
+        private static readonly IDictionary<Type, List<Action<object>>> Await = new ConcurrentDictionary<Type, List<Action<object>>>();
 
         /// <summary>
         ///     Adds a register to the static registers for easy acess.
@@ -20,11 +20,11 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Registers {
         public static void Register<T>(T toRegister)
         {
             var registerType = typeof(T);
-            if (!services.ContainsKey(registerType))
-                services.Add(registerType, toRegister);
+            if (!Services.ContainsKey(registerType))
+                Services.Add(registerType, toRegister);
             else return;
 
-            foreach (var type in await)
+            foreach (var type in Await)
                 if (type.Key.IsInstanceOfType(toRegister))
                     type.Value.ForEach(action => action.Invoke(toRegister));
         }
@@ -36,11 +36,11 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Registers {
         public static void Register(object toRegister)
         {
             var registerType = toRegister.GetType();
-            if (!services.ContainsKey(registerType))
-                services.Add(registerType, toRegister);
+            if (!Services.ContainsKey(registerType))
+                Services.Add(registerType, toRegister);
             else return;
 
-            foreach (var type in await)
+            foreach (var type in Await)
                 if (type.Key.IsInstanceOfType(toRegister))
                     type.Value.ForEach(action => action.Invoke(toRegister));
         }
@@ -53,7 +53,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Registers {
         /// <returns></returns>
         public static T GetBySubType<T>()
         {
-            foreach (var kvp in services)
+            foreach (var kvp in Services)
             {
                 var obj = kvp.Value;
                 if (obj is T t) return t;
@@ -71,7 +71,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Registers {
         public static T Get<T>()
         {
             var type = typeof(T);
-            var existing = services.TryGetValue(type, out var service);
+            var existing = Services.TryGetValue(type, out var service);
             if (existing) return (T)service;
 
             return default;
@@ -90,9 +90,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Registers {
                 return;
             }
 
-            if (await.ContainsKey(typeof(T)))
-                await[typeof(T)].Add(registered);
-            else await.Add(typeof(T), new List<Action<object>> { registered });
+            if (Await.ContainsKey(typeof(T)))
+                Await[typeof(T)].Add(registered);
+            else Await.Add(typeof(T), new List<Action<object>> { registered });
         }
     }
 }

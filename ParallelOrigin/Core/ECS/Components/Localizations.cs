@@ -7,6 +7,7 @@ using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 #elif SERVER
+using System.Runtime.CompilerServices;
 using ParallelOriginGameServer.Server.ThirdParty;
 using Arch.LowLevel;
 #endif
@@ -20,13 +21,19 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     public struct Localizations : INetSerializable
     {
-        public Handle<Dictionary<string, short>> localizations;
-        public Handle<Dictionary<string, string>> uniqueLocalizations;
+        public Handle<Dictionary<string, short>> LocalizationsHandle;
+        public Handle<Dictionary<string, string>> UniqueLocalizations;
+
+        public Localizations()
+        {
+            LocalizationsHandle = Handle<Dictionary<string, short>>.NULL;
+            UniqueLocalizations = Handle<Dictionary<string, string>>.NULL;
+        }
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.PutDic(localizations.Get());
-            writer.PutDic(uniqueLocalizations.Get());
+            writer.PutDic(LocalizationsHandle.Get());
+            writer.PutDic(UniqueLocalizations.IsNull() ? Object<Dictionary<string,string>>.Instance :  UniqueLocalizations.Get());
         }
 
         public void Deserialize(NetDataReader reader)

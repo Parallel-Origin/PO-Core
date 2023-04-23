@@ -16,8 +16,8 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public struct Equipable
     {
-        public int mesh;
-        public string slot;
+        public int Mesh;
+        public string Slot;
     }
 
     /// <summary>
@@ -25,10 +25,10 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     public struct Equipment
     {
-        public EntityLink helmet;
-        public EntityLink armor;
-        public EntityLink weapon;
-        public EntityLink boots;
+        public EntityLink Helmet;
+        public EntityLink Armor;
+        public EntityLink Weapon;
+        public EntityLink Boots;
     }
 
     /// <summary>

@@ -13,7 +13,7 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Chop
     {
-        public Entity target;
+        public Entity Target;
     }
 
     /// <summary>
@@ -21,16 +21,16 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Build
     {
-        public string type;
-        public Ingredient[] ingredients;
+        public string Type;
+        public Ingredient[] Ingredients;
         
-        public Vector2d position;  // The position
-        public float distance;     // Distance to start building
+        public Vector2d Position;  // The position
+        public float Distance;     // Distance to start building
         
-        public Entity entity;      // The newly spawned structure, once target was reached 
-        public float duration;
+        public Entity Entity;      // The newly spawned structure, once target was reached 
+        public float Duration;
         
-        public bool abortable; 
+        public bool Abortable; 
     }
 
     /// <summary>
@@ -38,8 +38,8 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Pickup
     {
-        public Entity target;
-        public uint amount;
+        public Entity Target;
+        public uint Amount;
     }
 
 #endif

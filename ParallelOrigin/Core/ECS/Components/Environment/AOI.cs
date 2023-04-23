@@ -15,20 +15,20 @@ namespace ParallelOrigin.Core.ECS.Components.Environment
     /// <summary>
     ///     Marks an entity for being able to take part in AOI events. 
     /// </summary>
-    public struct AOI
+    public struct Aoi
     {
-        public float range;
+        public float Range;
 
-        public Handle<PooledSet<EntityLink>> entities;
-        public Handle<PooledSet<EntityLink>> entered;
-        public Handle<PooledSet<EntityLink>> left;
+        public Handle<PooledSet<EntityLink>> Entities;
+        public Handle<PooledSet<EntityLink>> Entered;
+        public Handle<PooledSet<EntityLink>> Left;
 
-        public AOI(float range) : this()
+        public Aoi(float range) : this()
         {
-            this.range = range;
-            entities = new PooledSet<EntityLink>(512).ToHandle();
-            entered = new PooledSet<EntityLink>(512).ToHandle();
-            left = new PooledSet<EntityLink>(512).ToHandle();
+            this.Range = range;
+            Entities = new PooledSet<EntityLink>(512).ToHandle();
+            Entered = new PooledSet<EntityLink>(512).ToHandle();
+            Left = new PooledSet<EntityLink>(512).ToHandle();
         }
     }
 

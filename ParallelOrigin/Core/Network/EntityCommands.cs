@@ -9,11 +9,11 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public static class EntityOpCode
     {
-        public const byte CREATE = 0;
-        public const byte ADD = 1;
-        public const byte SET = 2;
-        public const byte REMOVE = 3;
-        public const byte DELETE = 4;
+        public const byte Create = 0;
+        public const byte Add = 1;
+        public const byte Set = 2;
+        public const byte Remove = 3;
+        public const byte Delete = 4;
     }
 
     /// <summary>
@@ -21,22 +21,22 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public struct EntityCommand : INetSerializable
     {
-        public long id;
-        public string type; // Only being used if the type does NOT exist on the client 
-        public byte opcode;
+        public long Id;
+        public string Type; // Only being used if the type does NOT exist on the client 
+        public byte Opcode;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(id);
-            writer.PutFixedString(type, (ushort)type.Length);
-            writer.Put(opcode);
+            writer.Put(Id);
+            writer.PutFixedString(Type, (ushort)Type.Length);
+            writer.Put(Opcode);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            id = reader.GetLong();
-            type = reader.GetFixedString();
-            opcode = reader.GetByte();
+            Id = reader.GetLong();
+            Type = reader.GetFixedString();
+            Opcode = reader.GetByte();
         }
     }
 
@@ -45,19 +45,19 @@ namespace ParallelOrigin.Core.Network {
      */
     public struct EntityCommand<T1> : INetSerializable where T1 : struct, INetSerializable
     {
-        public EntityCommand command;
-        public T1 t1Component;
+        public EntityCommand Command;
+        public T1 T1Component;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(command);
-            writer.Put(t1Component);
+            writer.Put(Command);
+            writer.Put(T1Component);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            command.Deserialize(reader);
-            t1Component.Deserialize(reader);
+            Command.Deserialize(reader);
+            T1Component.Deserialize(reader);
         }
     }
 
@@ -66,23 +66,23 @@ namespace ParallelOrigin.Core.Network {
      */
     public struct EntityCommand<T1, T2> : INetSerializable where T1 : struct, INetSerializable where T2 : struct, INetSerializable
     {
-        public EntityCommand command;
+        public EntityCommand Command;
 
-        public T1 t1Component;
-        public T2 t2Component;
+        public T1 T1Component;
+        public T2 T2Component;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(command);
-            writer.Put(t1Component);
-            writer.Put(t2Component);
+            writer.Put(Command);
+            writer.Put(T1Component);
+            writer.Put(T2Component);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            command.Deserialize(reader);
-            t1Component.Deserialize(reader);
-            t2Component.Deserialize(reader);
+            Command.Deserialize(reader);
+            T1Component.Deserialize(reader);
+            T2Component.Deserialize(reader);
         }
     }
 
@@ -91,26 +91,26 @@ namespace ParallelOrigin.Core.Network {
      */
     public struct EntityCommand<T1, T2, T3> : INetSerializable where T1 : struct, INetSerializable where T2 : struct, INetSerializable where T3 : struct, INetSerializable
     {
-        public EntityCommand command;
+        public EntityCommand Command;
 
-        public T1 t1Component;
-        public T2 t2Component;
-        public T3 t3Component;
+        public T1 T1Component;
+        public T2 T2Component;
+        public T3 T3Component;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(command);
-            writer.Put(t1Component);
-            writer.Put(t2Component);
-            writer.Put(t3Component);
+            writer.Put(Command);
+            writer.Put(T1Component);
+            writer.Put(T2Component);
+            writer.Put(T3Component);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            command.Deserialize(reader);
-            t1Component.Deserialize(reader);
-            t2Component.Deserialize(reader);
-            t3Component.Deserialize(reader);
+            Command.Deserialize(reader);
+            T1Component.Deserialize(reader);
+            T2Component.Deserialize(reader);
+            T3Component.Deserialize(reader);
         }
     }
 
@@ -122,29 +122,29 @@ namespace ParallelOrigin.Core.Network {
         where T3 : struct, INetSerializable
         where T4 : struct, INetSerializable
     {
-        public EntityCommand command;
+        public EntityCommand Command;
 
-        public T1 t1Component;
-        public T2 t2Component;
-        public T3 t3Component;
-        public T4 t4Component;
+        public T1 T1Component;
+        public T2 T2Component;
+        public T3 T3Component;
+        public T4 T4Component;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(command);
-            writer.Put(t1Component);
-            writer.Put(t2Component);
-            writer.Put(t3Component);
-            writer.Put(t4Component);
+            writer.Put(Command);
+            writer.Put(T1Component);
+            writer.Put(T2Component);
+            writer.Put(T3Component);
+            writer.Put(T4Component);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            command.Deserialize(reader);
-            t1Component.Deserialize(reader);
-            t2Component.Deserialize(reader);
-            t3Component.Deserialize(reader);
-            t4Component.Deserialize(reader);
+            Command.Deserialize(reader);
+            T1Component.Deserialize(reader);
+            T2Component.Deserialize(reader);
+            T3Component.Deserialize(reader);
+            T4Component.Deserialize(reader);
         }
     }
 
@@ -157,32 +157,32 @@ namespace ParallelOrigin.Core.Network {
         where T4 : struct, INetSerializable
         where T5 : struct, INetSerializable
     {
-        public EntityCommand command;
+        public EntityCommand Command;
 
-        public T1 t1Component;
-        public T2 t2Component;
-        public T3 t3Component;
-        public T4 t4Component;
-        public T5 t5Component;
+        public T1 T1Component;
+        public T2 T2Component;
+        public T3 T3Component;
+        public T4 T4Component;
+        public T5 T5Component;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(command);
-            writer.Put(t1Component);
-            writer.Put(t2Component);
-            writer.Put(t3Component);
-            writer.Put(t4Component);
-            writer.Put(t5Component);
+            writer.Put(Command);
+            writer.Put(T1Component);
+            writer.Put(T2Component);
+            writer.Put(T3Component);
+            writer.Put(T4Component);
+            writer.Put(T5Component);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            command.Deserialize(reader);
-            t1Component.Deserialize(reader);
-            t2Component.Deserialize(reader);
-            t3Component.Deserialize(reader);
-            t4Component.Deserialize(reader);
-            t5Component.Deserialize(reader);
+            Command.Deserialize(reader);
+            T1Component.Deserialize(reader);
+            T2Component.Deserialize(reader);
+            T3Component.Deserialize(reader);
+            T4Component.Deserialize(reader);
+            T5Component.Deserialize(reader);
         }
     }
 
@@ -196,35 +196,35 @@ namespace ParallelOrigin.Core.Network {
         where T5 : struct, INetSerializable
         where T6 : struct, INetSerializable
     {
-        public EntityCommand command;
+        public EntityCommand Command;
 
-        public T1 t1Component;
-        public T2 t2Component;
-        public T3 t3Component;
-        public T4 t4Component;
-        public T5 t5Component;
-        public T6 t6Component;
+        public T1 T1Component;
+        public T2 T2Component;
+        public T3 T3Component;
+        public T4 T4Component;
+        public T5 T5Component;
+        public T6 T6Component;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(command);
-            writer.Put(t1Component);
-            writer.Put(t2Component);
-            writer.Put(t3Component);
-            writer.Put(t4Component);
-            writer.Put(t5Component);
-            writer.Put(t6Component);
+            writer.Put(Command);
+            writer.Put(T1Component);
+            writer.Put(T2Component);
+            writer.Put(T3Component);
+            writer.Put(T4Component);
+            writer.Put(T5Component);
+            writer.Put(T6Component);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            command.Deserialize(reader);
-            t1Component.Deserialize(reader);
-            t2Component.Deserialize(reader);
-            t3Component.Deserialize(reader);
-            t4Component.Deserialize(reader);
-            t5Component.Deserialize(reader);
-            t6Component.Deserialize(reader);
+            Command.Deserialize(reader);
+            T1Component.Deserialize(reader);
+            T2Component.Deserialize(reader);
+            T3Component.Deserialize(reader);
+            T4Component.Deserialize(reader);
+            T5Component.Deserialize(reader);
+            T6Component.Deserialize(reader);
         }
     }
 
@@ -239,38 +239,38 @@ namespace ParallelOrigin.Core.Network {
         where T6 : struct, INetSerializable
         where T7 : struct, INetSerializable
     {
-        public EntityCommand command;
+        public EntityCommand Command;
 
-        public T1 t1Component;
-        public T2 t2Component;
-        public T3 t3Component;
-        public T4 t4Component;
-        public T5 t5Component;
-        public T6 t6Component;
-        public T7 t7Component;
+        public T1 T1Component;
+        public T2 T2Component;
+        public T3 T3Component;
+        public T4 T4Component;
+        public T5 T5Component;
+        public T6 T6Component;
+        public T7 T7Component;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(command);
-            writer.Put(t1Component);
-            writer.Put(t2Component);
-            writer.Put(t3Component);
-            writer.Put(t4Component);
-            writer.Put(t5Component);
-            writer.Put(t6Component);
-            writer.Put(t7Component);
+            writer.Put(Command);
+            writer.Put(T1Component);
+            writer.Put(T2Component);
+            writer.Put(T3Component);
+            writer.Put(T4Component);
+            writer.Put(T5Component);
+            writer.Put(T6Component);
+            writer.Put(T7Component);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            command.Deserialize(reader);
-            t1Component.Deserialize(reader);
-            t2Component.Deserialize(reader);
-            t3Component.Deserialize(reader);
-            t4Component.Deserialize(reader);
-            t5Component.Deserialize(reader);
-            t6Component.Deserialize(reader);
-            t7Component.Deserialize(reader);
+            Command.Deserialize(reader);
+            T1Component.Deserialize(reader);
+            T2Component.Deserialize(reader);
+            T3Component.Deserialize(reader);
+            T4Component.Deserialize(reader);
+            T5Component.Deserialize(reader);
+            T6Component.Deserialize(reader);
+            T7Component.Deserialize(reader);
         }
     }
 
@@ -286,41 +286,41 @@ namespace ParallelOrigin.Core.Network {
         where T7 : struct, INetSerializable
         where T8 : struct, INetSerializable
     {
-        public EntityCommand command;
+        public EntityCommand Command;
 
-        public T1 t1Component;
-        public T2 t2Component;
-        public T3 t3Component;
-        public T4 t4Component;
-        public T5 t5Component;
-        public T6 t6Component;
-        public T7 t7Component;
-        public T8 t8Component;
+        public T1 T1Component;
+        public T2 T2Component;
+        public T3 T3Component;
+        public T4 T4Component;
+        public T5 T5Component;
+        public T6 T6Component;
+        public T7 T7Component;
+        public T8 T8Component;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(command);
-            writer.Put(t1Component);
-            writer.Put(t2Component);
-            writer.Put(t3Component);
-            writer.Put(t4Component);
-            writer.Put(t5Component);
-            writer.Put(t6Component);
-            writer.Put(t7Component);
-            writer.Put(t8Component);
+            writer.Put(Command);
+            writer.Put(T1Component);
+            writer.Put(T2Component);
+            writer.Put(T3Component);
+            writer.Put(T4Component);
+            writer.Put(T5Component);
+            writer.Put(T6Component);
+            writer.Put(T7Component);
+            writer.Put(T8Component);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            command.Deserialize(reader);
-            t1Component.Deserialize(reader);
-            t2Component.Deserialize(reader);
-            t3Component.Deserialize(reader);
-            t4Component.Deserialize(reader);
-            t5Component.Deserialize(reader);
-            t6Component.Deserialize(reader);
-            t7Component.Deserialize(reader);
-            t8Component.Deserialize(reader);
+            Command.Deserialize(reader);
+            T1Component.Deserialize(reader);
+            T2Component.Deserialize(reader);
+            T3Component.Deserialize(reader);
+            T4Component.Deserialize(reader);
+            T5Component.Deserialize(reader);
+            T6Component.Deserialize(reader);
+            T7Component.Deserialize(reader);
+            T8Component.Deserialize(reader);
         }
     }
 
@@ -330,22 +330,22 @@ namespace ParallelOrigin.Core.Network {
     /// <typeparam name="T"></typeparam>
     public struct ComponentCommand<T> : INetSerializable where T : struct, INetSerializable
     {
-        public long id;
-        public T component;
-        public byte opcode;
+        public long Id;
+        public T Component;
+        public byte Opcode;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(id);
-            writer.Put(component);
-            writer.Put(opcode);
+            writer.Put(Id);
+            writer.Put(Component);
+            writer.Put(Opcode);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            id = reader.GetLong();
-            component.Deserialize(reader);
-            opcode = reader.GetByte();
+            Id = reader.GetLong();
+            Component.Deserialize(reader);
+            Opcode = reader.GetByte();
         }
     }
 }

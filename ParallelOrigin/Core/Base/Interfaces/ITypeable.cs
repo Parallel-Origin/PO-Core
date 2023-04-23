@@ -7,6 +7,6 @@ namespace ParallelOrigin.Core.Base.Interfaces {
         /// <summary>
         ///     The Type-ID
         /// </summary>
-        short TypeID { get; set; }
+        short TypeId { get; set; }
     }
 }

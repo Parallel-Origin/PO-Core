@@ -35,19 +35,19 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         // constructing a large dictionary. Also, the capacity should not be divisible by a small prime.
         private const int DEFAULT_CAPACITY = 31;
 
-        [NonSerialized] private volatile Node[] m_buckets; // A singly-linked list for each bucket. 
+        [NonSerialized] private volatile Node[] _mBuckets; // A singly-linked list for each bucket. 
 
-        private IEqualityComparer<TKey> m_comparer; // Key equality comparer 
+        private IEqualityComparer<TKey> _mComparer; // Key equality comparer 
 
-        [NonSerialized] private volatile int[] m_countPerLock; // The number of elements guarded by each lock.
+        [NonSerialized] private volatile int[] _mCountPerLock; // The number of elements guarded by each lock.
 
-        [NonSerialized] private object[] m_locks; // A set of locks, each guarding a section of the table. 
+        [NonSerialized] private object[] _mLocks; // A set of locks, each guarding a section of the table. 
 
-        private KeyValuePair<TKey, TValue>[] m_serializationArray; // Used for custom serialization
+        private KeyValuePair<TKey, TValue>[] _mSerializationArray; // Used for custom serialization
 
-        private int m_serializationCapacity; // used to save the capacity in serialization 
+        private int _mSerializationCapacity; // used to save the capacity in serialization 
 
-        private int m_serializationConcurrencyLevel; // used to save the concurrency level in serialization 
+        private int _mSerializationConcurrencyLevel; // used to save the concurrency level in serialization 
 
         /// <summary>
         ///     Initializes a new instance of the
@@ -242,12 +242,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
             // any buckets. 
             if (capacity < concurrencyLevel) capacity = concurrencyLevel;
 
-            m_locks = new object[concurrencyLevel];
-            for (var i = 0; i < m_locks.Length; i++) m_locks[i] = new object();
+            _mLocks = new object[concurrencyLevel];
+            for (var i = 0; i < _mLocks.Length; i++) _mLocks[i] = new object();
 
-            m_countPerLock = new int[m_locks.Length];
-            m_buckets = new Node[capacity];
-            m_comparer = comparer;
+            _mCountPerLock = new int[_mLocks.Length];
+            _mBuckets = new Node[capacity];
+            _mComparer = comparer;
         }
 
 
@@ -269,8 +269,8 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                     // Acquire all locks 
                     AcquireAllLocks(ref acquiredLocks);
 
-                    for (var i = 0; i < m_countPerLock.Length; i++)
-                        if (m_countPerLock[i] != 0)
+                    for (var i = 0; i < _mCountPerLock.Length; i++)
+                        if (_mCountPerLock[i] != 0)
                             return false;
                 }
                 finally
@@ -340,8 +340,8 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
             int bucketNo, lockNoUnused;
 
             // We must capture the m_buckets field in a local variable. It is set to a new table on each table resize. 
-            var buckets = m_buckets;
-            GetBucketAndLockNo(m_comparer.GetHashCode(key), out bucketNo, out lockNoUnused, buckets.Length);
+            var buckets = _mBuckets;
+            GetBucketAndLockNo(_mComparer.GetHashCode(key), out bucketNo, out lockNoUnused, buckets.Length);
 
             // We can get away w/out a lock here.
             var n = buckets[bucketNo];
@@ -351,13 +351,13 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
 
             while (n != null)
             {
-                if (m_comparer.Equals(n.m_key, key))
+                if (_mComparer.Equals(n.MKey, key))
                 {
-                    value = n.m_value;
+                    value = n.MValue;
                     return true;
                 }
 
-                n = n.m_next;
+                n = n.MNext;
             }
 
             value = default;
@@ -375,8 +375,8 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
             {
                 AcquireAllLocks(ref locksAcquired);
 
-                m_buckets = new Node[DEFAULT_CAPACITY];
-                Array.Clear(m_countPerLock, 0, m_countPerLock.Length);
+                _mBuckets = new Node[DEFAULT_CAPACITY];
+                Array.Clear(_mCountPerLock, 0, _mCountPerLock.Length);
             }
             finally
             {
@@ -436,7 +436,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
 
                 var count = 0;
 
-                for (var i = 0; i < m_locks.Length; i++) count += m_countPerLock[i];
+                for (var i = 0; i < _mLocks.Length; i++) count += _mCountPerLock[i];
 
                 if (array.Length - count < index || count < 0) //"count" itself or "count + index" can overflow
                     throw new ArgumentException(GetResource("ConcurrentDictionary_ArrayNotLargeEnough"));
@@ -464,7 +464,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// </remarks>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            var buckets = m_buckets;
+            var buckets = _mBuckets;
 
             for (var i = 0; i < buckets.Length; i++)
             {
@@ -475,8 +475,8 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
 
                 while (current != null)
                 {
-                    yield return new KeyValuePair<TKey, TValue>(current.m_key, current.m_value);
-                    current = current.m_next;
+                    yield return new KeyValuePair<TKey, TValue>(current.MKey, current.MValue);
+                    current = current.MNext;
                 }
             }
         }
@@ -553,7 +553,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                     AcquireAllLocks(ref acquiredLocks);
 
                     // Compute the count, we allow overflow 
-                    for (var i = 0; i < m_countPerLock.Length; i++) count += m_countPerLock[i];
+                    for (var i = 0; i < _mCountPerLock.Length; i++) count += _mCountPerLock[i];
                 }
                 finally
                 {
@@ -670,28 +670,28 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         {
             while (true)
             {
-                var buckets = m_buckets;
+                var buckets = _mBuckets;
 
                 int bucketNo, lockNo;
-                GetBucketAndLockNo(m_comparer.GetHashCode(key), out bucketNo, out lockNo, buckets.Length);
+                GetBucketAndLockNo(_mComparer.GetHashCode(key), out bucketNo, out lockNo, buckets.Length);
 
-                lock (m_locks[lockNo])
+                lock (_mLocks[lockNo])
                 {
                     // If the table just got resized, we may not be holding the right lock, and must retry. 
                     // This should be a rare occurence.
-                    if (buckets != m_buckets) continue;
+                    if (buckets != _mBuckets) continue;
 
                     Node prev = null;
 
-                    for (var curr = m_buckets[bucketNo]; curr != null; curr = curr.m_next)
+                    for (var curr = _mBuckets[bucketNo]; curr != null; curr = curr.MNext)
                     {
-                        Assert((prev == null && curr == m_buckets[bucketNo]) || prev.m_next == curr);
+                        Assert((prev == null && curr == _mBuckets[bucketNo]) || prev.MNext == curr);
 
-                        if (m_comparer.Equals(curr.m_key, key))
+                        if (_mComparer.Equals(curr.MKey, key))
                         {
                             if (matchValue)
                             {
-                                var valuesMatch = EqualityComparer<TValue>.Default.Equals(oldValue, curr.m_value);
+                                var valuesMatch = EqualityComparer<TValue>.Default.Equals(oldValue, curr.MValue);
 
                                 if (!valuesMatch)
                                 {
@@ -701,12 +701,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                             }
 
                             if (prev == null)
-                                m_buckets[bucketNo] = curr.m_next;
+                                _mBuckets[bucketNo] = curr.MNext;
                             else
-                                prev.m_next = curr.m_next;
+                                prev.MNext = curr.MNext;
 
-                            value = curr.m_value;
-                            m_countPerLock[lockNo]--;
+                            value = curr.MValue;
+                            _mCountPerLock[lockNo]--;
                             return true;
                         }
 
@@ -753,7 +753,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
             if (key == null)
                 throw new ArgumentNullException("key");
 
-            var hashcode = m_comparer.GetHashCode(key);
+            var hashcode = _mComparer.GetHashCode(key);
             IEqualityComparer<TValue> valueComparer = EqualityComparer<TValue>.Default;
 
             while (true)
@@ -761,35 +761,35 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                 int bucketNo;
                 int lockNo;
 
-                var buckets = m_buckets;
+                var buckets = _mBuckets;
                 GetBucketAndLockNo(hashcode, out bucketNo, out lockNo, buckets.Length);
 
-                lock (m_locks[lockNo])
+                lock (_mLocks[lockNo])
                 {
                     // If the table just got resized, we may not be holding the right lock, and must retry. 
                     // This should be a rare occurence.
-                    if (buckets != m_buckets) continue;
+                    if (buckets != _mBuckets) continue;
 
                     // Try to find this key in the bucket
                     Node prev = null;
 
-                    for (var node = buckets[bucketNo]; node != null; node = node.m_next)
+                    for (var node = buckets[bucketNo]; node != null; node = node.MNext)
                     {
-                        Assert((prev == null && node == m_buckets[bucketNo]) || prev.m_next == node);
+                        Assert((prev == null && node == _mBuckets[bucketNo]) || prev.MNext == node);
 
-                        if (m_comparer.Equals(node.m_key, key))
+                        if (_mComparer.Equals(node.MKey, key))
                         {
-                            if (valueComparer.Equals(node.m_value, comparisonValue))
+                            if (valueComparer.Equals(node.MValue, comparisonValue))
                             {
                                 // Replace the old node with a new node. Unfortunately, we cannot simply
                                 // change node.m_value in place. We don't know the size of TValue, so 
                                 // its writes may not be atomic. 
-                                var newNode = new Node(node.m_key, newValue, hashcode, node.m_next);
+                                var newNode = new Node(node.MKey, newValue, hashcode, node.MNext);
 
                                 if (prev == null)
                                     buckets[bucketNo] = newNode;
                                 else
-                                    prev.m_next = newNode;
+                                    prev.MNext = newNode;
 
                                 return true;
                             }
@@ -827,7 +827,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
 
                 checked
                 {
-                    for (var i = 0; i < m_locks.Length; i++) count += m_countPerLock[i];
+                    for (var i = 0; i < _mLocks.Length; i++) count += _mCountPerLock[i];
                 }
 
                 var array = new KeyValuePair<TKey, TValue>[count];
@@ -847,12 +847,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// </summary>
         private void CopyToPairs(KeyValuePair<TKey, TValue>[] array, int index)
         {
-            var buckets = m_buckets;
+            var buckets = _mBuckets;
 
             for (var i = 0; i < buckets.Length; i++)
-            for (var current = buckets[i]; current != null; current = current.m_next)
+            for (var current = buckets[i]; current != null; current = current.MNext)
             {
-                array[index] = new KeyValuePair<TKey, TValue>(current.m_key, current.m_value);
+                array[index] = new KeyValuePair<TKey, TValue>(current.MKey, current.MValue);
                 index++; //this should never flow, CopyToPairs is only called when there's no overflow risk
             }
         }
@@ -863,12 +863,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// </summary>
         private void CopyToEntries(DictionaryEntry[] array, int index)
         {
-            var buckets = m_buckets;
+            var buckets = _mBuckets;
 
             for (var i = 0; i < buckets.Length; i++)
-            for (var current = buckets[i]; current != null; current = current.m_next)
+            for (var current = buckets[i]; current != null; current = current.MNext)
             {
-                array[index] = new DictionaryEntry(current.m_key, current.m_value);
+                array[index] = new DictionaryEntry(current.MKey, current.MValue);
                 index++; //this should never flow, CopyToEntries is only called when there's no overflow risk
             }
         }
@@ -879,12 +879,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// </summary>
         private void CopyToObjects(object[] array, int index)
         {
-            var buckets = m_buckets;
+            var buckets = _mBuckets;
 
             for (var i = 0; i < buckets.Length; i++)
-            for (var current = buckets[i]; current != null; current = current.m_next)
+            for (var current = buckets[i]; current != null; current = current.MNext)
             {
-                array[index] = new KeyValuePair<TKey, TValue>(current.m_key, current.m_value);
+                array[index] = new KeyValuePair<TKey, TValue>(current.MKey, current.MValue);
                 index++; //this should never flow, CopyToObjects is only called when there's no overflow risk
             }
         }
@@ -896,13 +896,13 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// </summary>
         private bool TryAddInternal(TKey key, TValue value, bool updateIfExists, bool acquireLock, out TValue resultingValue)
         {
-            var hashcode = m_comparer.GetHashCode(key);
+            var hashcode = _mComparer.GetHashCode(key);
 
             while (true)
             {
                 int bucketNo, lockNo;
 
-                var buckets = m_buckets;
+                var buckets = _mBuckets;
                 GetBucketAndLockNo(hashcode, out bucketNo, out lockNo, buckets.Length);
 
                 var resizeDesired = false;
@@ -912,38 +912,38 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                 {
                     if (acquireLock)
                     {
-                        Monitor.Enter(m_locks[lockNo]);
+                        Monitor.Enter(_mLocks[lockNo]);
                         lockTaken = true;
                     }
 
                     // If the table just got resized, we may not be holding the right lock, and must retry. 
                     // This should be a rare occurence. 
-                    if (buckets != m_buckets) continue;
+                    if (buckets != _mBuckets) continue;
 
                     // Try to find this key in the bucket 
                     Node prev = null;
 
-                    for (var node = buckets[bucketNo]; node != null; node = node.m_next)
+                    for (var node = buckets[bucketNo]; node != null; node = node.MNext)
                     {
-                        Assert((prev == null && node == m_buckets[bucketNo]) || prev.m_next == node);
+                        Assert((prev == null && node == _mBuckets[bucketNo]) || prev.MNext == node);
 
-                        if (m_comparer.Equals(node.m_key, key))
+                        if (_mComparer.Equals(node.MKey, key))
                         {
                             // The key was found in the dictionary. If updates are allowed, update the value for that key.
                             // We need to create a new node for the update, in order to support TValue types that cannot
                             // be written atomically, since lock-free reads may be happening concurrently. 
                             if (updateIfExists)
                             {
-                                var newNode = new Node(node.m_key, value, hashcode, node.m_next);
+                                var newNode = new Node(node.MKey, value, hashcode, node.MNext);
                                 if (prev == null)
                                     buckets[bucketNo] = newNode;
                                 else
-                                    prev.m_next = newNode;
+                                    prev.MNext = newNode;
                                 resultingValue = value;
                             }
                             else
                             {
-                                resultingValue = node.m_value;
+                                resultingValue = node.MValue;
                             }
 
                             return false;
@@ -957,7 +957,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
 
                     checked
                     {
-                        m_countPerLock[lockNo]++;
+                        _mCountPerLock[lockNo]++;
                     }
 
                     // 
@@ -965,12 +965,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                     // Note: the formula is chosen to avoid overflow, but has a small inaccuracy due to 
                     // rounding.
                     //
-                    if (m_countPerLock[lockNo] > buckets.Length / m_locks.Length) resizeDesired = true;
+                    if (_mCountPerLock[lockNo] > buckets.Length / _mLocks.Length) resizeDesired = true;
                 }
                 finally
                 {
                     if (lockTaken)
-                        Monitor.Exit(m_locks[lockNo]);
+                        Monitor.Exit(_mLocks[lockNo]);
                 }
 
                 //
@@ -1181,7 +1181,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                 AcquireLocks(0, 1, ref locksAcquired);
 
                 // Make sure nobody resized the table while we were waiting for lock 0:
-                if (buckets != m_buckets) // We assume that since the table reference is different, it was already resized. If we ever 
+                if (buckets != _mBuckets) // We assume that since the table reference is different, it was already resized. If we ever 
                     // decide to do table shrinking, or replace the table for other reasons, we will have to revisit 
                     // this logic.
                     return;
@@ -1211,10 +1211,10 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                 }
 
                 var newBuckets = new Node[newLength];
-                var newCountPerLock = new int[m_locks.Length];
+                var newCountPerLock = new int[_mLocks.Length];
 
                 // Now acquire all other locks for the table
-                AcquireLocks(1, m_locks.Length, ref locksAcquired);
+                AcquireLocks(1, _mLocks.Length, ref locksAcquired);
 
                 // Copy all data into a new table, creating new nodes for all elements
                 for (var i = 0; i < buckets.Length; i++)
@@ -1223,11 +1223,11 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
 
                     while (current != null)
                     {
-                        var next = current.m_next;
+                        var next = current.MNext;
                         int newBucketNo, newLockNo;
-                        GetBucketAndLockNo(current.m_hashcode, out newBucketNo, out newLockNo, newBuckets.Length);
+                        GetBucketAndLockNo(current.MHashcode, out newBucketNo, out newLockNo, newBuckets.Length);
 
-                        newBuckets[newBucketNo] = new Node(current.m_key, current.m_value, current.m_hashcode, newBuckets[newBucketNo]);
+                        newBuckets[newBucketNo] = new Node(current.MKey, current.MValue, current.MHashcode, newBuckets[newBucketNo]);
 
                         checked
                         {
@@ -1239,8 +1239,8 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                 }
 
                 // And finally adjust m_buckets and m_countPerLock to point to data for the new table
-                m_buckets = newBuckets;
-                m_countPerLock = newCountPerLock;
+                _mBuckets = newBuckets;
+                _mCountPerLock = newCountPerLock;
             }
             finally
             {
@@ -1256,10 +1256,10 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
             int hashcode, out int bucketNo, out int lockNo, int bucketCount)
         {
             bucketNo = (hashcode & 0x7fffffff) % bucketCount;
-            lockNo = bucketNo % m_locks.Length;
+            lockNo = bucketNo % _mLocks.Length;
 
             Assert(bucketNo >= 0 && bucketNo < bucketCount);
-            Assert(lockNo >= 0 && lockNo < m_locks.Length);
+            Assert(lockNo >= 0 && lockNo < _mLocks.Length);
         }
 
         /// <summary>
@@ -1269,8 +1269,8 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// </summary>
         private void AcquireAllLocks(ref int locksAcquired)
         {
-            AcquireLocks(0, m_locks.Length, ref locksAcquired);
-            Assert(locksAcquired == m_locks.Length);
+            AcquireLocks(0, _mLocks.Length, ref locksAcquired);
+            Assert(locksAcquired == _mLocks.Length);
         }
 
         /// <summary>
@@ -1288,7 +1288,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
 
                 try
                 {
-                    Monitor.Enter(m_locks[i]);
+                    Monitor.Enter(_mLocks[i]);
                     lockTaken = true;
                 }
                 finally
@@ -1305,7 +1305,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         {
             Assert(fromInclusive <= toExclusive);
 
-            for (var i = fromInclusive; i < toExclusive; i++) Monitor.Exit(m_locks[i]);
+            for (var i = fromInclusive; i < toExclusive; i++) Monitor.Exit(_mLocks[i]);
         }
 
         /// <summary>
@@ -1320,14 +1320,14 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                 AcquireAllLocks(ref locksAcquired);
                 var keys = new List<TKey>();
 
-                for (var i = 0; i < m_buckets.Length; i++)
+                for (var i = 0; i < _mBuckets.Length; i++)
                 {
-                    var current = m_buckets[i];
+                    var current = _mBuckets[i];
 
                     while (current != null)
                     {
-                        keys.Add(current.m_key);
-                        current = current.m_next;
+                        keys.Add(current.MKey);
+                        current = current.MNext;
                     }
                 }
 
@@ -1351,14 +1351,14 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
                 AcquireAllLocks(ref locksAcquired);
                 var values = new List<TValue>();
 
-                for (var i = 0; i < m_buckets.Length; i++)
+                for (var i = 0; i < _mBuckets.Length; i++)
                 {
-                    var current = m_buckets[i];
+                    var current = _mBuckets[i];
 
                     while (current != null)
                     {
-                        values.Add(current.m_value);
-                        current = current.m_next;
+                        values.Add(current.MValue);
+                        current = current.MNext;
                     }
                 }
 
@@ -1398,9 +1398,9 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         private void OnSerializing(StreamingContext context)
         {
             // save the data into the serialization array to be saved
-            m_serializationArray = ToArray();
-            m_serializationConcurrencyLevel = m_locks.Length;
-            m_serializationCapacity = m_buckets.Length;
+            _mSerializationArray = ToArray();
+            _mSerializationConcurrencyLevel = _mLocks.Length;
+            _mSerializationCapacity = _mBuckets.Length;
         }
 
         /// <summary>
@@ -1409,16 +1409,16 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         [OnDeserialized]
         private void OnDeserialized(StreamingContext context)
         {
-            var array = m_serializationArray;
+            var array = _mSerializationArray;
 
-            m_buckets = new Node[m_serializationCapacity];
-            m_countPerLock = new int[m_serializationConcurrencyLevel];
+            _mBuckets = new Node[_mSerializationCapacity];
+            _mCountPerLock = new int[_mSerializationConcurrencyLevel];
 
-            m_locks = new object[m_serializationConcurrencyLevel];
-            for (var i = 0; i < m_locks.Length; i++) m_locks[i] = new object();
+            _mLocks = new object[_mSerializationConcurrencyLevel];
+            for (var i = 0; i < _mLocks.Length; i++) _mLocks[i] = new object();
 
             InitializeFromCollection(array);
-            m_serializationArray = null;
+            _mSerializationArray = null;
         }
 
         /// <summary>
@@ -1426,10 +1426,10 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// </summary>
         private class Node
         {
-            internal readonly int m_hashcode;
-            internal readonly TKey m_key;
-            internal readonly TValue m_value;
-            internal volatile Node m_next;
+            internal readonly int MHashcode;
+            internal readonly TKey MKey;
+            internal readonly TValue MValue;
+            internal volatile Node MNext;
 
             internal Node(TKey key, TValue value, int hashcode)
                 : this(key, value, hashcode, null)
@@ -1438,10 +1438,10 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
 
             internal Node(TKey key, TValue value, int hashcode, Node next)
             {
-                m_key = key;
-                m_value = value;
-                m_next = next;
-                m_hashcode = hashcode;
+                MKey = key;
+                MValue = value;
+                MNext = next;
+                MHashcode = hashcode;
             }
         }
 
@@ -1451,29 +1451,29 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// </summary>
         private class DictionaryEnumerator : IDictionaryEnumerator
         {
-            private readonly IEnumerator<KeyValuePair<TKey, TValue>> m_enumerator; // Enumerator over the dictionary.
+            private readonly IEnumerator<KeyValuePair<TKey, TValue>> _mEnumerator; // Enumerator over the dictionary.
 
             internal DictionaryEnumerator(ConcurrentDictionary<TKey, TValue> dictionary)
             {
-                m_enumerator = dictionary.GetEnumerator();
+                _mEnumerator = dictionary.GetEnumerator();
             }
 
-            public DictionaryEntry Entry => new(m_enumerator.Current.Key, m_enumerator.Current.Value);
+            public DictionaryEntry Entry => new(_mEnumerator.Current.Key, _mEnumerator.Current.Value);
 
-            public object Key => m_enumerator.Current.Key;
+            public object Key => _mEnumerator.Current.Key;
 
-            public object Value => m_enumerator.Current.Value;
+            public object Value => _mEnumerator.Current.Value;
 
             public object Current => Entry;
 
             public bool MoveNext()
             {
-                return m_enumerator.MoveNext();
+                return _mEnumerator.MoveNext();
             }
 
             public void Reset()
             {
-                m_enumerator.Reset();
+                _mEnumerator.Reset();
             }
         }
 
@@ -1932,7 +1932,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
 
                 var count = 0;
 
-                for (var i = 0; i < m_locks.Length; i++) count += m_countPerLock[i];
+                for (var i = 0; i < _mLocks.Length; i++) count += _mCountPerLock[i];
 
                 if (array.Length - count < index || count < 0) //"count" itself or "count + index" can overflow
                     throw new ArgumentException(GetResource("ConcurrentDictionary_ArrayNotLargeEnough"));

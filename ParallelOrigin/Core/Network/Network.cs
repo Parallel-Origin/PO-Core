@@ -27,7 +27,7 @@ namespace ParallelOrigin.Core.Network {
         /// <summary>
         ///     The IP Adress of this network connection
         /// </summary>
-        public string IP { get; set; }
+        public string Ip { get; set; }
 
         /// <summary>
         ///     The port of this network connection

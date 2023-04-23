@@ -22,21 +22,21 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     /// </summary>
     public struct Inventory : INetSerializable
     {
-        public UnsafeList<EntityLink> items;
+        public UnsafeList<EntityLink> Items;
 
         public Inventory(int capacity)
         {
-            items = new UnsafeList<EntityLink>(capacity);
+            Items = new UnsafeList<EntityLink>(capacity);
         }
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.PutList(items);
+            writer.PutList(Items);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            reader.GetList(ref items);
+            reader.GetList(ref Items);
         }
     }
 
@@ -45,8 +45,8 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     /// </summary>
     public struct InInventory
     {
-        public Entity inventory;
-        public string dropType;
+        public Entity Inventory;
+        public string DropType;
     }
     
     /// <summary>
@@ -54,7 +54,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     /// </summary>
     public struct OnGround
     {
-        public string pickupType;
+        public string PickupType;
     }
     
 

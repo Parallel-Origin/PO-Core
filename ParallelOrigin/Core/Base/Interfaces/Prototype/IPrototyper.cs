@@ -24,9 +24,9 @@ namespace ParallelOrigin.Core.Base.Interfaces.Prototype {
         /// <summary>
         ///     Spawn and initializes a object of a certain class reference by its id.
         /// </summary>
-        /// <param name="ID">The Type-ID of the instance we want to clone</param>
+        /// <param name="id">The Type-ID of the instance we want to clone</param>
         /// <returns></returns>
-        T Clone(short ID);
+        T Clone(short id);
         
         Prototype<T>[] Prototypes { get; }
     }

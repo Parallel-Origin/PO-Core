@@ -22,10 +22,8 @@ public enum TimeUnit : byte
 public struct Spawnable : IWeight
 {
     // The weight for this entity to spawn 
-    public float weight;
-    public float noiseThreshold;
-
-    public float Weight => weight;
+    public float NoiseThreshold;
+    public float Weight { get; init; }
 }
 
 /// <summary>
@@ -40,10 +38,10 @@ public struct Spawn
 /// </summary>
 public struct IntervallSpawner
 {
-    public ushort intervall;
-    public TimeUnit unit;
+    public ushort Intervall;
+    public TimeUnit Unit;
 
-    public DateTime refreshedOn;
+    public DateTime RefreshedOn;
 }
 
 #endif
