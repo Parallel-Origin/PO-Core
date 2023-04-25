@@ -97,24 +97,24 @@ namespace ParallelOrigin.Core.ECS.Components.Combat
     [BurstCompile]
     public struct Health : IComponentData, INetSerializable {
         
-        public float maxHealth;
-        public float currentHealth;
-        public bool destroyOnDeath;
+        public float MaxHealth;
+        public float CurrentHealth;
+        public bool DestroyOnDeath;
 
         /// <summary>
         /// Returns true if the entity is dead
         /// </summary>
         /// <returns></returns>
-        public bool IsDead() { return currentHealth <= 0; }
+        public bool IsDead() { return CurrentHealth <= 0; }
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(maxHealth);
-            writer.Put(currentHealth);
+            writer.Put(MaxHealth);
+            writer.Put(CurrentHealth);
         }
 
         public void Deserialize(NetDataReader reader) {
-            maxHealth = reader.GetFloat();
-            currentHealth = reader.GetFloat();
+            MaxHealth = reader.GetFloat();
+            CurrentHealth = reader.GetFloat();
         }
     }
 #endif

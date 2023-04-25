@@ -63,10 +63,10 @@ namespace ParallelOrigin.Core.ECS.Components
     [BurstCompile]
     public struct Parent : IComponentData, INetSerializable{
             
-        public UnsafeList<EntityLink> children;
+        public UnsafeList<EntityLink> Children;
 
-        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, ref children); }
-        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref children); }
+        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, ref Children); }
+        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref Children); }
     }
     
             /// <summary>
@@ -75,10 +75,10 @@ namespace ParallelOrigin.Core.ECS.Components
     [BurstCompile]
     public struct Child : IComponentData, INetSerializable {
             
-        public EntityLink parent;
+        public EntityLink Parent;
 
-        public void Serialize(NetDataWriter writer) { writer.Put(parent); }
-        public void Deserialize(NetDataReader reader) {  parent.Deserialize(reader); }
+        public void Serialize(NetDataWriter writer) { writer.Put(Parent); }
+        public void Deserialize(NetDataReader reader) {  Parent.Deserialize(reader); }
     }
 
 #endif

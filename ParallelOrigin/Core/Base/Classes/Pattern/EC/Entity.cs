@@ -16,9 +16,9 @@ namespace Script.Server.Pattern {
     /// </summary>
     public struct Entity : IEnumerable, IDisposable {
 
-        public UnsafeList<IntPtr> components;
+        public UnsafeList<IntPtr> Components;
         
-        public Entity(int size) { components = new UnsafeList<IntPtr>(size, Allocator.Persistent); }
+        public Entity(int size) { Components = new UnsafeList<IntPtr>(size, Allocator.Persistent); }
         
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Script.Server.Pattern {
 
                 var handle = GCHandle.Alloc(component, GCHandleType.Pinned);
                 var ptr = GCHandle.ToIntPtr(handle);
-                components.Add(ptr);
+                Components.Add(ptr);
             }
         }
         
@@ -44,9 +44,9 @@ namespace Script.Server.Pattern {
         /// <returns></returns>
         public bool Contains<T>(){
             
-            for (var index = 0; index < components.Length; index++) {
+            for (var index = 0; index < Components.Length; index++) {
 
-                var ptr = components[index];
+                var ptr = Components[index];
                 var handle = (GCHandle)ptr;
                 var obj = handle.Target;
                 
@@ -63,9 +63,9 @@ namespace Script.Server.Pattern {
         /// <returns></returns>
         public bool Contains(Type type){
             
-            for (var index = 0; index < components.Length; index++) {
+            for (var index = 0; index < Components.Length; index++) {
 
-                var ptr = components[index];
+                var ptr = Components[index];
                 var handle = (GCHandle)ptr;
                 var obj = handle.Target;
                 
@@ -127,9 +127,9 @@ namespace Script.Server.Pattern {
         /// <returns></returns>
         public IntPtr GetPtr<T>(){
             
-            for (var index = 0; index < components.Length; index++) {
+            for (var index = 0; index < Components.Length; index++) {
 
-                var ptr = components[index];
+                var ptr = Components[index];
                 var handle = (GCHandle)ptr;
                 var obj = handle.Target;
                 
@@ -146,9 +146,9 @@ namespace Script.Server.Pattern {
         /// <returns></returns>
         public IntPtr GetPtr(Type type){
             
-            for (var index = 0; index < components.Length; index++) {
+            for (var index = 0; index < Components.Length; index++) {
 
-                var ptr = components[index];
+                var ptr = Components[index];
                 var handle = (GCHandle)ptr;
                 var obj = handle.Target;
                 
@@ -164,14 +164,14 @@ namespace Script.Server.Pattern {
         /// <typeparam name="T"></typeparam>
         public void Remove<T>(){
 
-            for (var index = components.Length-1; index >= 0; index--) {
+            for (var index = Components.Length-1; index >= 0; index--) {
                 
-                var handle = (GCHandle)components[index];
+                var handle = (GCHandle)Components[index];
                 var obj = handle.Target;
 
                 if (!(obj is T)) continue;
                 
-                components.RemoveAt(index);
+                Components.RemoveAt(index);
                 handle.Free();
             }
         }
@@ -184,27 +184,27 @@ namespace Script.Server.Pattern {
             
             if (type == null) return;
             
-            for (var index = components.Length-1; index >= 0; index--) {
+            for (var index = Components.Length-1; index >= 0; index--) {
 
-                var handle = (GCHandle)components[index];
+                var handle = (GCHandle)Components[index];
                 var obj = handle.Target;
 
                 if (obj.GetType() != type) continue;
                 
-                components.RemoveAt(index);
+                Components.RemoveAt(index);
                 handle.Free();
             }
         }
         
         public IntPtr this[int i] {
-            get => components[i];
-            set => components[i] = value;
+            get => Components[i];
+            set => Components[i] = value;
         }
 
         /// <summary>
         /// Returns the amount of components inside this entity
         /// </summary>
-        public int Count => components.Length;
+        public int Count => Components.Length;
 
         /// <summary>
         /// Returns an enumerator used for iteration
@@ -212,9 +212,9 @@ namespace Script.Server.Pattern {
         /// <returns></returns>
         public IEnumerator GetEnumerator() {
             
-            for (var index = 0; index < components.Length; index++) {
+            for (var index = 0; index < Components.Length; index++) {
                 
-                var ptr = components[index];
+                var ptr = Components[index];
                 var handle = (GCHandle)ptr;
                 yield return handle.Target;
             }
@@ -223,14 +223,14 @@ namespace Script.Server.Pattern {
         public void Dispose() {
             
             // Free all components
-            for (var index = components.Length-1; index >= 0; index--) {
+            for (var index = Components.Length-1; index >= 0; index--) {
                 
-                var handle = (GCHandle)components[index];
+                var handle = (GCHandle)Components[index];
                 handle.Free();
             }
             
             // Free list 
-            components.Dispose();
+            Components.Dispose();
         }
     }
 }

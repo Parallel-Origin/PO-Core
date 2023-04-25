@@ -28,12 +28,12 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         // and blocking, but also the more expensive operations that require all locks become (e.g. table
         // resizing, ToArray, Count, etc). According to brief benchmarks that we ran, 4 seems like a good
         // compromise.
-        private const int DEFAULT_CONCURRENCY_MULTIPLIER = 4;
+        private const int DefaultConcurrencyMultiplier = 4;
 
         // The default capacity, i.e. the initial # of buckets. When choosing this value, we are making 
         // a trade-off between the size of a very small dictionary, and the number of resizes when 
         // constructing a large dictionary. Also, the capacity should not be divisible by a small prime.
-        private const int DEFAULT_CAPACITY = 31;
+        private const int DefaultCapacity = 31;
 
         [NonSerialized] private volatile Node[] _mBuckets; // A singly-linked list for each bucket. 
 
@@ -56,7 +56,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         ///     class that is empty, has the default concurrency level, has the default initial capacity, and
         ///     uses the default comparer for the key type.
         /// </summary>
-        public ConcurrentDictionary() : this(DefaultConcurrencyLevel, DEFAULT_CAPACITY)
+        public ConcurrentDictionary() : this(DefaultConcurrencyLevel, DefaultCapacity)
         {
         }
 
@@ -130,7 +130,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         ///     <paramref name="comparer" /> is a null reference
         ///     (Nothing in Visual Basic).
         /// </exception>
-        public ConcurrentDictionary(IEqualityComparer<TKey> comparer) : this(DefaultConcurrencyLevel, DEFAULT_CAPACITY, comparer)
+        public ConcurrentDictionary(IEqualityComparer<TKey> comparer) : this(DefaultConcurrencyLevel, DefaultCapacity, comparer)
         {
         }
 
@@ -194,7 +194,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// <exception cref="T:System.ArgumentException"><paramref name="collection" /> contains one or more duplicate keys.</exception>
         public ConcurrentDictionary(
             int concurrencyLevel, IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer)
-            : this(concurrencyLevel, DEFAULT_CAPACITY, comparer)
+            : this(concurrencyLevel, DefaultCapacity, comparer)
         {
             if (collection == null)
                 throw new ArgumentNullException("collection");
@@ -286,7 +286,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
         /// <summary>
         ///     The number of concurrent writes for which to optimize by default.
         /// </summary>
-        private static int DefaultConcurrencyLevel => DEFAULT_CONCURRENCY_MULTIPLIER * Environment.ProcessorCount;
+        private static int DefaultConcurrencyLevel => DefaultConcurrencyMultiplier * Environment.ProcessorCount;
 
         /// <summary>
         ///     Determines whether the <see cref="ConcurrentDictionary{TKey, TValue}" /> contains the specified
@@ -375,7 +375,7 @@ namespace ParallelOrigin.Core.Base.Classes.Pattern.Storage {
             {
                 AcquireAllLocks(ref locksAcquired);
 
-                _mBuckets = new Node[DEFAULT_CAPACITY];
+                _mBuckets = new Node[DefaultCapacity];
                 Array.Clear(_mCountPerLock, 0, _mCountPerLock.Length);
             }
             finally

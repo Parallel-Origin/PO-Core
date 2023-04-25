@@ -42,23 +42,23 @@ namespace ParallelOrigin.Core.ECS.Components
     [BurstCompile]
     public struct Identity : IComponentData, INetSerializable {
         
-        public long id;
-        public FixedString32Bytes tag;
-        public FixedString32Bytes type;
+        public long ID;
+        public FixedString32Bytes Tag;
+        public FixedString32Bytes Type;
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(id);
+            writer.Put(ID);
 
-            var tagCached = tag.ToStringCached();
-            var typeCached = type.ToStringCached();
+            var tagCached = Tag.ToStringCached();
+            var typeCached = Type.ToStringCached();
             writer.Put(tagCached, tagCached.Length);
             writer.Put(typeCached, typeCached.Length);
         }
 
         public void Deserialize(NetDataReader reader) {
-            id = reader.GetLong();
-            tag = reader.GetString(32);
-            type = reader.GetString(32);
+            ID = reader.GetLong();
+            Tag = reader.GetString(32);
+            Type = reader.GetString(32);
         }
     }
 

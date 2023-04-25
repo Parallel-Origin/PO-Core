@@ -9,23 +9,23 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// </summary>
     /// <typeparam name="K"></typeparam>
     /// <typeparam name="V"></typeparam>
-    public class EventDictionary<K, V> : IDictionary<K, V>
+    public class EventDictionary<TK, TV> : IDictionary<TK, TV>
     {
         public EventDictionary()
         {
-            Dictionary = new Dictionary<K, V>(4);
+            Dictionary = new Dictionary<TK, TV>(4);
         }
 
         public EventDictionary(int size)
         {
-            Dictionary = new Dictionary<K, V>(size);
+            Dictionary = new Dictionary<TK, TV>(size);
         }
 
-        public Dictionary<K, V> Dictionary { get; set; }
-        public Action<K, V> OnAdded { get; set; }
-        public Action<K, V> OnRemoved { get; set; }
+        public Dictionary<TK, TV> Dictionary { get; set; }
+        public Action<TK, TV> OnAdded { get; set; }
+        public Action<TK, TV> OnRemoved { get; set; }
 
-        public IEnumerator<KeyValuePair<K, V>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TK, TV>> GetEnumerator()
         {
             return Dictionary.GetEnumerator();
         }
@@ -35,7 +35,7 @@ namespace ParallelOrigin.Core.Base.Classes {
             return GetEnumerator();
         }
 
-        public void Add(KeyValuePair<K, V> item)
+        public void Add(KeyValuePair<TK, TV> item)
         {
             Add(item.Key, item.Value);
         }
@@ -45,17 +45,17 @@ namespace ParallelOrigin.Core.Base.Classes {
             Dictionary.Clear();
         }
 
-        public bool Contains(KeyValuePair<K, V> item)
+        public bool Contains(KeyValuePair<TK, TV> item)
         {
             return Dictionary.Contains(item);
         }
 
-        public void CopyTo(KeyValuePair<K, V>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<TK, TV>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(KeyValuePair<K, V> item)
+        public bool Remove(KeyValuePair<TK, TV> item)
         {
             return Remove(item.Key);
         }
@@ -63,29 +63,29 @@ namespace ParallelOrigin.Core.Base.Classes {
         public int Count => Dictionary.Count;
         public bool IsReadOnly => false;
 
-        public void Add(K key, V value)
+        public void Add(TK key, TV value)
         {
             Dictionary.Add(key, value);
             OnAdded(key, value);
         }
 
-        public bool ContainsKey(K key)
+        public bool ContainsKey(TK key)
         {
             return Dictionary.ContainsKey(key);
         }
 
-        public bool Remove(K key)
+        public bool Remove(TK key)
         {
             OnRemoved(key, Dictionary[key]);
             return Dictionary.Remove(key);
         }
 
-        public bool TryGetValue(K key, out V value)
+        public bool TryGetValue(TK key, out TV value)
         {
             return Dictionary.TryGetValue(key, out value);
         }
 
-        public V this[K key]
+        public TV this[TK key]
         {
             get => Dictionary[key];
             set
@@ -95,7 +95,7 @@ namespace ParallelOrigin.Core.Base.Classes {
             }
         }
 
-        public ICollection<K> Keys => Dictionary.Keys;
-        public ICollection<V> Values => Dictionary.Values;
+        public ICollection<TK> Keys => Dictionary.Keys;
+        public ICollection<TV> Values => Dictionary.Values;
     }
 }

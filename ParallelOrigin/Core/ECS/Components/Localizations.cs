@@ -57,17 +57,17 @@ namespace ParallelOrigin.Core.ECS.Components
     [BurstCompile]
     public struct Localizations : IComponentData, INetSerializable {
         
-        public UnsafeParallelHashMap<FixedString32Bytes, short> localizations;
-        public UnsafeParallelHashMap<FixedString32Bytes, FixedString32Bytes> uniqueLocalizations;
+        public UnsafeParallelHashMap<FixedString32Bytes, short> LocalizationsMap;
+        public UnsafeParallelHashMap<FixedString32Bytes, FixedString32Bytes> UniqueLocalizations;
 
         public void Serialize(NetDataWriter writer) {
-            NetworkSerializerExtensions.PutDic(writer, localizations);
-            NetworkSerializerExtensions.PutDic(writer, uniqueLocalizations);
+            NetworkSerializerExtensions.PutDic(writer, LocalizationsMap);
+            NetworkSerializerExtensions.PutDic(writer, UniqueLocalizations);
         }
 
         public void Deserialize(NetDataReader reader) {
-            NetworkSerializerExtensions.GetDic(reader, ref localizations);
-            NetworkSerializerExtensions.GetDic(reader, ref uniqueLocalizations);
+            NetworkSerializerExtensions.GetDic(reader, ref LocalizationsMap);
+            NetworkSerializerExtensions.GetDic(reader, ref UniqueLocalizations);
         }
     }
 

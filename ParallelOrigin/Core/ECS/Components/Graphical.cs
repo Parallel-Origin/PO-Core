@@ -67,21 +67,21 @@ namespace ParallelOrigin.Core.ECS.Components
         /// <summary>
         ///     The ID of a mesh from the internal database we wanna reference for this entity
         /// </summary>
-        public short id;
+        public short ID;
 
         /// <summary>
         ///     If true, a system takes care of loading the referenced mesh... if false, you are forced to do that yourself.
         /// </summary>
-        public bool instantiate;
+        public bool Instantiate;
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(id);
-            writer.Put(instantiate);
+            writer.Put(ID);
+            writer.Put(Instantiate);
         }
 
         public void Deserialize(NetDataReader reader) {
-            id = reader.GetShort();
-            instantiate = reader.GetBool();
+            ID = reader.GetShort();
+            Instantiate = reader.GetBool();
         }
     }
     
@@ -95,10 +95,10 @@ namespace ParallelOrigin.Core.ECS.Components
         /// <summary>
         ///  The ID of a mesh from the internal database we wanna reference for this entity
         /// </summary>
-        public short id;
+        public short ID;
         
-        public void Serialize(NetDataWriter writer) { writer.Put(id); }
-        public void Deserialize(NetDataReader reader) { id = reader.GetShort(); }
+        public void Serialize(NetDataWriter writer) { writer.Put(ID); }
+        public void Deserialize(NetDataReader reader) { ID = reader.GetShort(); }
     }
         
    /// <summary>

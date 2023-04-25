@@ -66,20 +66,20 @@ namespace ParallelOrigin.Core.ECS.Components.Items {
     [BurstCompile]
     public struct Inventory : IComponentData, INetSerializable{
         
-        public UnsafeList<EntityLink> items;
+        public UnsafeList<EntityLink> Items;
         
-        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, ref items); }
-        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref items); }
+        public void Serialize(NetDataWriter writer) { NetworkSerializerExtensions.PutList(writer, ref Items); }
+        public void Deserialize(NetDataReader reader) { NetworkSerializerExtensions.GetList(reader, ref Items); }
     }
 
     [BurstCompile]
     public struct AddedToInventory : IComponentData {
-        public UnsafeList<Entity> added;
+        public UnsafeList<Entity> Added;
     }
 
     [BurstCompile]
     public struct RemovedFromInventory : IComponentData {
-        public UnsafeList<Entity> removed;
+        public UnsafeList<Entity> Removed;
     }
 #endif
 }

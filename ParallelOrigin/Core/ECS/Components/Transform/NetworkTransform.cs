@@ -69,12 +69,12 @@ namespace ParallelOrigin.Core.ECS.Components.Transform
     [BurstCompile]
     public struct NetworkTransform : IComponentData, INetSerializable {
         
-        public Vector2d pos;
-        public Grid chunk;
+        public Vector2d Pos;
+        public Grid Chunk;
         
-        public void Serialize(NetDataWriter writer) { writer.Put(ref pos); }
+        public void Serialize(NetDataWriter writer) { writer.Put(ref Pos); }
 
-        public void Deserialize(NetDataReader reader) { pos = reader.GetVector2d(); }
+        public void Deserialize(NetDataReader reader) { Pos = reader.GetVector2d(); }
     }
     
     /// <summary>
@@ -83,8 +83,8 @@ namespace ParallelOrigin.Core.ECS.Components.Transform
     [BurstCompile]
     public struct LocalTransform : IComponentData {
         
-        public Vector2d pos;
-        public Grid chunk;
+        public Vector2d Pos;
+        public Grid Chunk;
     }
     
 
@@ -95,13 +95,13 @@ namespace ParallelOrigin.Core.ECS.Components.Transform
     [BurstCompile]
     public struct NetworkRotation : IComponentData, INetSerializable {
         
-        public quaternion value;
+        public quaternion Value;
         
         public void Serialize(NetDataWriter writer) {
-            writer.Put(value.value.x);
-            writer.Put(value.value.y);
-            writer.Put(value.value.z);
-            writer.Put(value.value.w);
+            writer.Put(Value.value.x);
+            writer.Put(Value.value.y);
+            writer.Put(Value.value.z);
+            writer.Put(Value.value.w);
         }
 
         public void Deserialize(NetDataReader reader) {
@@ -111,7 +111,7 @@ namespace ParallelOrigin.Core.ECS.Components.Transform
             var z = reader.GetFloat();
             var w = reader.GetFloat();
 
-            value = new quaternion(x, y, z, w);
+            Value = new quaternion(x, y, z, w);
         }
     }
 

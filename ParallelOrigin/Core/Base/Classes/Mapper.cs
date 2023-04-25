@@ -18,10 +18,10 @@ namespace ParallelOrigin.Core.Base.Classes {
         /// <param name="mapper"></param>
         /// <typeparam name="F"></typeparam>
         /// <typeparam name="T"></typeparam>
-        public void AddMapper<F, T>(IMapper mapper)
+        public void AddMapper<TF, T>(IMapper mapper)
         {
             Mappers[typeof(T)] = mapper;
-            Mappers[typeof(F)] = mapper;
+            Mappers[typeof(TF)] = mapper;
         }
 
         /// <summary>
@@ -50,13 +50,13 @@ namespace ParallelOrigin.Core.Base.Classes {
         /// <param name="toMap"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public O Map<I, O>(in I toMap, object payload = null)
+        public TO Map<T, TO>(in T toMap, object payload = null)
         {
             var type = toMap.GetType();
             if (!ContainsMapper(type)) return default;
 
             var mapper = GetMapper(type);
-            if (mapper is IMapper<I, O> genericMapper)
+            if (mapper is IMapper<T, TO> genericMapper)
                 return genericMapper.Map(toMap, payload);
 
             return default;
@@ -68,13 +68,13 @@ namespace ParallelOrigin.Core.Base.Classes {
         /// <param name="toMap"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public I Demap<I, O>(in O toMap, object payload = null)
+        public T Demap<T, TO>(in TO toMap, object payload = null)
         {
             var type = toMap.GetType();
             if (!ContainsMapper(type)) return default;
 
             var mapper = GetMapper(type);
-            if (mapper is IMapper<I, O> genericMapper)
+            if (mapper is IMapper<T, TO> genericMapper)
                 return genericMapper.Demap(toMap, payload);
 
             return default;
@@ -113,12 +113,12 @@ namespace ParallelOrigin.Core.Base.Classes {
         /// <summary>
         ///     This mapper interface is generic and does not produce any garbage.
         /// </summary>
-        /// <typeparam name="I"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <typeparam name="O"></typeparam>
-        public interface IMapper<I, O>
+        public interface IMapper<T, TO>
         {
-            O Map(in I obj, object meta);
-            I Demap(in O pojo, object meta);
+            TO Map(in T obj, object meta);
+            T Demap(in TO pojo, object meta);
         }
 
         /// <summary>

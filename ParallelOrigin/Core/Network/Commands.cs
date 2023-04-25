@@ -13,9 +13,9 @@ namespace ParallelOrigin.Core.Network {
     /// </summary>
     public enum State : byte {
 
-        ADDED,
-        UPDATED,
-        REMOVED
+        Added,
+        Updated,
+        Removed
 
     }
 
@@ -90,6 +90,7 @@ namespace ParallelOrigin.Core.Network {
 
     }
 
+
     /// <summary>
     /// A command which is used to add or remove items from a certain list. 
     /// </summary>
@@ -121,20 +122,20 @@ namespace ParallelOrigin.Core.Network {
         public I this[State state, int index] {
             set => Items[index] = new Statefull<I>(state, value);
         }
-
     }
+
 
     /// <summary>
     ///     An enum of possible errors.
     /// </summary>
     public enum Error : byte {
 
-        USERNAME_TAKEN,
-        BAD_USERNAME,
-        USERNAME_SHORT,
-        BAD_PASSWORD,
-        EMAIL_TAKEN,
-        BAD_EMAIL
+        UsernameTaken,
+        BadUsername,
+        UsernameShort,
+        BadPassword,
+        EmailTaken,
+        BadEmail
 
     }
 

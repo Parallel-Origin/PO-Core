@@ -111,70 +111,70 @@ namespace ParallelOrigin.Core.ECS
     /// </summary>
     public struct EntityLink : INetSerializable{
 
-        public Entity entity;
-        public long uniqueID;
+        public Entity Entity;
+        public long UniqueID;
 
-        public EntityLink(in Entity entity)  { this.entity = entity; uniqueID = -1; }
+        public EntityLink(in Entity entity)  { this.Entity = entity; UniqueID = -1; }
         public EntityLink(in long uniqueID) {
-            this.entity = Entity.Null;
-            this.uniqueID = uniqueID; 
+            this.Entity = Entity.Null;
+            this.UniqueID = uniqueID; 
         }
         public EntityLink(in Entity entity, in long uniqueID)  {
-            this.entity = entity; 
-            this.uniqueID = uniqueID;
+            this.Entity = entity; 
+            this.UniqueID = uniqueID;
         }
 
         /// <summary>
         /// Resolves the reference by searching an valid entity from the included uniqueID.
-        /// It resolves only once, once an valid entity was found, it gets attached to <see cref="entity"/> and is returned. 
+        /// It resolves only once, once an valid entity was found, it gets attached to <see cref="Entity"/> and is returned. 
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
         public Entity Resolve(ref EntityManager em) {
 
-            if (entity != Entity.Null)
-                return entity;
+            if (Entity != Entity.Null)
+                return Entity;
 
-            entity = em.FindById(uniqueID);
-            return entity;
+            Entity = em.FindById(UniqueID);
+            return Entity;
         }
         
         /// <summary>
         /// Resolves the reference by searching an valid entity from the included uniqueID.
-        /// It resolves only once, once an valid entity was found, it gets attached to <see cref="entity"/> and is returned. 
+        /// It resolves only once, once an valid entity was found, it gets attached to <see cref="Entity"/> and is returned. 
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
         public Entity Resolve(EntityManager em) {
 
-            if (entity != Entity.Null)
-                return entity;
+            if (Entity != Entity.Null)
+                return Entity;
 
-            entity = em.FindById(uniqueID);
-            return entity;
+            Entity = em.FindById(UniqueID);
+            return Entity;
         }
         
                 
         /// <summary>
         /// Resolves the reference by searching an valid entity from the included uniqueID.
-        /// It resolves only once, once an valid entity was found, it gets attached to <see cref="entity"/> and is returned. 
+        /// It resolves only once, once an valid entity was found, it gets attached to <see cref="Entity"/> and is returned. 
         /// </summary>
         /// <param name="em"></param>
         /// <returns></returns>
         public Entity Resolve(ref NativeParallelHashMap<long, Entity> mapping) {
 
-            if (entity != Entity.Null)
-                return entity;
+            if (Entity != Entity.Null)
+                return Entity;
 
-            if(!mapping.ContainsKey(uniqueID)) 
+            if(!mapping.ContainsKey(UniqueID)) 
                 return Entity.Null;
             
-            entity = mapping[uniqueID];
-            return entity;
+            Entity = mapping[UniqueID];
+            return Entity;
         }
 
-        public void Serialize(NetDataWriter writer) { writer.Put(uniqueID); }
-        public void Deserialize(NetDataReader reader) { uniqueID = reader.GetLong(); }
+        public void Serialize(NetDataWriter writer) { writer.Put(UniqueID); }
+        public void Deserialize(NetDataReader reader) { UniqueID = reader.GetLong(); }
     }
 
 #endif

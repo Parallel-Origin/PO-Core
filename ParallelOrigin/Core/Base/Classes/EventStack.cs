@@ -8,13 +8,13 @@ namespace ParallelOrigin.Core.Base.Classes {
     /// </summary>
     /// <typeparam name="K"></typeparam>
     /// <typeparam name="T"></typeparam>
-    public class EventStack<Tk, T>
+    public class EventStack<TK, T>
     {
         /// <summary>
         ///     The current key we are at...
         ///     Not listed in the stack yet...
         /// </summary>
-        public Tk CurrentKey { get; set; }
+        public TK CurrentKey { get; set; }
 
         /// <summary>
         ///     The current element we are at...
@@ -25,7 +25,7 @@ namespace ParallelOrigin.Core.Base.Classes {
         /// <summary>
         ///     A stack of keys for each opened UI-Element
         /// </summary>
-        public Stack<Tk> Keys { get; set; } = new();
+        public Stack<TK> Keys { get; set; } = new();
 
         /// <summary>
         ///     Stack of our UI-Element history
@@ -40,12 +40,12 @@ namespace ParallelOrigin.Core.Base.Classes {
         /// <summary>
         ///     Gets called, once a new element opens
         /// </summary>
-        public Action<Tk, T> OnPush { get; set; } = (key, element) => { };
+        public Action<TK, T> OnPush { get; set; } = (key, element) => { };
 
         /// <summary>
         ///     Gets called, once the top element gets pop
         /// </summary>
-        public Action<Tk, T> OnPop { get; set; } = (key, element) => { };
+        public Action<TK, T> OnPop { get; set; } = (key, element) => { };
 
         /// <summary>
         ///     Gets called, once all elements are closed
@@ -56,7 +56,7 @@ namespace ParallelOrigin.Core.Base.Classes {
         ///     Opens a UI-Element and puts the previous one on top of the stack
         /// </summary>
         /// <param name="value">The key of the element</param>
-        public void Push(Tuple<Tk, T> value)
+        public void Push(Tuple<TK, T> value)
         {
             if (CurrentKey != null) Keys.Push(CurrentKey);
             if (CurrentElement != null) ElementStack.Push(CurrentElement);
@@ -71,16 +71,16 @@ namespace ParallelOrigin.Core.Base.Classes {
         ///     Peeks at the first element in the stack and returns it.
         /// </summary>
         /// <returns></returns>
-        public virtual Tuple<Tk, T> Peek()
+        public virtual Tuple<TK, T> Peek()
         {
-            return new Tuple<Tk, T>(CurrentKey, CurrentElement);
+            return new Tuple<TK, T>(CurrentKey, CurrentElement);
         }
 
         /// <summary>
         ///     Removes a Element from the stack completly
         /// </summary>
         /// <returns></returns>
-        public virtual Tuple<Tk, T> Pop()
+        public virtual Tuple<TK, T> Pop()
         {
             if (CurrentElement == null && CurrentKey == null) return null;
 
@@ -89,7 +89,7 @@ namespace ParallelOrigin.Core.Base.Classes {
             {
                 OnPop.Invoke(CurrentKey, CurrentElement);
 
-                var popedElementTuple = new Tuple<Tk, T>(CurrentKey, CurrentElement);
+                var popedElementTuple = new Tuple<TK, T>(CurrentKey, CurrentElement);
                 CurrentKey = default;
                 CurrentElement = default;
 
@@ -105,7 +105,7 @@ namespace ParallelOrigin.Core.Base.Classes {
             CurrentElement = ElementStack.Pop();
             OnPush(CurrentKey, CurrentElement);
 
-            return new Tuple<Tk, T>(lastKey, lastElement);
+            return new Tuple<TK, T>(lastKey, lastElement);
         }
 
         /// <summary>

@@ -116,7 +116,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
     [BurstCompile]
     public struct Dirty : IComponentData {
-        public bool preventZeroSize;
+        public bool PreventZeroSize;
     }
     
     /// <summary>
@@ -124,7 +124,7 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
     [BurstCompile]
     public struct DestroyAfter : IComponentData {
-        public short ticks;
+        public short Ticks;
     }
 
     /// <summary>

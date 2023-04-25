@@ -45,7 +45,7 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     /// </summary>
     [BurstCompatible]
     public struct Equipment : IComponentData {
-        public UnsafeParallelHashMap<FixedString32Bytes, Equipable> equiped;
+        public UnsafeParallelHashMap<FixedString32Bytes, Equipable> Equiped;
     }
 
     /// <summary>
@@ -54,8 +54,8 @@ namespace ParallelOrigin.Core.ECS.Components.Items
     [BurstCompatible]
     public struct Equipable : IComponentData {
         
-        public int mesh;
-        public FixedString32Bytes slot;
+        public int Mesh;
+        public FixedString32Bytes Slot;
     }
     
     /// <summary>

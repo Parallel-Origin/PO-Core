@@ -28,9 +28,9 @@ namespace ParallelOrigin.Core.ECS.Components {
     /// </summary>
     public enum Gender : sbyte {
 
-        MALE,
-        FEMALE,
-        DIVERS
+        Male,
+        Female,
+        Divers
 
     }
 
@@ -228,15 +228,15 @@ public struct BuildingRecipe : INetSerializable
     [BurstCompile]
     public struct Character : IComponentData, INetSerializable {
 
-        public FixedString32Bytes name;
-        public FixedString32Bytes password;
-        public FixedString32Bytes email;
+        public FixedString32Bytes Name;
+        public FixedString32Bytes Password;
+        public FixedString32Bytes Email;
 
         public void Serialize(NetDataWriter writer) {
 
-            var nameCached = name.ToStringCached();
-            var passwordCached = password.ToStringCached();
-            var emailCached = email.ToStringCached();
+            var nameCached = Name.ToStringCached();
+            var passwordCached = Password.ToStringCached();
+            var emailCached = Email.ToStringCached();
 
             writer.Put(nameCached, nameCached.Length);
             writer.Put(passwordCached, passwordCached.Length);
@@ -244,9 +244,9 @@ public struct BuildingRecipe : INetSerializable
         }
 
         public void Deserialize(NetDataReader reader) {
-            name = reader.GetString(32);
-            password = reader.GetString(32);
-            email = reader.GetString(32);
+            Name = reader.GetString(32);
+            Password = reader.GetString(32);
+            Email = reader.GetString(32);
         }
 
     }
@@ -257,17 +257,17 @@ public struct BuildingRecipe : INetSerializable
     [BurstCompile]
     public struct Item : IComponentData, INetSerializable {
 
-        public uint amount;
-        public bool stackable;
+        public uint Amount;
+        public bool Stackable;
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(amount);
-            writer.Put(stackable);
+            writer.Put(Amount);
+            writer.Put(Stackable);
         }
 
         public void Deserialize(NetDataReader reader) {
-            amount = reader.GetUInt();
-            stackable = reader.GetBool();
+            Amount = reader.GetUInt();
+            Stackable = reader.GetBool();
         }
 
     }
@@ -288,7 +288,7 @@ public struct BuildingRecipe : INetSerializable
     /// </summary>
     public struct Structure : IComponentData {
 
-        public long ownerID;
+        public long OwnerID;
 
     }
 
@@ -305,19 +305,19 @@ public struct BuildingRecipe : INetSerializable
     public struct Popup : IComponentData, INetSerializable {
 
         // May be null...
-        public EntityLink owner;
+        public EntityLink Owner;
 
         // May be null
-        public EntityLink target;
+        public EntityLink Target;
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put(owner);
-            writer.Put(target);
+            writer.Put(Owner);
+            writer.Put(Target);
         }
 
         public void Deserialize(NetDataReader reader) {
-            owner.Deserialize(reader);
-            target.Deserialize(reader);
+            Owner.Deserialize(reader);
+            Target.Deserialize(reader);
         }
 
     }
@@ -334,26 +334,26 @@ public struct BuildingRecipe : INetSerializable
     /// </summary>
     public struct BuildingRecipe : IComponentData, INetSerializable {
 
-        public BuildSpot spot;
-        public BuildCondition buildCondition;
-        public float duration;
+        public BuildSpot Spot;
+        public BuildCondition BuildCondition;
+        public float Duration;
 
         public BuildingRecipe(BuildSpot spot, BuildCondition buildCondition, float duration) {
-            this.spot = spot;
-            this.buildCondition = buildCondition;
-            this.duration = duration;
+            this.Spot = spot;
+            this.BuildCondition = buildCondition;
+            this.Duration = duration;
         }
 
         public void Serialize(NetDataWriter writer) {
-            writer.Put((byte)spot);
-            writer.Put((byte)buildCondition);
-            writer.Put(duration);
+            writer.Put((byte)Spot);
+            writer.Put((byte)BuildCondition);
+            writer.Put(Duration);
         }
 
         public void Deserialize(NetDataReader reader) {
-            spot = (BuildSpot)reader.GetByte();
-            buildCondition = (BuildCondition)reader.GetByte();
-            duration = reader.GetFloat();
+            Spot = (BuildSpot)reader.GetByte();
+            BuildCondition = (BuildCondition)reader.GetByte();
+            Duration = reader.GetFloat();
         }
 
     }

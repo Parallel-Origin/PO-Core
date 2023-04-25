@@ -59,19 +59,19 @@ namespace ParallelOrigin.Core.ECS.Components
     [BurstCompile]
     public struct Animation : IComponentData, INetSerializable {
         
-        public byte controllerID;
+        public byte ControllerID;
         
-        public UnsafeParallelHashMap<FixedString32Bytes, byte> overridenAnimationClips;
-        public UnsafeParallelHashMap<FixedString32Bytes, bool> boolParams;
-        public UnsafeList<FixedString32Bytes> triggers;
+        public UnsafeParallelHashMap<FixedString32Bytes, byte> OverridenAnimationClips;
+        public UnsafeParallelHashMap<FixedString32Bytes, bool> BoolParams;
+        public UnsafeList<FixedString32Bytes> Triggers;
         
         public void Serialize(NetDataWriter writer) { throw new System.NotImplementedException(); }
 
         public void Deserialize(NetDataReader reader) {
-            controllerID = reader.GetByte();
-            NetworkSerializerExtensions.GetDic(reader, ref overridenAnimationClips);
-            NetworkSerializerExtensions.GetDic(reader, ref boolParams);
-            NetworkSerializerExtensions.GetList(reader, ref triggers);
+            ControllerID = reader.GetByte();
+            NetworkSerializerExtensions.GetDic(reader, ref OverridenAnimationClips);
+            NetworkSerializerExtensions.GetDic(reader, ref BoolParams);
+            NetworkSerializerExtensions.GetList(reader, ref Triggers);
         }
     }
     
@@ -80,7 +80,7 @@ namespace ParallelOrigin.Core.ECS.Components
     /// </summary>
     [BurstCompile]
     public struct AnimationController : IComponentData {
-        public UnsafeParallelHashMap<FixedString32Bytes, short> animations;
+        public UnsafeParallelHashMap<FixedString32Bytes, short> Animations;
     }
 #endif
 }

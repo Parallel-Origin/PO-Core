@@ -78,7 +78,7 @@ namespace ParallelOrigin.Core.Network {
         Manager.Start(Port);
 #elif CLIENT
             Manager.Start();
-            Manager.Connect(IP, Port, "SomeConnectionKey");
+            Manager.Connect(Ip, Port, "SomeConnectionKey");
 #endif
         }
 

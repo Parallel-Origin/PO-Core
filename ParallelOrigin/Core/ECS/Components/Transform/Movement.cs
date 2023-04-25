@@ -60,11 +60,11 @@ public struct DirtyNetworkHealth
     [BurstCompile]
     public struct Movement : IComponentData, INetSerializable {
 
-        public float speed;
-        public Vector2d target;
+        public float Speed;
+        public Vector2d Target;
 
-        public void Serialize(NetDataWriter writer) { writer.Put(speed); }
-        public void Deserialize(NetDataReader reader) { speed = reader.GetFloat(); }
+        public void Serialize(NetDataWriter writer) { writer.Put(Speed); }
+        public void Deserialize(NetDataReader reader) { Speed = reader.GetFloat(); }
 
     }
 

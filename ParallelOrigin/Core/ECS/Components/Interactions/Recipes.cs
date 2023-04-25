@@ -13,8 +13,8 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public enum BuildSpot : byte
     {
-        SPOT,
-        TILE
+        Spot,
+        Tile
     }
 
     /// <summary>
@@ -22,8 +22,8 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public enum BuildCondition : byte
     {
-        NONE,
-        FREE_SPACE
+        None,
+        FreeSpace
     }
 
 
@@ -141,18 +141,18 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Ingredient {
         
-        public FixedString32Bytes type;    // The item type... 3:1 is wood for example
-        public byte icon;             // Its icon
-        public byte localisation;
-        public uint amount;
-        public bool consume;
+        public FixedString32Bytes Type;    // The item type... 3:1 is wood for example
+        public byte Icon;             // Its icon
+        public byte Localisation;
+        public uint Amount;
+        public bool Consume;
 
         public Ingredient(FixedString32Bytes type, byte icon, byte localisation, uint amount, bool consume) {
-            this.type = type;
-            this.icon = icon;
-            this.localisation = localisation;
-            this.amount = amount;
-            this.consume = consume;
+            this.Type = type;
+            this.Icon = icon;
+            this.Localisation = localisation;
+            this.Amount = amount;
+            this.Consume = consume;
         }
     }
 
@@ -161,14 +161,14 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Craftable {
 
-        public FixedString32Bytes type;   // The item type... 2:1 is gold for example
-        public byte icon;
-        public uint amount;
+        public FixedString32Bytes Type;   // The item type... 2:1 is gold for example
+        public byte Icon;
+        public uint Amount;
 
         public Craftable(FixedString32Bytes type, byte icon, uint amount) {
-            this.type = type;
-            this.icon = icon;
-            this.amount = amount;
+            this.Type = type;
+            this.Icon = icon;
+            this.Amount = amount;
         }
     }
 
@@ -177,12 +177,12 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct Recipe : IComponentData, INetSerializable{
 
-        public UnsafeList<Ingredient> ingredients;
-        public UnsafeList<Craftable> craftables;
+        public UnsafeList<Ingredient> Ingredients;
+        public UnsafeList<Craftable> Craftables;
 
         public Recipe(UnsafeList<Ingredient> ingredients, UnsafeList<Craftable> craftables) {
-            this.ingredients = ingredients;
-            this.craftables = craftables;
+            this.Ingredients = ingredients;
+            this.Craftables = craftables;
         }
 
         public void Serialize(NetDataWriter writer) {  }
@@ -190,14 +190,14 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
         public void Deserialize(NetDataReader reader) {
 
             var size = reader.GetInt();
-            ingredients = new UnsafeList<Ingredient>(size, Allocator.Persistent);
+            Ingredients = new UnsafeList<Ingredient>(size, Allocator.Persistent);
             for (var index = 0; index < size; index++) 
-                ingredients.Add(reader.GetIngredient());
+                Ingredients.Add(reader.GetIngredient());
 
             size = reader.GetInt();
-            craftables = new UnsafeList<Craftable>(size, Allocator.Persistent);
+            Craftables = new UnsafeList<Craftable>(size, Allocator.Persistent);
             for (var index = 0; index < size; index++) 
-                craftables.Add(reader.GetCraftable());
+                Craftables.Add(reader.GetCraftable());
         }
     }
     
@@ -206,10 +206,10 @@ namespace ParallelOrigin.Core.ECS.Components.Interactions
     /// </summary>
     public struct BuildRecipes : IComponentData, INetSerializable{
 
-        public UnsafeList<FixedString32Bytes> recipes;
+        public UnsafeList<FixedString32Bytes> Recipes;
         
-        public void Serialize(NetDataWriter writer) { writer.PutList(ref recipes); }
-        public void Deserialize(NetDataReader reader) { reader.GetList(ref recipes); }
+        public void Serialize(NetDataWriter writer) { writer.PutList(ref Recipes); }
+        public void Deserialize(NetDataReader reader) { reader.GetList(ref Recipes); }
     }
 
 #endif
