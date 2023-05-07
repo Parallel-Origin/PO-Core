@@ -53,8 +53,8 @@ namespace ParallelOrigin.Core.Extensions
         /// <param name="vector2d"></param>
         public static void Put(this NetDataWriter writer, ref Vector2d vector2d)
         {
-            writer.Put((float)vector2d.x);
-            writer.Put((float)vector2d.y);
+            writer.Put((float)vector2d.X);
+            writer.Put((float)vector2d.Y);
         }
 
 
@@ -68,7 +68,7 @@ namespace ParallelOrigin.Core.Extensions
             var x = reader.GetFloat();
             var y = reader.GetFloat();
 
-            return new Vector2d { x = x, y = y };
+            return new Vector2d { X = x, Y = y };
         }
 
         /// <summary>
