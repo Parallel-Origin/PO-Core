@@ -115,15 +115,15 @@ namespace ParallelOrigin.Core.Base.Classes
 #if UNITY_2020 || UNITY_2021
         public static explicit operator Vector2d(Mapbox.Utils.Vector2d content) {
             return new Vector2d {
-                x = content.x,
-                y = content.y
+                X = content.x,
+                Y = content.y
             };
         }
         
         public static explicit operator Mapbox.Utils.Vector2d(Vector2d content) {
             return new Mapbox.Utils.Vector2d {
-                x = content.x,
-                y = content.y
+                x = content.X,
+                y = content.Y
             };
         }
 
